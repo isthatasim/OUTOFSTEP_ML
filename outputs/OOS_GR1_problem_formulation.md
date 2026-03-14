@@ -1,6 +1,6 @@
 # OOS Prediction for GR1: Physics-aware, ML-based, Deployable Framework
 
-Generated: 2026-03-14 16:17:52 UTC
+Generated: 2026-03-14 16:28:35 UTC
 
 ## 1. Problem Statement (Applied Energy framing)
 Develop a practical and deployable out-of-step (OOS) predictor for **GR1** that supports screening, calibrated risk, decision-support counterfactuals, and production monitoring.
@@ -27,9 +27,9 @@ Physics-motivated engineered features:
 
 $$
 z_i^{(1)}=\frac{1}{H_i}\ (\text{invH}),\quad
-z_i^{(2)}=\frac{S_i}{H_i}\ (\text{Sgn\_over\_H}),\quad
-z_i^{(3)}=\frac{S_i}{I_i}\ (\text{Sgn\_over\_Ik}),\quad
-z_i^{(4)}=\frac{I_i}{H_i}\ (\text{Ik\_over\_H})
+z_i^{(2)}=\frac{S_i}{H_i}\ (\text{Sgn over H}),\quad
+z_i^{(3)}=\frac{S_i}{I_i}\ (\text{Sgn over Ik}),\quad
+z_i^{(4)}=\frac{I_i}{H_i}\ (\text{Ik over H})
 $$
 
 ## 3. Physics Background
@@ -127,7 +127,7 @@ Data ingestion -> audit/cleaning -> feature engineering -> split protocols -> Ti
 - Best model: Two-stage hybrid
 - Calibration: none
 - Thresholds: tau_F1=0.7596153846153846, tau_HR=0.999, tau_cost=0.147
-- Notes: All equations normalized for strict renderer compatibility.
+- Notes: Equation notation normalized across all report generators.
 
 ## 8. Artifact Index
 ### Tables

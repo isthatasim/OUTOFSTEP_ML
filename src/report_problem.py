@@ -53,9 +53,9 @@ Physics-motivated engineered features:
 
 $$
 z_i^{(1)}=\frac{1}{H_i}\ (\text{invH}),\quad
-z_i^{(2)}=\frac{S_i}{H_i}\ (\text{Sgn\_over\_H}),\quad
-z_i^{(3)}=\frac{S_i}{I_i}\ (\text{Sgn\_over\_Ik}),\quad
-z_i^{(4)}=\frac{I_i}{H_i}\ (\text{Ik\_over\_H})
+z_i^{(2)}=\frac{S_i}{H_i}\ (\text{Sgn over H}),\quad
+z_i^{(3)}=\frac{S_i}{I_i}\ (\text{Sgn over Ik}),\quad
+z_i^{(4)}=\frac{I_i}{H_i}\ (\text{Ik over H})
 $$
 
 ## 3. Physics Background
