@@ -1,68 +1,112 @@
 # OOS Prediction for GR1: Physics-aware, ML-based, Deployable Framework
 
-Generated: 2026-03-14 15:29:45 UTC
+Generated: 2026-03-14 16:04:43 UTC
 
 ## 1. Problem Statement (Applied Energy framing)
 Develop a practical and deployable out-of-step (OOS) predictor for **GR1** that supports screening, calibrated risk, decision-support counterfactuals, and production monitoring.
 
 ## 2. Data Definition
-For sample \(i=1,\dots,N\):
-- Inputs \(x_i=[\text{Tag\_rate}_i,\text{Ikssmin\_kA}_i,\text{Sgn\_eff\_MVA}_i,H_{s,i}]\)
-- Target \(y_i\in\{0,1\}\), where 1 is out-of-step.
+For sample $i=1,\dots,N$:
+
+$$
+x_i=[\mathrm{Tag\_rate}_i,\mathrm{Ikssmin\_kA}_i,\mathrm{Sgn\_eff\_MVA}_i,H_{s,i}]
+$$
+
+$$
+y_i\in\{0,1\},\quad y_i=1\ \text{means out-of-step}
+$$
 
 Engineered physics-motivated variables:
-- \(\text{invH}=1/H_s\)
-- \(\text{Sgn\_over\_H}=\text{Sgn\_eff\_MVA}/H_s\)
-- \(\text{Sgn\_over\_Ik}=\text{Sgn\_eff\_MVA}/\text{Ikssmin\_kA}\)
-- \(\text{Ik\_over\_H}=\text{Ikssmin\_kA}/H_s\)
+
+$$
+\mathrm{invH}=\frac{1}{H_s},\quad
+\mathrm{Sgn\_over\_H}=\frac{\mathrm{Sgn\_eff\_MVA}}{H_s},\quad
+\mathrm{Sgn\_over\_Ik}=\frac{\mathrm{Sgn\_eff\_MVA}}{\mathrm{Ikssmin\_kA}},\quad
+\mathrm{Ik\_over\_H}=\frac{\mathrm{Ikssmin\_kA}}{H_s}
+$$
 
 ## 3. Physics Background
 Swing equation perspective:
-- \(\dot{\delta}=\omega\)
-- \(M\dot{\omega}=P_m-P_e(\delta,V,\text{network})-D\omega\)
-- \(M=2H/\omega_s\)
+
+$$
+\dot{\delta}=\omega
+$$
+
+$$
+M\dot{\omega}=P_m-P_e(\delta,V,\text{network})-D\omega
+$$
+
+$$
+M=\frac{2H}{\omega_s}
+$$
 
 OOS corresponds to loss of synchronism after disturbance. This static dataset is used to learn a surrogate stability boundary.
 
 ## 4. Mathematical Formulation
 ### 4.1 Probabilistic model
-\[
-p_i=f_\theta(x_i)\approx P(y_i=1\mid x_i),\qquad \hat{y}_i(\tau)=\mathbb{1}[p_i\ge\tau]
-\]
+$$
+p_i=f_\theta(x_i)\approx P(y_i=1\mid x_i)
+$$
+
+$$
+\hat{y}_i(\tau)=\mathbb{1}[p_i\ge\tau]
+$$
 
 ### 4.2 Imbalance-aware loss
-\[
-\mathcal{L}_{CE}(\theta)=-\sum_i\left[w_1y_i\log p_i+w_0(1-y_i)\log(1-p_i)\right]
-\]
-Optional focal alternative for stronger imbalance.
+$$
+\mathcal{L}_{CE}(\theta)=
+-\sum_i\left[w_1y_i\log p_i+w_0(1-y_i)\log(1-p_i)\right]
+$$
+
+Optional focal alternative:
+
+$$
+\mathcal{L}_{Focal}(\theta)=
+-\sum_i\left[\alpha y_i(1-p_i)^\gamma\log p_i+(1-\alpha)(1-y_i)p_i^\gamma\log(1-p_i)\right]
+$$
 
 ### 4.3 Physics-informed soft constraints
 Monotonic priors:
-- \(\partial f/\partial H_s\le 0\)
-- \(\partial f/\partial \text{Ikssmin\_kA}\le 0\)
-- \(\partial f/\partial \text{Sgn\_eff\_MVA}\ge 0\) when data supports it.
+$$
+\frac{\partial f}{\partial H_s}\le 0,\qquad
+\frac{\partial f}{\partial \mathrm{Ikssmin\_kA}}\le 0,\qquad
+\frac{\partial f}{\partial \mathrm{Sgn\_eff\_MVA}}\ge 0
+$$
 
 Finite-difference penalty:
-\[
-\mathcal{R}_{phys}(\theta)=\lambda_H\mathbb{E}[\max(0,\Delta f/\Delta H)] +
-\lambda_I\mathbb{E}[\max(0,\Delta f/\Delta I)] +
-\lambda_S\mathbb{E}[\max(0,-\Delta f/\Delta S)]
-\]
+$$
+\mathcal{R}_{phys}(\theta)=
+\lambda_H\mathbb{E}\left[\max\left(0,\frac{\Delta f}{\Delta H}\right)\right]
++\lambda_I\mathbb{E}\left[\max\left(0,\frac{\Delta f}{\Delta I}\right)\right]
++\lambda_S\mathbb{E}\left[\max\left(0,-\frac{\Delta f}{\Delta S}\right)\right]
+$$
+
 Total objective:
-\[
-\min_\theta \; \mathcal{L}(\theta)=\mathcal{L}_{CE}(\theta)+\mathcal{R}_{phys}(\theta)
-\]
+$$
+\min_\theta\ \mathcal{L}(\theta)=\mathcal{L}_{CE}(\theta)+\mathcal{R}_{phys}(\theta)
+$$
 
 ### 4.4 Cost-sensitive thresholding
-\[
-\tau^*=\arg\min_\tau \left(C_{FN}FN(\tau)+C_{FP}FP(\tau)\right),\quad C_{FN}\gg C_{FP}
-\]
-Also report \(\tau_{F1}\) and \(\tau_{HR}\) (high recall target).
+$$
+\tau^*=\arg\min_\tau\left(C_{FN}FN(\tau)+C_{FP}FP(\tau)\right),
+\qquad C_{FN}\gg C_{FP}
+$$
+
+Also report:
+
+$$
+\tau_{F1}=\arg\max_\tau F_1(\tau),\qquad
+\tau_{HR}:\ \mathrm{Recall}(\tau)\ge 0.95
+$$
 
 ### 4.5 Counterfactual support
-\[
-\min_{\Delta x}\|W\Delta x\|_1\quad\text{s.t.}\quad f_\theta(x+\Delta x)\le\tau_{stable},\;x_{min}\le x+\Delta x\le x_{max}
-\]
+$$
+\min_{\Delta x}\|W\Delta x\|_1
+\quad\text{s.t.}\quad
+f_\theta(x+\Delta x)\le\tau_{stable},
+\quad
+x_{min}\le x+\Delta x\le x_{max}
+$$
 
 ## 5. Workflow
 Data ingestion -> audit/cleaning -> feature engineering -> split protocols -> Tier A/B/C models -> calibration + thresholds -> scenario Steps 1..5 -> explainability/maps -> counterfactual support -> API/tests -> monitoring/drift/retraining -> exports + manifest.
@@ -73,10 +117,10 @@ Data ingestion -> audit/cleaning -> feature engineering -> split protocols -> Ti
 - V3 Leave-one-level-out for Sgn_eff and Ikssmin bins
 
 ## 7. Current Execution Summary
-- Best model: C3 Two-stage hybrid
+- Best model: Two-stage hybrid
 - Calibration: none
-- Thresholds: tau_F1=0.7596, tau_HR=0.9990, tau_cost=0.1470
-- Notes: Full execution completed with tier-by-tier comparisons.
+- Thresholds: tau_F1=0.7596153846153846, tau_HR=0.999, tau_cost=0.147
+- Notes: Equations updated to display format.
 
 ## 8. Artifact Index
 ### Tables
