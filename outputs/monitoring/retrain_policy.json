@@ -1,0 +1,7 @@
+{
+  "psi_alarm": 1,
+  "ks_alarm": 1,
+  "concept_alarm": 1,
+  "new_sample_count": 27300,
+  "trigger_retrain": 1
+}

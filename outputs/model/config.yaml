@@ -1,0 +1,19 @@
+model_version: "v1.1.0"
+calibration_version: "none"
+thresholds:
+  tau_cost: 0.147
+  tau_f1: 0.7596153846153846
+  tau_hr: 0.999
+feature_bounds:
+  Tag_rate: [100.0, 1000.0]
+  Ikssmin_kA: [3.0, 15.0]
+  Sgn_eff_MVA: [0.1000000014901161, 10.100000381469728]
+  H_s: [0.1, 5.0]
+  invH: [0.2, 10.0]
+  Sgn_over_H: [0.02000000029802322, 101.00000381469728]
+  Sgn_over_Ik: [0.006666666766007741, 3.3666667938232426]
+  Ik_over_H: [0.6, 150.0]
+  log_Sgn_eff_MVA: [-2.3025850780928847, 2.312535461616493]
+  log_Ikssmin_kA: [1.0986122886681098, 2.70805020110221]
+features: ["Tag_rate", "Ikssmin_kA", "Sgn_eff_MVA", "H_s", "invH", "Sgn_over_H", "Sgn_over_Ik", "Ik_over_H", "log_Sgn_eff_MVA", "log_Ikssmin_kA", "GenName"]
+model_code: "C3"

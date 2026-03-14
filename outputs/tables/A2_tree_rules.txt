@@ -1,0 +1,22 @@
+|--- num__log_Sgn_eff_MVA <= -0.92
+|   |--- num__Sgn_eff_MVA <= -1.40
+|   |   |--- num__Ik_over_H <= -0.48
+|   |   |   |--- class: 1
+|   |   |--- num__Ik_over_H >  -0.48
+|   |   |   |--- class: 1
+|   |--- num__Sgn_eff_MVA >  -1.40
+|   |   |--- num__H_s <= -1.32
+|   |   |   |--- class: 1
+|   |   |--- num__H_s >  -1.32
+|   |   |   |--- class: 0
+|--- num__log_Sgn_eff_MVA >  -0.92
+|   |--- num__Sgn_over_H <= 8.17
+|   |   |--- num__invH <= 2.09
+|   |   |   |--- class: 0
+|   |   |--- num__invH >  2.09
+|   |   |   |--- num__Sgn_eff_MVA <= -1.07
+|   |   |   |   |--- class: 1
+|   |   |   |--- num__Sgn_eff_MVA >  -1.07
+|   |   |   |   |--- class: 0
+|   |--- num__Sgn_over_H >  8.17
+|   |   |--- class: 1

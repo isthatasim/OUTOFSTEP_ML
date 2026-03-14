@@ -1,0 +1,1 @@
+curl -X POST http://127.0.0.1:8000/predict -H "Content-Type: application/json" -d '{"Tag_rate": 1.1, "Ikssmin_kA": 20.0, "Sgn_eff_MVA": 100.0, "H_s": 3.5, "GenName": "GR1"}'

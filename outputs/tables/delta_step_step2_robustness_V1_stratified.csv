@@ -1,0 +1,9 @@
+model_code,model_name,tier,validation_protocol,step,Delta_PR_AUC,Delta_FNR,Delta_ECE,Delta_Brier
+A1,Logistic + interactions,Tier A,V1_stratified,step2_robustness,0.0,0.0,0.0,0.0
+A2,Shallow Decision Tree,Tier A,V1_stratified,step2_robustness,-0.0006431274432796563,-0.00390625,-0.007494823676740868,-0.0005560724038620075
+B1,Random Forest (tuned),Tier B,V1_stratified,step2_robustness,0.0001027290241538692,-0.00390625,-0.006182796463787324,-0.0024855363425583567
+B2,Gradient Boosting,Tier B,V1_stratified,step2_robustness,0.0001027290241538692,-0.00390625,-0.009659184019737177,-0.0029620614920729
+B3,Calibrated B2 (isotonic),Tier B,V1_stratified,step2_robustness,0.0001027290241538692,-0.00390625,-0.009656487227431454,-0.0029606202974896594
+C1,Monotonic-constrained GBM,Tier C,V1_stratified,step2_robustness,-0.8382786094683105,-0.00390625,0.023314263767134358,0.09106033021214267
+C2,Physics-regularized logistic,Tier C,V1_stratified,step2_robustness,-0.005150939057330328,0.05390625,0.08203234191085015,0.03386968873224694
+C3,Two-stage hybrid,Tier C,V1_stratified,step2_robustness,0.0001027290241538692,-0.00390625,-0.00942357634983724,-0.00292700908820633

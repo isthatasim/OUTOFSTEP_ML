@@ -1,0 +1,9 @@
+model_code,model_name,tier,validation_protocol,step,Delta_PR_AUC,Delta_FNR,Delta_ECE,Delta_Brier
+A1,Logistic + interactions,Tier A,V3_leave_Sgn,step3_noise,0.0,0.0,0.0,0.0
+A2,Shallow Decision Tree,Tier A,V3_leave_Sgn,step3_noise,-0.21258931957573857,-0.43046875,-0.007646029940256066,-0.005242122112234099
+B1,Random Forest (tuned),Tier B,V3_leave_Sgn,step3_noise,-0.21289193882614138,-0.43046875,-0.00784966100098261,-0.005256361473317234
+B2,Gradient Boosting,Tier B,V3_leave_Sgn,step3_noise,-0.21608807994813284,-0.43046875,-0.00765114087458621,-0.005242254692780043
+B3,Calibrated B2 (isotonic),Tier B,V3_leave_Sgn,step3_noise,-0.21258931957573857,-0.43046875,-0.007646029940256066,-0.005242122112234099
+C1,Monotonic-constrained GBM,Tier C,V3_leave_Sgn,step3_noise,-0.22174023085452407,-0.43046875,0.08209786344983212,0.011296240243221081
+C2,Physics-regularized logistic,Tier C,V3_leave_Sgn,step3_noise,-0.24077076673500059,-0.39453125,-0.012969461450187417,-0.0012130032524046291
+C3,Two-stage hybrid,Tier C,V3_leave_Sgn,step3_noise,-0.21258931957573857,-0.43046875,-0.007647029940256067,-0.005242335444567439
