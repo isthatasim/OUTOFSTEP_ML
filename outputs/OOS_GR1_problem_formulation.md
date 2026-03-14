@@ -1,6 +1,6 @@
 # OOS Prediction for GR1: Physics-aware, ML-based, Deployable Framework
 
-Generated: 2026-03-14 16:04:43 UTC
+Generated: 2026-03-14 16:17:52 UTC
 
 ## 1. Problem Statement (Applied Energy framing)
 Develop a practical and deployable out-of-step (OOS) predictor for **GR1** that supports screening, calibrated risk, decision-support counterfactuals, and production monitoring.
@@ -9,20 +9,27 @@ Develop a practical and deployable out-of-step (OOS) predictor for **GR1** that 
 For sample $i=1,\dots,N$:
 
 $$
-x_i=[\mathrm{Tag\_rate}_i,\mathrm{Ikssmin\_kA}_i,\mathrm{Sgn\_eff\_MVA}_i,H_{s,i}]
+T_i:=\text{Tag rate at sample }i,\quad
+I_i:=\text{Ikssmin (kA) at sample }i,\quad
+S_i:=\text{Sgn eff (MVA) at sample }i,\quad
+H_i:=\text{inertia }H_s\text{ at sample }i
+$$
+
+$$
+x_i=[T_i,\ I_i,\ S_i,\ H_i]
 $$
 
 $$
 y_i\in\{0,1\},\quad y_i=1\ \text{means out-of-step}
 $$
 
-Engineered physics-motivated variables:
+Physics-motivated engineered features:
 
 $$
-\mathrm{invH}=\frac{1}{H_s},\quad
-\mathrm{Sgn\_over\_H}=\frac{\mathrm{Sgn\_eff\_MVA}}{H_s},\quad
-\mathrm{Sgn\_over\_Ik}=\frac{\mathrm{Sgn\_eff\_MVA}}{\mathrm{Ikssmin\_kA}},\quad
-\mathrm{Ik\_over\_H}=\frac{\mathrm{Ikssmin\_kA}}{H_s}
+z_i^{(1)}=\frac{1}{H_i}\ (\text{invH}),\quad
+z_i^{(2)}=\frac{S_i}{H_i}\ (\text{Sgn\_over\_H}),\quad
+z_i^{(3)}=\frac{S_i}{I_i}\ (\text{Sgn\_over\_Ik}),\quad
+z_i^{(4)}=\frac{I_i}{H_i}\ (\text{Ik\_over\_H})
 $$
 
 ## 3. Physics Background
@@ -68,9 +75,9 @@ $$
 ### 4.3 Physics-informed soft constraints
 Monotonic priors:
 $$
-\frac{\partial f}{\partial H_s}\le 0,\qquad
-\frac{\partial f}{\partial \mathrm{Ikssmin\_kA}}\le 0,\qquad
-\frac{\partial f}{\partial \mathrm{Sgn\_eff\_MVA}}\ge 0
+\frac{\partial f}{\partial H}\le 0,\qquad
+\frac{\partial f}{\partial I}\le 0,\qquad
+\frac{\partial f}{\partial S}\ge 0
 $$
 
 Finite-difference penalty:
@@ -120,7 +127,7 @@ Data ingestion -> audit/cleaning -> feature engineering -> split protocols -> Ti
 - Best model: Two-stage hybrid
 - Calibration: none
 - Thresholds: tau_F1=0.7596153846153846, tau_HR=0.999, tau_cost=0.147
-- Notes: Equations updated to display format.
+- Notes: All equations normalized for strict renderer compatibility.
 
 ## 8. Artifact Index
 ### Tables
