@@ -1,6 +1,6 @@
 # OOS Prediction for GR1: Physics-aware, ML-based, Deployable Framework
 
-Generated: 2026-03-16 14:06:03 UTC
+Generated: 2026-03-16 15:01:48 UTC
 
 ## 1. Problem Statement (Applied Energy framing)
 Develop a practical and deployable out-of-step (OOS) predictor for **GR1** that supports screening, calibrated risk, decision-support counterfactuals, and production monitoring.
@@ -9,27 +9,27 @@ Develop a practical and deployable out-of-step (OOS) predictor for **GR1** that 
 For sample $i=1,\dots,N$:
 
 $$
-T_i:=\text{Tag rate at sample }i,\quad
-I_i:=\text{Ikssmin (kA) at sample }i,\quad
-S_i:=\text{Sgn eff (MVA) at sample }i,\quad
-H_i:=\text{inertia }H_s\text{ at sample }i
+T^{(i)}:=\text{Tag rate at sample }i,\quad
+I^{(i)}:=\text{Ikssmin (kA) at sample }i,\quad
+S^{(i)}:=\text{Sgn eff (MVA) at sample }i,\quad
+H^{(i)}:=\text{inertia value at sample }i
 $$
 
 $$
-x_i=[T_i,\ I_i,\ S_i,\ H_i]
+x^{(i)}=[T^{(i)},\ I^{(i)},\ S^{(i)},\ H^{(i)}]
 $$
 
 $$
-y_i\in\{0,1\},\quad y_i=1\ \text{means out-of-step}
+y^{(i)}\in\{0,1\},\quad y^{(i)}=1\ \text{means out-of-step}
 $$
 
 Physics-motivated engineered features:
 
 $$
-z_i^{(1)}=\frac{1}{H_i}\ (\text{invH}),\quad
-z_i^{(2)}=\frac{S_i}{H_i}\ (\text{Sgn over H}),\quad
-z_i^{(3)}=\frac{S_i}{I_i}\ (\text{Sgn over Ik}),\quad
-z_i^{(4)}=\frac{I_i}{H_i}\ (\text{Ik over H})
+z^{(i,1)}=\frac{1}{H^{(i)}}\ (\text{invH}),\quad
+z^{(i,2)}=\frac{S^{(i)}}{H^{(i)}}\ (\text{Sgn over H}),\quad
+z^{(i,3)}=\frac{S^{(i)}}{I^{(i)}}\ (\text{Sgn over Ik}),\quad
+z^{(i,4)}=\frac{I^{(i)}}{H^{(i)}}\ (\text{Ik over H})
 $$
 
 ## 3. Physics Background
@@ -44,7 +44,7 @@ M\dot{\omega}=P_m-P_e(\delta,V,\text{network})-D\omega
 $$
 
 $$
-M=\frac{2H}{\omega_s}
+M=\frac{2H}{\omega_{\text{sync}}}
 $$
 
 OOS corresponds to loss of synchronism after disturbance. This static dataset is used to learn a surrogate stability boundary.
@@ -52,24 +52,24 @@ OOS corresponds to loss of synchronism after disturbance. This static dataset is
 ## 4. Mathematical Formulation
 ### 4.1 Probabilistic model
 $$
-p_i=f_\theta(x_i)\approx P(y_i=1\mid x_i)
+p^{(i)}=f_\theta(x^{(i)})\approx P\!\left(y^{(i)}=1\mid x^{(i)}\right)
 $$
 
 $$
-\hat{y}_i(\tau)=\mathbb{1}[p_i\ge\tau]
+\hat{y}^{(i)}(\tau)=\mathbb{1}\!\left[p^{(i)}\ge\tau\right]
 $$
 
 ### 4.2 Imbalance-aware loss
 $$
 \mathcal{L}^{\mathrm{CE}}(\theta)=
--\sum_i\left[w_1y_i\log p_i+w_0(1-y_i)\log(1-p_i)\right]
+-\sum_{i=1}^{N}\left[w^{+}y^{(i)}\log p^{(i)}+w^{-}(1-y^{(i)})\log(1-p^{(i)})\right]
 $$
 
 Optional focal alternative:
 
 $$
 \mathcal{L}_{Focal}(\theta)=
--\sum_i\left[\alpha y_i(1-p_i)^\gamma\log p_i+(1-\alpha)(1-y_i)p_i^\gamma\log(1-p_i)\right]
+-\sum_{i=1}^{N}\left[\alpha y^{(i)}(1-p^{(i)})^\gamma\log p^{(i)}+(1-\alpha)(1-y^{(i)})(p^{(i)})^\gamma\log(1-p^{(i)})\right]
 $$
 
 ### 4.3 Physics-informed soft constraints
@@ -83,9 +83,9 @@ $$
 Finite-difference penalty:
 $$
 \mathcal{R}^{\mathrm{phys}}(\theta)=
-\lambda_H\mathbb{E}\left[\max\left(0,\frac{\Delta f}{\Delta H}\right)\right]
-+\lambda_I\mathbb{E}\left[\max\left(0,\frac{\Delta f}{\Delta I}\right)\right]
-+\lambda_S\mathbb{E}\left[\max\left(0,-\frac{\Delta f}{\Delta S}\right)\right]
+\lambda^{H}\mathbb{E}\left[\max\left(0,\frac{\Delta f}{\Delta H}\right)\right]
++\lambda^{I}\mathbb{E}\left[\max\left(0,\frac{\Delta f}{\Delta I}\right)\right]
++\lambda^{S}\mathbb{E}\left[\max\left(0,-\frac{\Delta f}{\Delta S}\right)\right]
 $$
 
 Total objective:
@@ -95,24 +95,24 @@ $$
 
 ### 4.4 Cost-sensitive thresholding
 $$
-\tau^*=\arg\min_\tau\left(C_{FN}FN(\tau)+C_{FP}FP(\tau)\right),
-\qquad C_{FN}\gg C_{FP}
+\tau^*=\arg\min_{\tau}\left(C^{FN}\,FN(\tau)+C^{FP}\,FP(\tau)\right),
+\qquad C^{FN}\gg C^{FP}
 $$
 
 Also report:
 
 $$
-\tau_{F1}=\arg\max_\tau F_1(\tau),\qquad
-\tau_{HR}:\ \mathrm{Recall}(\tau)\ge 0.95
+\tau^{F1}=\arg\max_{\tau}F_1(\tau),\qquad
+\tau^{HR}:\ \mathrm{Recall}(\tau)\ge 0.95
 $$
 
 ### 4.5 Counterfactual support
 $$
 \min_{\Delta x}\|W\Delta x\|_1
 \quad\text{s.t.}\quad
-f_\theta(x+\Delta x)\le\tau_{stable},
+f_\theta(x+\Delta x)\le\tau^{\text{stable}},
 \quad
-x_{min}\le x+\Delta x\le x_{max}
+x^{\text{min}}\le x+\Delta x\le x^{\text{max}}
 $$
 
 ## 5. Workflow
@@ -127,7 +127,7 @@ Data ingestion -> audit/cleaning -> feature engineering -> split protocols -> Ti
 - Best model: pending
 - Calibration: pending
 - Thresholds: tau_F1=0.7596153846153846, tau_HR=0.999, tau_cost=0.147
-- Notes: Auto-regenerated after equation rendering fix.
+- Notes: Equation-compatibility rewrite for strict renderers.
 
 ## 8. Artifact Index
 ### Tables
