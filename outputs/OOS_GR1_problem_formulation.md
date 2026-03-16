@@ -1,6 +1,6 @@
 # OOS Prediction for GR1: Physics-aware, ML-based, Deployable Framework
 
-Generated: 2026-03-14 16:28:35 UTC
+Generated: 2026-03-16 12:56:13 UTC
 
 ## 1. Problem Statement (Applied Energy framing)
 Develop a practical and deployable out-of-step (OOS) predictor for **GR1** that supports screening, calibrated risk, decision-support counterfactuals, and production monitoring.
@@ -61,7 +61,7 @@ $$
 
 ### 4.2 Imbalance-aware loss
 $$
-\mathcal{L}_{CE}(\theta)=
+\mathcal{L}_{\mathrm{CE}}(\theta)=
 -\sum_i\left[w_1y_i\log p_i+w_0(1-y_i)\log(1-p_i)\right]
 $$
 
@@ -82,7 +82,7 @@ $$
 
 Finite-difference penalty:
 $$
-\mathcal{R}_{phys}(\theta)=
+\mathcal{R}_{\mathrm{phys}}(\theta)=
 \lambda_H\mathbb{E}\left[\max\left(0,\frac{\Delta f}{\Delta H}\right)\right]
 +\lambda_I\mathbb{E}\left[\max\left(0,\frac{\Delta f}{\Delta I}\right)\right]
 +\lambda_S\mathbb{E}\left[\max\left(0,-\frac{\Delta f}{\Delta S}\right)\right]
@@ -90,7 +90,7 @@ $$
 
 Total objective:
 $$
-\min_\theta\ \mathcal{L}(\theta)=\mathcal{L}_{CE}(\theta)+\mathcal{R}_{phys}(\theta)
+\min_{\theta}\ \mathcal{L}(\theta)=\mathcal{L}_{\mathrm{CE}}(\theta)+\mathcal{R}_{\mathrm{phys}}(\theta)
 $$
 
 ### 4.4 Cost-sensitive thresholding
