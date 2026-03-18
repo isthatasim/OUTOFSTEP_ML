@@ -31,6 +31,10 @@ Generated: __DATE__ UTC
 ## 1. Problem Statement (Applied Energy framing)
 Develop a practical and deployable out-of-step (OOS) predictor for **GR1** that supports screening, calibrated risk, decision-support counterfactuals, and production monitoring.
 
+Task type:
+- Supervised binary classification used as **operating-point risk forecasting**.
+- Because this dataset is static (no time index), this is not time-series forecasting.
+
 ## 2. Data Definition
 For sample $i=1,\dots,N$:
 
@@ -148,6 +152,10 @@ Data ingestion -> audit/cleaning -> feature engineering -> split protocols -> Ti
 - V1 StratifiedKFold
 - V2 GroupKFold on rounded operating grid
 - V3 Leave-one-level-out for Sgn_eff and Ikssmin bins
+
+Reported metrics include classification and forecast-style probability metrics:
+- PR-AUC, ROC-AUC, Precision, Recall, F1, Specificity, Balanced Accuracy, FNR, Brier, ECE
+- MSE, RMSE, MAE, R2 (computed on probability forecast versus binary outcome)
 
 ## 7. Current Execution Summary
 - Best model: __BEST_MODEL__

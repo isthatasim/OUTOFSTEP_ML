@@ -2,6 +2,14 @@
 
 Publication-grade ML + physics-aware + deployable pipeline scaffold for OOS prediction.
 
+## Problem Framing
+
+- Goal: predict `Out_of_step` in `{0,1}` from associated static operating parameters.
+- This is a **binary classification** problem used for **risk forecasting** at operating points.
+- It is not a time-series forecaster because no temporal sequence column is provided.
+- Evaluation includes both classification metrics and probability-forecast metrics:
+  `PR-AUC`, `ROC-AUC`, `Precision`, `Recall`, `F1`, `FNR`, `Brier`, `ECE`, `MSE`, `RMSE`, `MAE`, `R2`.
+
 ## Run
 
 ```powershell

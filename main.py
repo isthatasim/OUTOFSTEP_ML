@@ -338,10 +338,20 @@ def _evaluate_step_protocol(
     df = pd.DataFrame(rows)
     df["CompositeScore"] = _composite_score(df)
 
-    for metric in ["PR_AUC", "ROC_AUC", "Precision", "Recall", "F1", "Specificity", "Balanced_Acc", "CompositeScore"]:
+    for metric in [
+        "PR_AUC",
+        "ROC_AUC",
+        "Precision",
+        "Recall",
+        "F1",
+        "Specificity",
+        "Balanced_Acc",
+        "CompositeScore",
+        "R2",
+    ]:
         best = df[metric].astype(float).max()
         df[f"best_{metric}"] = (df[metric].astype(float) == best).astype(int)
-    for metric in ["FNR", "Brier", "ECE", "Latency_ms"]:
+    for metric in ["FNR", "Brier", "MSE", "RMSE", "MAE", "ECE", "Latency_ms"]:
         best = df[metric].astype(float).min()
         df[f"best_{metric}"] = (df[metric].astype(float) == best).astype(int)
 
@@ -393,6 +403,7 @@ def _model_card(path: Path, model_name: str, calibration: str, thresholds: Dict[
 - Model: {model_name}
 - Calibration: {calibration}
 - Version: v1.1.0
+- Task framing: pattern-based binary classification for operating-point risk forecasting (not time-series forecasting).
 
 ## Inputs
 Tag_rate, Ikssmin_kA, Sgn_eff_MVA, H_s, GenName
@@ -492,14 +503,27 @@ def run_pipeline(data_path: Path, output_root: Path, random_state: int = 42) -> 
         {"name": "V3_leave_Sgn", "split_mode": "leave-level-out", "n_splits": 3, "leave_feature": "Sgn_eff_MVA"},
         {"name": "V3_leave_Ik", "split_mode": "leave-level-out", "n_splits": 3, "leave_feature": "Ikssmin_kA"},
     ]
+    protocol_map = {p["name"]: p for p in protocols}
+    scenario_protocols = {
+        # Step 1: baseline static screening on standard stratified CV.
+        "step1_static": [protocol_map["V1_stratified"]],
+        # Step 2: explicit generalization stress test on grouped and leave-level-out splits.
+        "step2_robustness": [
+            protocol_map["V2_grouped"],
+            protocol_map["V3_leave_Sgn"],
+            protocol_map["V3_leave_Ik"],
+        ],
+        # Step 3: noisy-measurement realism evaluated on all protocols.
+        "step3_noise": protocols,
+    }
 
     noise_cfg = {"Ikssmin_kA": 0.02, "Sgn_eff_MVA": 0.02, "H_s": 0.01, "Tag_rate": 0.01}
     X_noisy = add_noise(X_eval, noise_cfg, random_state=random_state)
 
     all_results = []
     all_deltas = []
-    for step_name in ["step1_static", "step3_noise"]:
-        for protocol in protocols:
+    for step_name, protocol_list in scenario_protocols.items():
+        for protocol in protocol_list:
             lb = _evaluate_step_protocol(
                 step_name=step_name,
                 protocol=protocol,
@@ -543,43 +567,6 @@ def run_pipeline(data_path: Path, output_root: Path, random_state: int = 42) -> 
             )
             all_deltas.append(dd)
 
-    # Step 2 leaderboards/deltas mirror protocol robustness view on clean subset.
-    step1_copy = [d.copy() for d in all_results if len(d) and str(d.iloc[0]["step"]) == "step1_static"]
-    for lb in step1_copy:
-        lb2 = lb.copy()
-        lb2["step"] = "step2_robustness"
-        protocol_name = str(lb2.iloc[0]["validation_protocol"])
-        lb_path = dirs["tables"] / f"leaderboard_step2_robustness_{protocol_name}.csv"
-        lb2.to_csv(lb_path, index=False)
-        exported.append(lb_path)
-        manifest.add(
-            artifact_name=f"leaderboard_step2_robustness_{protocol_name}",
-            artifact_type="table",
-            step="step2_robustness",
-            validation_protocol=protocol_name,
-            model_name="ALL",
-            config={"mirrored_from": "step1_static"},
-            code_path="main.py::run_pipeline",
-            file_path=lb_path,
-        )
-        all_results.append(lb2)
-
-        dd2 = _delta_vs_baseline(lb2, baseline_code="A1")
-        dd_path = dirs["tables"] / f"delta_step_step2_robustness_{protocol_name}.csv"
-        dd2.to_csv(dd_path, index=False)
-        exported.append(dd_path)
-        manifest.add(
-            artifact_name=f"delta_step_step2_robustness_{protocol_name}",
-            artifact_type="table",
-            step="step2_robustness",
-            validation_protocol=protocol_name,
-            model_name="ALL",
-            config={},
-            code_path="main.py::_delta_vs_baseline",
-            file_path=dd_path,
-        )
-        all_deltas.append(dd2)
-
     results_df = pd.concat(all_results, ignore_index=True)
     results_all_path = dirs["tables"] / "all_tier_results.csv"
     results_df.to_csv(results_all_path, index=False)
@@ -591,6 +578,33 @@ def run_pipeline(data_path: Path, output_root: Path, random_state: int = 42) -> 
     deltas_df.to_csv(deltas_all_path, index=False)
     exported.append(deltas_all_path)
     manifest.add("all_delta_vs_A1", "table", "all", "all", "ALL", {}, "main.py::run_pipeline", deltas_all_path)
+
+    # Step-2 robustness consistency relative to Step-1 V1 baseline per model.
+    s1 = results_df[
+        (results_df["step"] == "step1_static") & (results_df["validation_protocol"] == "V1_stratified")
+    ][["model_code", "PR_AUC", "FNR", "ECE"]].rename(
+        columns={"PR_AUC": "PR_AUC_step1_v1", "FNR": "FNR_step1_v1", "ECE": "ECE_step1_v1"}
+    )
+    s2 = results_df[results_df["step"] == "step2_robustness"][
+        ["model_code", "model_name", "tier", "validation_protocol", "PR_AUC", "FNR", "ECE"]
+    ].copy()
+    bc = s2.merge(s1, on="model_code", how="left")
+    bc["Delta_PR_AUC_vs_step1"] = bc["PR_AUC"] - bc["PR_AUC_step1_v1"]
+    bc["Delta_FNR_vs_step1"] = bc["FNR"] - bc["FNR_step1_v1"]
+    bc["Delta_ECE_vs_step1"] = bc["ECE"] - bc["ECE_step1_v1"]
+    bc_path = dirs["tables"] / "boundary_consistency_step2.csv"
+    bc.to_csv(bc_path, index=False)
+    exported.append(bc_path)
+    manifest.add(
+        "boundary_consistency_step2",
+        "table",
+        "step2_robustness",
+        "V2_grouped+V3_leave_level",
+        "ALL",
+        {},
+        "main.py::run_pipeline",
+        bc_path,
+    )
 
     # Trade-off plots from Step1 + V1
     ref = results_df[(results_df["step"] == "step1_static") & (results_df["validation_protocol"] == "V1_stratified")].copy()
@@ -865,7 +879,7 @@ def run_pipeline(data_path: Path, output_root: Path, random_state: int = 42) -> 
     manifest.add("problem_formulation", "document", "all", "all", "ALL", {}, "src/report_problem.py::build_problem_formulation_markdown", problem_path)
 
     tier_summary = (
-        results_df.groupby("tier", as_index=False)[["PR_AUC", "FNR", "ECE", "CompositeScore"]]
+        results_df.groupby("tier", as_index=False)[["PR_AUC", "FNR", "ECE", "MSE", "RMSE", "R2", "CompositeScore"]]
         .mean()
         .sort_values("CompositeScore", ascending=False)
     )

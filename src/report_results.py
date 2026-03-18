@@ -46,6 +46,9 @@ def build_results_discussion_markdown(
             f"- Mean PR-AUC: {row['PR_AUC']:.4f}\n"
             f"- Mean FNR: {row['FNR']:.4f}\n"
             f"- Mean ECE: {row['ECE']:.4f}\n"
+            f"- Mean MSE: {row['MSE']:.4f}\n"
+            f"- Mean RMSE: {row['RMSE']:.4f}\n"
+            f"- Mean R2: {row['R2']:.4f}\n"
             f"- Mean CompositeScore: {row['CompositeScore']:.4f}"
         )
 
@@ -54,6 +57,7 @@ def build_results_discussion_markdown(
 Generated: {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC
 
 ## Executive Summary
+- Prediction framing: parameter-to-label pattern learning (binary classification) used for operating-point OOS risk forecasting.
 - Best composite performer across evaluated Step x Validation runs: **{exec_best}**.
 - Recommended deployment model: **{recommendation.get('model_name', 'pending')}** with calibration **{recommendation.get('calibration', 'pending')}**.
 - Recommended thresholds: tau_F1={recommendation.get('tau_f1','pending')}, tau_HR={recommendation.get('tau_hr','pending')}, tau_cost={recommendation.get('tau_cost','pending')}.

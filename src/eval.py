@@ -12,9 +12,12 @@ from sklearn.metrics import (
     brier_score_loss,
     confusion_matrix,
     f1_score,
+    mean_absolute_error,
+    mean_squared_error,
     precision_recall_curve,
     precision_score,
     recall_score,
+    r2_score,
     roc_auc_score,
 )
 from sklearn.model_selection import GroupKFold, StratifiedKFold
@@ -127,9 +130,11 @@ def evaluate_probabilities(
         else:
             pr_auc = 1.0
         roc_auc = float("nan")
+        r2_val = float("nan")
     else:
         pr_auc = float(average_precision_score(y_true, y_prob))
         roc_auc = float(roc_auc_score(y_true, y_prob))
+        r2_val = float(r2_score(y_true, y_prob))
 
     th = select_thresholds(y_true, y_prob, c_fn=c_fn, c_fp=c_fp, min_recall=min_recall)
     y_f1 = (y_prob >= th.tau_f1).astype(int)
@@ -146,6 +151,11 @@ def evaluate_probabilities(
         "Specificity": _specificity(y_true, y_f1),
         "Balanced_Acc": float(balanced_accuracy_score(y_true, y_f1)),
         "Brier": float(brier_score_loss(y_true, y_prob)),
+        # Forecast-style continuous metrics on probability forecast p(y=1|x)
+        "MSE": float(mean_squared_error(y_true, y_prob)),
+        "RMSE": float(np.sqrt(mean_squared_error(y_true, y_prob))),
+        "MAE": float(mean_absolute_error(y_true, y_prob)),
+        "R2": r2_val,
         "ECE": expected_calibration_error(y_true, y_prob, n_bins=10),
         "FNR": _fnr(y_true, y_f1),
         "CostRisk": _cost_score(y_true, y_cost, c_fn=c_fn, c_fp=c_fp),

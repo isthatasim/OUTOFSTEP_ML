@@ -4,6 +4,7 @@
 - Model: Two-stage hybrid
 - Calibration: none
 - Version: v1.1.0
+- Task framing: pattern-based binary classification for operating-point risk forecasting (not time-series forecasting).
 
 ## Inputs
 Tag_rate, Ikssmin_kA, Sgn_eff_MVA, H_s, GenName
