@@ -1,6 +1,6 @@
 # OOS Prediction for GR1: Physics-aware, ML-based, Deployable Framework
 
-Generated: 2026-03-18 11:41:18 UTC
+Generated: 2026-03-18 11:59:15 UTC
 
 ## 1. Problem Statement (Applied Energy framing)
 Develop a practical and deployable out-of-step (OOS) predictor for **GR1** that supports screening, calibrated risk, decision-support counterfactuals, and production monitoring.
@@ -77,31 +77,57 @@ $$
 $$
 
 ### 4.3 Physics-informed soft constraints
+Desired monotonic directions:
+- Higher inertia \(H\) should not increase risk.
+- Higher short-circuit strength \(I\) should not increase risk.
+- Higher stress proxy \(S\) should not decrease risk.
+
 Monotonic priors:
 $$
 \frac{\partial f}{\partial H}\le 0,\qquad
 \frac{\partial f}{\partial I}\le 0,\qquad
 \frac{\partial f}{\partial S}\ge 0
 $$
+Plain form: `df/dH <= 0`, `df/dI <= 0`, `df/dS >= 0`.
 
-Finite-difference penalty:
+Finite-difference components:
+$$
+r_H(\theta)=\mathbb{E}\!\left[\max\!\left(0,\frac{\Delta f}{\Delta H}\right)\right]
+$$
+
+$$
+r_I(\theta)=\mathbb{E}\!\left[\max\!\left(0,\frac{\Delta f}{\Delta I}\right)\right]
+$$
+
+$$
+r_S(\theta)=\mathbb{E}\!\left[\max\!\left(0,-\frac{\Delta f}{\Delta S}\right)\right]
+$$
+
+Physics penalty:
 $$
 \mathcal{R}^{\mathrm{phys}}(\theta)=
-\lambda^{H}\mathbb{E}\left[\max\left(0,\frac{\Delta f}{\Delta H}\right)\right]
-+\lambda^{I}\mathbb{E}\left[\max\left(0,\frac{\Delta f}{\Delta I}\right)\right]
-+\lambda^{S}\mathbb{E}\left[\max\left(0,-\frac{\Delta f}{\Delta S}\right)\right]
+\lambda_H r_H(\theta)+\lambda_I r_I(\theta)+\lambda_S r_S(\theta)
 $$
+Plain form: `R_phys = lambda_H*r_H + lambda_I*r_I + lambda_S*r_S`.
 
 Total objective:
 $$
 \min_{\theta}\ \mathcal{L}(\theta)=\mathcal{L}^{\mathrm{CE}}(\theta)+\mathcal{R}^{\mathrm{phys}}(\theta)
 $$
+Plain form: `min_theta L(theta) = L_CE(theta) + R_phys(theta)`.
 
 ### 4.4 Cost-sensitive thresholding
+Define cost at threshold \(\tau\):
 $$
-\tau^*=\arg\min_{\tau}\left(C^{FN}\,FN(\tau)+C^{FP}\,FP(\tau)\right),
-\qquad C^{FN}\gg C^{FP}
+J(\tau)=C_{\mathrm{FN}}\cdot \mathrm{FN}(\tau)+C_{\mathrm{FP}}\cdot \mathrm{FP}(\tau)
 $$
+Plain form: `J(tau) = C_FN*FN(tau) + C_FP*FP(tau)`.
+
+Optimal threshold:
+$$
+\tau^*=\arg\min_{\tau}J(\tau),\qquad C_{\mathrm{FN}}\gg C_{\mathrm{FP}}
+$$
+Plain form: `tau* = argmin_tau J(tau)` with `C_FN >> C_FP`.
 
 Also report:
 
@@ -132,61 +158,61 @@ Reported metrics include classification and forecast-style probability metrics:
 - MSE, RMSE, MAE, R2 (computed on probability forecast versus binary outcome)
 
 ## 7. Current Execution Summary
-- Best model: C3 Two-stage hybrid
+- Best model: C3
 - Calibration: none
-- Thresholds: tau_F1=0.7596, tau_HR=0.9990, tau_cost=0.1470
-- Notes: Full execution completed with tier-by-tier comparisons.
+- Thresholds: tau_F1=0.7596153846153846, tau_HR=0.999, tau_cost=0.147
+- Notes: Equation readability upgrade in Sections 4.3 and 4.4.
 
 ## 8. Artifact Index
 ### Tables
-- `outputs\tables\ablation_study.csv`
-- `outputs\tables\all_delta_vs_A1.csv`
-- `outputs\tables\all_tier_results.csv`
-- `outputs\tables\boundary_consistency_step2.csv`
-- `outputs\tables\calibration_comparison_B2.csv`
-- `outputs\tables\counterfactual_examples.csv`
-- `outputs\tables\dataset_summary.csv`
-- `outputs\tables\delta_step_step1_static_V1_stratified.csv`
-- `outputs\tables\delta_step_step1_static_V2_grouped.csv`
-- `outputs\tables\delta_step_step1_static_V3_leave_Ik.csv`
-- `outputs\tables\delta_step_step1_static_V3_leave_Sgn.csv`
-- `outputs\tables\delta_step_step2_robustness_V1_stratified.csv`
-- `outputs\tables\delta_step_step2_robustness_V2_grouped.csv`
-- `outputs\tables\delta_step_step2_robustness_V3_leave_Ik.csv`
-- `outputs\tables\delta_step_step2_robustness_V3_leave_Sgn.csv`
-- `outputs\tables\delta_step_step3_noise_V1_stratified.csv`
-- `outputs\tables\delta_step_step3_noise_V2_grouped.csv`
-- `outputs\tables\delta_step_step3_noise_V3_leave_Ik.csv`
-- `outputs\tables\delta_step_step3_noise_V3_leave_Sgn.csv`
-- `outputs\tables\deployment_metrics.csv`
-- `outputs\tables\leaderboard_step1_static_V1_stratified.csv`
-- `outputs\tables\leaderboard_step1_static_V2_grouped.csv`
-- `outputs\tables\leaderboard_step1_static_V3_leave_Ik.csv`
-- `outputs\tables\leaderboard_step1_static_V3_leave_Sgn.csv`
-- `outputs\tables\leaderboard_step2_robustness_V1_stratified.csv`
-- `outputs\tables\leaderboard_step2_robustness_V2_grouped.csv`
-- `outputs\tables\leaderboard_step2_robustness_V3_leave_Ik.csv`
-- `outputs\tables\leaderboard_step2_robustness_V3_leave_Sgn.csv`
-- `outputs\tables\leaderboard_step3_noise_V1_stratified.csv`
-- `outputs\tables\leaderboard_step3_noise_V2_grouped.csv`
-- `outputs\tables\leaderboard_step3_noise_V3_leave_Ik.csv`
-- `outputs\tables\leaderboard_step3_noise_V3_leave_Sgn.csv`
-- `outputs\tables\model_comparison_step1.csv`
-- `outputs\tables\model_comparison_step2_robustness.csv`
-- `outputs\tables\noise_robustness_best_ABC.csv`
-- `outputs\tables\noise_robustness_step3.csv`
+- `outputs/tables/ablation_study.csv`
+- `outputs/tables/all_delta_vs_A1.csv`
+- `outputs/tables/all_tier_results.csv`
+- `outputs/tables/boundary_consistency_step2.csv`
+- `outputs/tables/calibration_comparison_B2.csv`
+- `outputs/tables/counterfactual_examples.csv`
+- `outputs/tables/dataset_summary.csv`
+- `outputs/tables/delta_step_step1_static_V1_stratified.csv`
+- `outputs/tables/delta_step_step1_static_V2_grouped.csv`
+- `outputs/tables/delta_step_step1_static_V3_leave_Ik.csv`
+- `outputs/tables/delta_step_step1_static_V3_leave_Sgn.csv`
+- `outputs/tables/delta_step_step2_robustness_V1_stratified.csv`
+- `outputs/tables/delta_step_step2_robustness_V2_grouped.csv`
+- `outputs/tables/delta_step_step2_robustness_V3_leave_Ik.csv`
+- `outputs/tables/delta_step_step2_robustness_V3_leave_Sgn.csv`
+- `outputs/tables/delta_step_step3_noise_V1_stratified.csv`
+- `outputs/tables/delta_step_step3_noise_V2_grouped.csv`
+- `outputs/tables/delta_step_step3_noise_V3_leave_Ik.csv`
+- `outputs/tables/delta_step_step3_noise_V3_leave_Sgn.csv`
+- `outputs/tables/deployment_metrics.csv`
+- `outputs/tables/leaderboard_step1_static_V1_stratified.csv`
+- `outputs/tables/leaderboard_step1_static_V2_grouped.csv`
+- `outputs/tables/leaderboard_step1_static_V3_leave_Ik.csv`
+- `outputs/tables/leaderboard_step1_static_V3_leave_Sgn.csv`
+- `outputs/tables/leaderboard_step2_robustness_V1_stratified.csv`
+- `outputs/tables/leaderboard_step2_robustness_V2_grouped.csv`
+- `outputs/tables/leaderboard_step2_robustness_V3_leave_Ik.csv`
+- `outputs/tables/leaderboard_step2_robustness_V3_leave_Sgn.csv`
+- `outputs/tables/leaderboard_step3_noise_V1_stratified.csv`
+- `outputs/tables/leaderboard_step3_noise_V2_grouped.csv`
+- `outputs/tables/leaderboard_step3_noise_V3_leave_Ik.csv`
+- `outputs/tables/leaderboard_step3_noise_V3_leave_Sgn.csv`
+- `outputs/tables/model_comparison_step1.csv`
+- `outputs/tables/model_comparison_step2_robustness.csv`
+- `outputs/tables/noise_robustness_best_ABC.csv`
+- `outputs/tables/noise_robustness_step3.csv`
 
 ### Figures
-- `outputs\figures\boundary_comparison.png`
-- `outputs\figures\calibration_reliability.png`
-- `outputs\figures\drift_monitoring.png`
-- `outputs\figures\feature_distributions.png`
-- `outputs\figures\feature_importance_permutation.png`
-- `outputs\figures\flowchart_oos_pipeline.png`
-- `outputs\figures\noise_robustness_fnr.png`
-- `outputs\figures\noise_robustness_prauc.png`
-- `outputs\figures\pdp_main_features.png`
-- `outputs\figures\stability_map_Ik_vs_Sgn.png`
-- `outputs\figures\tradeoff_prauc_vs_complexity.png`
-- `outputs\figures\tradeoff_prauc_vs_ece.png`
-- `outputs\figures\tradeoff_recall_vs_fpr_hr.png`
+- `outputs/figures/boundary_comparison.png`
+- `outputs/figures/calibration_reliability.png`
+- `outputs/figures/drift_monitoring.png`
+- `outputs/figures/feature_distributions.png`
+- `outputs/figures/feature_importance_permutation.png`
+- `outputs/figures/flowchart_oos_pipeline.png`
+- `outputs/figures/noise_robustness_fnr.png`
+- `outputs/figures/noise_robustness_prauc.png`
+- `outputs/figures/pdp_main_features.png`
+- `outputs/figures/stability_map_Ik_vs_Sgn.png`
+- `outputs/figures/tradeoff_prauc_vs_complexity.png`
+- `outputs/figures/tradeoff_prauc_vs_ece.png`
+- `outputs/figures/tradeoff_recall_vs_fpr_hr.png`

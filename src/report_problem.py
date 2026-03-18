@@ -103,31 +103,57 @@ $$
 $$
 
 ### 4.3 Physics-informed soft constraints
+Desired monotonic directions:
+- Higher inertia \(H\) should not increase risk.
+- Higher short-circuit strength \(I\) should not increase risk.
+- Higher stress proxy \(S\) should not decrease risk.
+
 Monotonic priors:
 $$
 \frac{\partial f}{\partial H}\le 0,\qquad
 \frac{\partial f}{\partial I}\le 0,\qquad
 \frac{\partial f}{\partial S}\ge 0
 $$
+Plain form: `df/dH <= 0`, `df/dI <= 0`, `df/dS >= 0`.
 
-Finite-difference penalty:
+Finite-difference components:
+$$
+r_H(\theta)=\mathbb{E}\!\left[\max\!\left(0,\frac{\Delta f}{\Delta H}\right)\right]
+$$
+
+$$
+r_I(\theta)=\mathbb{E}\!\left[\max\!\left(0,\frac{\Delta f}{\Delta I}\right)\right]
+$$
+
+$$
+r_S(\theta)=\mathbb{E}\!\left[\max\!\left(0,-\frac{\Delta f}{\Delta S}\right)\right]
+$$
+
+Physics penalty:
 $$
 \mathcal{R}^{\mathrm{phys}}(\theta)=
-\lambda^{H}\mathbb{E}\left[\max\left(0,\frac{\Delta f}{\Delta H}\right)\right]
-+\lambda^{I}\mathbb{E}\left[\max\left(0,\frac{\Delta f}{\Delta I}\right)\right]
-+\lambda^{S}\mathbb{E}\left[\max\left(0,-\frac{\Delta f}{\Delta S}\right)\right]
+\lambda_H r_H(\theta)+\lambda_I r_I(\theta)+\lambda_S r_S(\theta)
 $$
+Plain form: `R_phys = lambda_H*r_H + lambda_I*r_I + lambda_S*r_S`.
 
 Total objective:
 $$
 \min_{\theta}\ \mathcal{L}(\theta)=\mathcal{L}^{\mathrm{CE}}(\theta)+\mathcal{R}^{\mathrm{phys}}(\theta)
 $$
+Plain form: `min_theta L(theta) = L_CE(theta) + R_phys(theta)`.
 
 ### 4.4 Cost-sensitive thresholding
+Define cost at threshold \(\tau\):
 $$
-\tau^*=\arg\min_{\tau}\left(C^{FN}\,FN(\tau)+C^{FP}\,FP(\tau)\right),
-\qquad C^{FN}\gg C^{FP}
+J(\tau)=C_{\mathrm{FN}}\cdot \mathrm{FN}(\tau)+C_{\mathrm{FP}}\cdot \mathrm{FP}(\tau)
 $$
+Plain form: `J(tau) = C_FN*FN(tau) + C_FP*FP(tau)`.
+
+Optimal threshold:
+$$
+\tau^*=\arg\min_{\tau}J(\tau),\qquad C_{\mathrm{FN}}\gg C_{\mathrm{FP}}
+$$
+Plain form: `tau* = argmin_tau J(tau)` with `C_FN >> C_FP`.
 
 Also report:
 
