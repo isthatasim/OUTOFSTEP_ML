@@ -1,0 +1,24 @@
+{
+  "n_rows_raw": 200,
+  "n_rows_clean": 200,
+  "n_columns_raw": 5,
+  "n_columns_clean": 5,
+  "missing_per_column": {
+    "Tag_rate": 0,
+    "Ikssmin_kA": 0,
+    "Sgn_eff_MVA": 0,
+    "H_s": 0,
+    "Out_of_step": 0
+  },
+  "duplicate_rows_removed": 0,
+  "constant_columns": [
+    "GenName"
+  ],
+  "class_counts": {
+    "0": 175,
+    "1": 25
+  },
+  "class_ratio_positive": 0.125,
+  "leakage_hint_tag_rate_auc": 0.5971428571428572,
+  "notes": []
+}

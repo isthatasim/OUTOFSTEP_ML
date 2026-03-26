@@ -1,0 +1,21 @@
+{
+  "strict_evaluation_protocol": {
+    "1_train_val_test_split": true,
+    "2_fit_on_train_only": true,
+    "3_tune_calibrate_threshold_on_validation_only": true,
+    "4_final_test_used_once_for_unbiased_comparison": true,
+    "5_shifted_tests_not_used_for_tuning": true,
+    "6_split_indices_and_seeds_saved": true,
+    "notes": "No hyperparameter, calibrator, or threshold tuning is performed on final holdout test."
+  },
+  "seed0": 42,
+  "seeds": [
+    42
+  ],
+  "split_strategies": [
+    "stratified"
+  ],
+  "test_size": 0.2,
+  "val_size": 0.2,
+  "train_size": 0.6000000000000001
+}
