@@ -1,0 +1,4 @@
+﻿seed: 42
+extends: full_benchmark
+model:
+  model_id: random_forest

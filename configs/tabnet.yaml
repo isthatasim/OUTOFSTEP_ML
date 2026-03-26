@@ -1,0 +1,8 @@
+﻿seed: 42
+extends: full_benchmark
+model:
+  model_id: tabnet
+training_budget:
+  n_trials: 5
+  max_epochs: 200
+  patience: 20

@@ -99,6 +99,13 @@ Run robustness suite:
 python scripts/run_robustness.py --config configs/base.yaml
 ```
 
+Run the full strict benchmark comparison (all configured model families):
+
+```bash
+python scripts/run_full_benchmark.py --config configs/full_benchmark.yaml
+python scripts/generate_figures.py --mode benchmark --config configs/full_benchmark.yaml
+```
+
 Generate publication-ready figures/tables:
 
 ```bash
@@ -136,6 +143,16 @@ Legacy outputs remain in:
 - split manifests saved to `results/splits/`
 - config-driven runs for training/evaluation/robustness
 - explicit threshold policy (`tau_cost`, `tau_f1`, `tau_hr`)
+
+## Strict Evaluation Protocol (Enforced)
+
+The full benchmark runner enforces:
+1. Train/Validation/Final holdout Test splits.
+2. Model fitting on Train only.
+3. Hyperparameter tuning, calibration fitting, threshold selection, and early stopping decisions on Validation only.
+4. Final holdout Test use only for final unbiased comparison.
+5. Robustness experiments on shifted test sets without using them for fitting/tuning.
+6. Split indices and seeds saved to disk (`results/splits/strict_split_*.csv`, `results/splits/split_manifest.csv`, `results/splits/strict_evaluation_protocol.json`).
 
 ## Physics-Aware Model Notes
 
