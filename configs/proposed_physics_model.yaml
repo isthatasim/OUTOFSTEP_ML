@@ -1,0 +1,9 @@
+﻿seed: 42
+extends: full_benchmark
+model:
+  model_id: proposed_physics_model
+training_budget:
+  n_trials: 20
+  max_epochs: 1600
+  patience: 50
+  learning_rate: 0.03

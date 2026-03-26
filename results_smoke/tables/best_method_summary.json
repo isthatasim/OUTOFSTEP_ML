@@ -1,0 +1,6 @@
+{
+  "best_pure_predictive_model": "Existing Repo Model (Hybrid)",
+  "best_calibrated_model": "Existing Repo Model (Hybrid)",
+  "best_deployable_model": "Proposed Physics-Aware Model",
+  "best_overall_recommended_model": "Proposed Physics-Aware Model"
+}

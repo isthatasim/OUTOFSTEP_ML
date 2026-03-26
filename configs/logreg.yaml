@@ -1,0 +1,18 @@
+﻿seed: 42
+extends: base
+benchmark:
+  n_seeds: 3
+  split_strategies: [stratified, grouped, leave_S, leave_I]
+training_budget:
+  n_trials: 10
+  max_epochs: 300
+  patience: 20
+  early_stopping: true
+  batch_size: 256
+  learning_rate: 0.001
+strict_eval:
+  test_size: 0.2
+  val_size: 0.2
+model:
+  key: tierA_logistic
+  calibrate: true

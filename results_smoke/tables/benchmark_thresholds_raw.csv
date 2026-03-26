@@ -1,0 +1,7 @@
+seed,strategy,model_id,model_name,family,available,tau_default,tau_F1,tau_cost,tau_HR,Precision@tau_cost,Recall@tau_cost,F1@tau_cost,Cost@tau_cost
+42,stratified,logreg,Logistic Regression,classical,True,0.5,0.999999,0.001,0.125,0.26666666666666666,0.8,0.4,21.0
+42,stratified,svm_rbf,SVM (RBF),classical,True,0.5,0.999999,0.001,0.2,0.4444444444444444,0.8,0.5714285714285714,15.0
+42,stratified,random_forest,Random Forest,classical,True,0.5,0.999999,0.001,0.999,0.5,0.8,0.6153846153846154,14.0
+42,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,0.5,0.5555555555555556,0.001,0.555,0.3333333333333333,0.8,0.47058823529411764,18.0
+42,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,0.5,0.999999,0.001,0.999,0.5,0.8,0.6153846153846154,14.0
+42,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,0.5,0.999999,0.001,0.333,0.4444444444444444,0.8,0.5714285714285714,15.0

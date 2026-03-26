@@ -1,0 +1,49 @@
+seed: 42
+experiment_name: full_benchmark_smoke
+
+data:
+  path: data/sample/gr1_sample.csv
+  target_column: Out_of_step
+
+outputs:
+  root: results_smoke
+  model_dir: results_smoke/model
+  table_dir: results_smoke/tables
+  figure_dir: results_smoke/figures
+  split_dir: results_smoke/splits
+
+features:
+  include_logs: true
+  use_engineered: true
+
+benchmark:
+  n_seeds: 1
+  split_strategies: [stratified]
+
+strict_eval:
+  test_size: 0.2
+  val_size: 0.2
+  enforce_no_test_tuning: true
+  save_split_indices: true
+  save_seed_manifest: true
+
+training_budget:
+  n_trials: 2
+  max_epochs: 50
+  patience: 10
+  early_stopping: true
+  batch_size: 64
+  learning_rate: 0.001
+
+thresholds:
+  c_fn: 10.0
+  c_fp: 1.0
+  min_recall: 0.95
+
+robustness:
+  noise:
+    Tag_rate: 0.01
+    Ikssmin_kA: 0.02
+    Sgn_eff_MVA: 0.02
+    H_s: 0.01
+  missing_feature: Sgn_eff_MVA
