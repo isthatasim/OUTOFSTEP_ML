@@ -445,7 +445,14 @@ def minimal_counterfactual(
             cand[f] = np.clip(cand[f] + step, mn, mx)
         p = float(model.predict_proba(cand.to_frame().T)[:, 1][0])
         if p <= threshold:
-            l1 = float(np.sum(np.abs((cand - base).values.astype(float))))
+            delta_sum = 0.0
+            for f in feature_bounds.keys():
+                if f in cand.index and f in base.index:
+                    try:
+                        delta_sum += float(abs(float(cand[f]) - float(base[f])))
+                    except Exception:
+                        continue
+            l1 = float(delta_sum)
             if l1 < best_l1:
                 best_l1 = l1
                 best = cand

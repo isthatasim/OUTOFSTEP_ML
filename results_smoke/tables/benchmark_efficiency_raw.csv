@@ -1,7 +1,0 @@
-seed,strategy,model_id,model_name,family,available,Training_Time_s,Inference_ms_per_sample,Model_Size_MB,Suitable_for_Online_Screening
-42,stratified,logreg,Logistic Regression,classical,True,0.01964589999988675,0.060237500292714685,0.006350517272949219,True
-42,stratified,svm_rbf,SVM (RBF),classical,True,0.017761000024620444,0.07570000016130507,0.009432792663574219,True
-42,stratified,random_forest,Random Forest,classical,True,0.30065859999740496,0.17678250005701557,0.13237762451171875,True
-42,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,0.4365797999780625,0.35996749938931316,0.1092061996459961,True
-42,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,0.16829029994551092,0.21953250106889755,0.17535686492919922,True
-42,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,0.08125759998802096,0.038382499769795686,0.0029325485229492188,True
