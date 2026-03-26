@@ -1,0 +1,50 @@
+seed: 42
+experiment_name: full_benchmark_long
+
+data:
+  path: C:/Users/masim/Downloads/outofstep_tag_ikss_H_Sgn.csv
+  target_column: Out_of_step
+
+outputs:
+  root: outputs/benchmark_long
+  model_dir: outputs/benchmark_long/model
+  table_dir: outputs/benchmark_long/tables
+  figure_dir: outputs/benchmark_long/figures
+  split_dir: outputs/benchmark_long/splits
+
+features:
+  include_logs: true
+  use_engineered: true
+
+benchmark:
+  n_seeds: 5
+  split_strategies: [stratified, grouped, leave_S, leave_I]
+
+strict_eval:
+  test_size: 0.2
+  val_size: 0.2
+  enforce_no_test_tuning: true
+  save_split_indices: true
+  save_seed_manifest: true
+
+training_budget:
+  n_trials: 40
+  max_epochs: 400
+  patience: 40
+  early_stopping: true
+  batch_size: 256
+  learning_rate: 0.001
+
+thresholds:
+  c_fn: 10.0
+  c_fp: 1.0
+  min_recall: 0.95
+
+robustness:
+  noise:
+    Tag_rate: 0.01
+    Ikssmin_kA: 0.02
+    Sgn_eff_MVA: 0.02
+    H_s: 0.01
+  missing_feature: Sgn_eff_MVA
+
