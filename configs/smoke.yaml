@@ -1,0 +1,31 @@
+﻿seed: 42
+data:
+  path: data/sample/gr1_sample.csv
+outputs:
+  root: results/smoke
+  model_dir: results/smoke/model
+  table_dir: results/smoke/tables
+  figure_dir: results/smoke/figures
+  split_dir: results/smoke/splits
+features:
+  include_logs: true
+  use_engineered: true
+model:
+  key: tierA_logistic
+  calibrate: false
+validation:
+  protocols:
+    - name: V1_stratified
+      split_mode: stratified
+      n_splits: 2
+thresholds:
+  c_fn: 10.0
+  c_fp: 1.0
+  min_recall: 0.9
+robustness:
+  noise:
+    Tag_rate: 0.01
+    Ikssmin_kA: 0.02
+    Sgn_eff_MVA: 0.02
+    H_s: 0.01
+  missing_feature: Sgn_eff_MVA

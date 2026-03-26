@@ -1,0 +1,8 @@
+﻿seed: 42
+extends: base
+model:
+  key: tierC_monotonic_hgb
+  calibrate: true
+features:
+  include_logs: true
+  use_engineered: true

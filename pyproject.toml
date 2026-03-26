@@ -1,0 +1,27 @@
+﻿[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "outofstep-ml"
+version = "0.2.0"
+description = "Physics-aware static OOS risk benchmark framework"
+requires-python = ">=3.10"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "OUTOFSTEP_ML contributors"}]
+dependencies = [
+  "numpy>=1.26",
+  "pandas>=2.2",
+  "scikit-learn>=1.5",
+  "matplotlib>=3.9",
+  "scipy>=1.11",
+  "joblib>=1.4",
+  "PyYAML>=6.0",
+]
+
+[tool.setuptools]
+packages = ["src", "src.outofstep_ml"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]

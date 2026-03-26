@@ -1,0 +1,5 @@
+﻿methods:
+  - none
+  - sigmoid
+  - isotonic
+selection_metric: Brier

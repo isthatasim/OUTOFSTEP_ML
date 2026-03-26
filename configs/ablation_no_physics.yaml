@@ -1,0 +1,9 @@
+﻿seed: 42
+extends: base
+model:
+  key: tierB_gradient_boosting
+  calibrate: false
+features:
+  include_logs: true
+  use_engineered: true
+notes: Ablation disabling explicit monotonic physics model.

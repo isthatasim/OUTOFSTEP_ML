@@ -1,0 +1,51 @@
+﻿seed: 42
+experiment_name: base_static
+
+data:
+  path: C:/Users/masim/Downloads/outofstep_tag_ikss_H_Sgn.csv
+  target_column: Out_of_step
+
+outputs:
+  root: results
+  model_dir: results/model
+  table_dir: results/tables
+  figure_dir: results/figures
+  split_dir: results/splits
+
+features:
+  include_logs: true
+  use_engineered: true
+
+model:
+  key: tierC_two_stage_hybrid
+  calibrate: true
+
+validation:
+  protocols:
+    - name: V1_stratified
+      split_mode: stratified
+      n_splits: 5
+    - name: V2_grouped
+      split_mode: grouped
+      n_splits: 5
+    - name: V3_leave_Sgn
+      split_mode: leave-level-out
+      n_splits: 5
+      leave_feature: Sgn_eff_MVA
+    - name: V3_leave_Ik
+      split_mode: leave-level-out
+      n_splits: 5
+      leave_feature: Ikssmin_kA
+
+thresholds:
+  c_fn: 10.0
+  c_fp: 1.0
+  min_recall: 0.95
+
+robustness:
+  noise:
+    Tag_rate: 0.01
+    Ikssmin_kA: 0.02
+    Sgn_eff_MVA: 0.02
+    H_s: 0.01
+  missing_feature: Sgn_eff_MVA
