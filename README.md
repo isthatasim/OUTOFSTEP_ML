@@ -106,6 +106,20 @@ python scripts/run_full_benchmark.py --config configs/full_benchmark.yaml
 python scripts/generate_figures.py --mode benchmark --config configs/full_benchmark.yaml
 ```
 
+Run integrated static-Q1 validation (train + all 10 static scenarios):
+
+```bash
+python scripts/run_static_q1_validation.py --config configs/static_q1_validation.yaml
+python scripts/generate_static_q1_tables.py --config configs/static_q1_validation.yaml
+python scripts/generate_static_q1_figures.py --config configs/static_q1_validation.yaml
+```
+
+Long-budget integrated run:
+
+```bash
+python scripts/run_static_q1_validation.py --config configs/static_q1_validation_long.yaml
+```
+
 Generate publication-ready figures/tables:
 
 ```bash
@@ -133,6 +147,12 @@ New benchmark outputs are written to:
 - `results/figures/`
 - `results/model/`
 - `results/splits/`
+
+Integrated static-Q1 scenario outputs are written to:
+- `outputs/static_q1_validation/tables/`
+- `outputs/static_q1_validation/figures/`
+- `outputs/static_q1_validation/splits/`
+- long run: `outputs/static_q1_validation_long/`
 
 Legacy outputs remain in:
 - `outputs/`
