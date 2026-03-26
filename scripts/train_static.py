@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.features import derive_feature_bounds
+from src.features import derive_feature_bounds, resolve_engineered_feature_columns
 from src.outofstep_ml.data.loaders import load_validated_dataset
 from src.outofstep_ml.data.splitters import build_groups, create_split_manifest, save_split_manifest
 from src.outofstep_ml.evaluation.metrics import compute_all_metrics
@@ -72,7 +72,7 @@ def main() -> None:
 
     y = df["Out_of_step"].astype(int).values
     base_numeric = ["Tag_rate", "Ikssmin_kA", "Sgn_eff_MVA", "H_s"]
-    engineered = [c for c in ["invH", "Sgn_over_H", "Sgn_over_Ik", "Ik_over_H", "log_Sgn_eff_MVA", "log_Ikssmin_kA"] if c in df.columns]
+    engineered = resolve_engineered_feature_columns(df)
     use_engineered = bool(cfg.get("features", {}).get("use_engineered", True))
     numeric_features = base_numeric + engineered if use_engineered else base_numeric
     numeric_features = [c for c in numeric_features if c in df.columns]

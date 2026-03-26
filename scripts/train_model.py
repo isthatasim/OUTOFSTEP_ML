@@ -14,6 +14,7 @@ from src.outofstep_ml.benchmark.model_zoo import build_benchmark_model_specs
 from src.outofstep_ml.benchmark.runner import _fit_with_budget, _select_best_calibration, _apply_calibrator, make_strict_split, _prob_metrics, _class_metrics
 from src.outofstep_ml.data.loaders import load_validated_dataset
 from src.outofstep_ml.models.thresholds import optimize_thresholds
+from src.features import resolve_engineered_feature_columns
 from src.outofstep_ml.utils.io import ensure_dir, load_yaml, save_json
 from src.outofstep_ml.utils.seed import set_global_seed
 
@@ -35,7 +36,7 @@ def main() -> None:
     y = df["Out_of_step"].astype(int).values
 
     base = ["Tag_rate", "Ikssmin_kA", "Sgn_eff_MVA", "H_s"]
-    eng = [c for c in ["invH", "Sgn_over_H", "Sgn_over_Ik", "Ik_over_H", "log_Sgn_eff_MVA", "log_Ikssmin_kA"] if c in df.columns]
+    eng = resolve_engineered_feature_columns(df)
     use_engineered = bool(cfg.get("features", {}).get("use_engineered", True))
     numeric = [c for c in (base + eng if use_engineered else base) if c in df.columns]
     categorical = ["GenName"] if "GenName" in df.columns else []

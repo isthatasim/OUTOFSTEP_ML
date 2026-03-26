@@ -23,6 +23,7 @@ from sklearn.metrics import (
 from sklearn.model_selection import GroupShuffleSplit, train_test_split
 
 from src.eval import add_noise, expected_calibration_error
+from src.features import resolve_engineered_feature_columns
 from src.outofstep_ml.benchmark.model_zoo import BenchmarkModelSpec, build_benchmark_model_specs
 from src.outofstep_ml.data.loaders import load_validated_dataset
 from src.outofstep_ml.data.splitters import build_groups
@@ -270,7 +271,7 @@ def run_full_benchmark(cfg: Dict[str, Any]) -> Dict[str, Path]:
 
     y = df["Out_of_step"].astype(int).values
     base_numeric = ["Tag_rate", "Ikssmin_kA", "Sgn_eff_MVA", "H_s"]
-    engineered = [c for c in ["invH", "Sgn_over_H", "Sgn_over_Ik", "Ik_over_H", "log_Sgn_eff_MVA", "log_Ikssmin_kA"] if c in df.columns]
+    engineered = resolve_engineered_feature_columns(df)
     use_engineered = bool(cfg.get("features", {}).get("use_engineered", True))
     numeric = base_numeric + engineered if use_engineered else base_numeric
     numeric = [c for c in numeric if c in df.columns]

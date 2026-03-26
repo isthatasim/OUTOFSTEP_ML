@@ -13,12 +13,16 @@ from sklearn.preprocessing import OneHotEncoder, PolynomialFeatures, StandardSca
 BASE_NUMERIC_FEATURES = ["Tag_rate", "Ikssmin_kA", "Sgn_eff_MVA", "H_s"]
 ENGINEERED_FEATURES = [
     "invH",
-    "Sgn_over_H",
-    "Sgn_over_Ik",
+    "S_over_H",
+    "S_over_I",
     "Ik_over_H",
     "log_Sgn_eff_MVA",
     "log_Ikssmin_kA",
 ]
+ENGINEERED_LEGACY_ALIASES = {
+    "S_over_H": "Sgn_over_H",
+    "S_over_I": "Sgn_over_Ik",
+}
 ALL_NUMERIC_FEATURES = BASE_NUMERIC_FEATURES + ENGINEERED_FEATURES
 OPTIONAL_CATEGORICAL = ["GenName"]
 
@@ -34,9 +38,14 @@ def build_feature_frame(df: pd.DataFrame, include_logs: bool = True) -> pd.DataF
     out = df.copy()
     eps = 1e-8
     out["invH"] = 1.0 / np.clip(out["H_s"].astype(float), eps, None)
-    out["Sgn_over_H"] = out["Sgn_eff_MVA"].astype(float) / np.clip(out["H_s"].astype(float), eps, None)
-    out["Sgn_over_Ik"] = out["Sgn_eff_MVA"].astype(float) / np.clip(out["Ikssmin_kA"].astype(float), eps, None)
+    out["S_over_H"] = out["Sgn_eff_MVA"].astype(float) / np.clip(out["H_s"].astype(float), eps, None)
+    out["S_over_I"] = out["Sgn_eff_MVA"].astype(float) / np.clip(out["Ikssmin_kA"].astype(float), eps, None)
     out["Ik_over_H"] = out["Ikssmin_kA"].astype(float) / np.clip(out["H_s"].astype(float), eps, None)
+
+    # Backward-compatible aliases for legacy scripts/configs.
+    out["Sgn_over_H"] = out["S_over_H"]
+    out["Sgn_over_Ik"] = out["S_over_I"]
+
     if include_logs:
         out["log_Sgn_eff_MVA"] = np.log(np.clip(out["Sgn_eff_MVA"].astype(float), eps, None))
         out["log_Ikssmin_kA"] = np.log(np.clip(out["Ikssmin_kA"].astype(float), eps, None))
@@ -48,6 +57,29 @@ def build_feature_frame(df: pd.DataFrame, include_logs: bool = True) -> pd.DataF
         out["GenName"] = "GR1"
     out["GenName"] = out["GenName"].astype(str)
     return out
+
+
+def resolve_engineered_feature_columns(df: pd.DataFrame) -> List[str]:
+    """
+    Resolve engineered columns with canonical names first, then legacy aliases.
+    Returns a de-duplicated list in deterministic order.
+    """
+    ordered_candidates = [
+        ["invH"],
+        ["S_over_H", "Sgn_over_H"],
+        ["S_over_I", "Sgn_over_Ik"],
+        ["Ik_over_H"],
+        ["log_Sgn_eff_MVA"],
+        ["log_Ikssmin_kA"],
+    ]
+    resolved: List[str] = []
+    seen = set()
+    for candidates in ordered_candidates:
+        chosen = next((c for c in candidates if c in df.columns), None)
+        if chosen and chosen not in seen:
+            resolved.append(chosen)
+            seen.add(chosen)
+    return resolved
 
 
 def get_feature_columns(df: pd.DataFrame, add_categorical: bool = True) -> List[str]:
@@ -93,6 +125,8 @@ def get_monotonic_constraints(feature_names: List[str], stress_monotonic_positiv
         "Sgn_eff_MVA": 1 if stress_monotonic_positive else 0,
         "H_s": -1,
         "invH": 1,
+        "S_over_H": 1,
+        "S_over_I": 1,
         "Sgn_over_H": 1,
         "Sgn_over_Ik": 1,
         "Ik_over_H": 0,

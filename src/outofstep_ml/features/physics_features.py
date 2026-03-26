@@ -26,6 +26,9 @@ def add_physics_features(df: pd.DataFrame, cfg: PhysicsFeatureConfig = PhysicsFe
     out["S_over_H"] = S / H
     out["S_over_I"] = S / I
     out["I_over_H"] = I / H
+    # Backward-compatible aliases used by legacy scripts.
+    out["Sgn_over_H"] = out["S_over_H"]
+    out["Sgn_over_Ik"] = out["S_over_I"]
     return out
 
 

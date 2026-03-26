@@ -14,6 +14,7 @@ from src.outofstep_ml.data.loaders import load_validated_dataset
 from src.outofstep_ml.data.splitters import build_groups
 from src.outofstep_ml.evaluation.validation import run_validation
 from src.outofstep_ml.models.baselines import build_baseline_ladder
+from src.features import resolve_engineered_feature_columns
 from src.outofstep_ml.utils.io import ensure_dir, load_yaml
 
 
@@ -41,7 +42,7 @@ def main() -> None:
     y = df["Out_of_step"].astype(int).values
 
     raw = ["Tag_rate", "Ikssmin_kA", "Sgn_eff_MVA", "H_s"]
-    eng = [c for c in ["invH", "Sgn_over_H", "Sgn_over_Ik", "Ik_over_H", "log_Sgn_eff_MVA", "log_Ikssmin_kA"] if c in df.columns]
+    eng = resolve_engineered_feature_columns(df)
     categorical = ["GenName"] if "GenName" in df.columns else []
     groups = build_groups(df, raw, round_decimals=2)
 

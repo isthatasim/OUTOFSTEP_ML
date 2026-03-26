@@ -94,6 +94,10 @@ $$
 | \(\tau\) | decision threshold for converting probability to class |
 | \(\mathbb{1}[\cdot]\) | indicator function |
 
+Notation note:
+- \(N\), \(i\), \(\mathbf{x}^{(i)}\), \(\mathbf{z}^{(i)}\), \(f_{\theta}\), \(\theta\), \(p^{(i)}\), and \(\hat{y}^{(i)}(\tau)\) are mathematical symbols used for formulation and analysis.
+- In code, only dataset and engineered features are loaded as columns; indexing symbols \(N\) and \(i\) are not data columns.
+
 ### 4.2 Imbalance-Aware Objective
 
 $$

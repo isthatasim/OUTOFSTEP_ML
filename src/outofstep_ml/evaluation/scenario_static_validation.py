@@ -6,6 +6,7 @@ from typing import Any, Dict, List, Tuple
 import numpy as np
 import pandas as pd
 
+from src.features import resolve_engineered_feature_columns
 from src.outofstep_ml.benchmark.model_zoo import build_benchmark_model_specs
 from src.outofstep_ml.benchmark.runner import (
     _apply_calibrator,
@@ -87,7 +88,7 @@ def run_static_q1_scenarios(cfg: Dict[str, Any]) -> Dict[str, str]:
     y = df["Out_of_step"].astype(int).values
 
     raw = ["Tag_rate", "Ikssmin_kA", "Sgn_eff_MVA", "H_s"]
-    eng = [c for c in ["invH", "Sgn_over_H", "Sgn_over_Ik", "Ik_over_H", "log_Sgn_eff_MVA", "log_Ikssmin_kA"] if c in df.columns]
+    eng = resolve_engineered_feature_columns(df)
     use_engineered = bool(cfg.get("features", {}).get("use_engineered", True))
     numeric = [c for c in (raw + eng if use_engineered else raw) if c in df.columns]
     categorical = ["GenName"] if "GenName" in df.columns else []
