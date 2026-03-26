@@ -13,6 +13,36 @@ Main outcomes from `outputs/static_q1_validation_xlong`:
 - Best deployable and overall recommended model: **PhysiScreen-OOS**.
 - In scenario-specific static-Q1 validation, PhysiScreen-OOS achieved very high nominal discrimination and calibration quality.
 
+## Variable and Symbol Reference for This Results Report
+### Dataset variables
+| Symbol | Dataset column | Unit | Operational interpretation |
+|---|---|---|---|
+| \(T\) | `Tag_rate` | as provided | disturbance/acceleration proxy of operating condition |
+| \(I\) | `Ikssmin_kA` | kA | short-circuit strength proxy; lower values indicate weaker grid |
+| \(S\) | `Sgn_eff_MVA` | MVA | stress/loading proxy; higher values indicate heavier operating stress |
+| \(H\) | `H_s` | s | inertia constant; lower values indicate reduced inertial support |
+| \(y\) | `Out_of_step` | - | binary label; 1 = out-of-step, 0 = stable |
+
+### Engineered variables used by PhysiScreen-OOS
+| Feature | Formula | Interpretation |
+|---|---|---|
+| `invH` | \(1/H\) | inverse inertia stress indicator |
+| `S_over_H` | \(S/H\) | stress normalized by inertia |
+| `S_over_I` | \(S/I\) | stress normalized by grid strength |
+| `I_over_H` | \(I/H\) | grid strength relative to inertia |
+
+### Decision and evaluation symbols
+| Symbol | Meaning |
+|---|---|
+| \(p\) | predicted OOS probability |
+| \(\tau\) | decision threshold for OOS alarm |
+| \(\tau_{F1}\) | threshold maximizing F1 on validation set |
+| \(\tau_{cost}\) | threshold minimizing \(C_{FN}FN + C_{FP}FP\) |
+| \(\tau_{HR}\) | high-recall threshold target (\(\mathrm{Recall}\ge 0.95\)) |
+| FNR | false-negative rate (critical for missed-instability risk) |
+| ECE | expected calibration error |
+| Brier | probability calibration/accuracy score |
+
 ## 1. Benchmark-Level Comparison (xlong)
 From `table1_main_performance.csv`:
 
@@ -42,6 +72,7 @@ From `q1_table_nominal_baseline.csv`:
 
 Interpretation:
 - Very strong nominal separability and excellent calibration.
+- Variable-level meaning in this context: high-risk nominal points are mainly associated with low \(H\), low \(I\), and high \(S\)-to-\(H\)/\(I\) engineered ratios.
 
 ### 2.2 Migration studies (Scenarios 2-4)
 From `q1_table_migrations.csv`:
@@ -52,6 +83,10 @@ From `q1_table_migrations.csv`:
 
 Interpretation:
 - The model is comparatively stable across controlled perturbations in the observed operating envelope.
+- Scenario semantics:
+  - low-inertia migration decreases \(H\) while keeping other factors fixed by protocol;
+  - weak-grid migration decreases \(I\);
+  - stress-loading escalation increases \(S\).
 
 ### 2.3 Regime-shift validation (Scenario 6)
 From `q1_table_regime_shift.csv`:
@@ -106,6 +141,7 @@ From `q1_table_monotonic_consistency.csv`:
 Interpretation:
 - H and S monotonic behavior is consistent.
 - I monotonic prior is only partially respected; this is a key improvement target.
+- Physical reading: some operating regions still show locally non-monotone risk response to \(I\), suggesting either data sparsity in those regions or insufficient regularization strength on \(I\)-direction constraints.
 
 ### 2.8 Counterfactual stability correction (Scenario 10)
 From `q1_table_counterfactual_summary.csv`:
@@ -115,6 +151,7 @@ From `q1_table_counterfactual_summary.csv`:
 
 Interpretation:
 - Counterfactual module is operational, but feasibility quality should be improved before operator-facing rollout.
+- Action semantics: recommendations are expressed as bounded changes to \(H\), \(I\), and/or \(S\) required to bring \(p\) below a stable threshold.
 
 ## 3. Final Model Recommendation
 ### Proposed deployment model

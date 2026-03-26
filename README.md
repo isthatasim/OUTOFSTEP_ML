@@ -73,6 +73,26 @@ Expected columns (extra columns allowed):
 - `GenName` (optional; defaults to `GR1`)
 - `Out_of_step` (binary target)
 
+### Variable Dictionary (With Meaning)
+
+| Symbol | Column | Unit | Meaning |
+|---|---|---|---|
+| \(T\) | `Tag_rate` | as provided in source dataset | disturbance/acceleration proxy |
+| \(I\) | `Ikssmin_kA` | kA | short-circuit strength proxy (grid strength) |
+| \(S\) | `Sgn_eff_MVA` | MVA | operating stress/loading proxy |
+| \(H\) | `H_s` | s | inertia constant |
+| \(y\) | `Out_of_step` | - | target class (1 = OOS, 0 = stable) |
+| `GenName` | `GenName` | - | generator identifier (GR1 in this case study) |
+
+Engineered physics-aware features:
+
+| Feature | Formula | Interpretation |
+|---|---|---|
+| `invH` | \(1/H\) | inverse inertia indicator |
+| `S_over_H` | \(S/H\) | stress per inertia |
+| `S_over_I` | \(S/I\) | stress per grid strength |
+| `I_over_H` | \(I/H\) | grid strength per inertia |
+
 A tiny demo is included at:
 - `data/sample/gr1_sample.csv`
 

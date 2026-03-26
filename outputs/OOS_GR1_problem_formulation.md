@@ -23,6 +23,16 @@ where:
 - \(S\): Sgn_eff_MVA
 - \(H\): H_s
 
+### 2.1 Variable Dictionary (Raw Inputs)
+| Symbol | Dataset column | Type | Unit | Physical meaning | Expected effect on OOS risk |
+|---|---|---|---|---|---|
+| \(T\) | `Tag_rate` | continuous | as provided in dataset | grid acceleration/disturbance-severity proxy | data-driven; estimated from data |
+| \(I\) | `Ikssmin_kA` | continuous | kA | minimum short-circuit current (grid strength proxy) | higher \(I\) should reduce risk |
+| \(S\) | `Sgn_eff_MVA` | continuous | MVA | effective generator loading/stress proxy | higher \(S\) may increase risk |
+| \(H\) | `H_s` | continuous | s | inertia constant | higher \(H\) should reduce risk |
+| \(y\) | `Out_of_step` | binary | - | stability label: 1 = out-of-step, 0 = stable | target variable |
+| GenName | `GenName` | categorical | - | generator identifier (GR1 in this study) | metadata/filter field |
+
 Engineered physics-aware features:
 
 $$
@@ -33,6 +43,14 @@ $$
 \frac{I^{(i)}}{H^{(i)}}
 \right].
 $$
+
+### 2.2 Variable Dictionary (Engineered Features)
+| Symbol | Engineered feature | Unit | Interpretation |
+|---|---|---|---|
+| \(\mathrm{invH}\) | \(1/H\) | s\(^{-1}\) | inverse inertia; larger values mean lower inertial support |
+| \(\mathrm{S\_over\_H}\) | \(S/H\) | MVA/s | stress normalized by inertia |
+| \(\mathrm{S\_over\_I}\) | \(S/I\) | MVA/kA | stress normalized by grid strength |
+| \(\mathrm{I\_over\_H}\) | \(I/H\) | kA/s | grid strength per inertia |
 
 ## 3. Physics Background
 Swing-equation viewpoint:
@@ -62,6 +80,20 @@ $$
 \hat{y}^{(i)}(\tau)=\mathbb{1}\!\left[p^{(i)}\ge\tau\right].
 $$
 
+### 4.1.1 Symbol Dictionary (Model and Optimization)
+| Symbol | Meaning |
+|---|---|
+| \(N\) | number of samples |
+| \(i\) | sample index |
+| \(\mathbf{x}^{(i)}\) | raw feature vector of sample \(i\) |
+| \(\mathbf{z}^{(i)}\) | engineered feature vector of sample \(i\) |
+| \(f_{\theta}(\cdot)\) | model mapping features to OOS probability |
+| \(\theta\) | trainable model parameters |
+| \(p^{(i)}\) | predicted OOS probability for sample \(i\) |
+| \(\hat{y}^{(i)}(\tau)\) | hard class prediction at threshold \(\tau\) |
+| \(\tau\) | decision threshold for converting probability to class |
+| \(\mathbb{1}[\cdot]\) | indicator function |
+
 ### 4.2 Imbalance-Aware Objective
 
 $$
@@ -73,6 +105,11 @@ $$
 \right].
 $$
 
+where:
+- \(w_1\): positive-class weight (OOS class weight)
+- \(w_0\): negative-class weight (stable class weight)
+- larger \(w_1\) prioritizes missed-instability reduction (lower FNR)
+
 Optional focal form:
 
 $$
@@ -83,6 +120,10 @@ $$
 +\left(1-\alpha\right)\left(1-y^{(i)}\right)\left(p^{(i)}\right)^{\gamma}\log\left(1-p^{(i)}\right)
 \right].
 $$
+
+where:
+- \(\alpha\): class-balancing factor in focal loss
+- \(\gamma\): focusing parameter (down-weights easy samples)
 
 ### 4.3 Physics-Informed Soft Constraints
 Monotonic priors:
@@ -102,6 +143,13 @@ $$
 +\lambda_S\,\mathbb{E}\!\left[\max\!\left(0,-\frac{\Delta f}{\Delta S}\right)\right].
 $$
 
+where:
+- \(\lambda_H,\lambda_I,\lambda_S \ge 0\): regularization strengths for monotonic priors
+- \(\Delta f/\Delta H\): finite-difference slope approximation with respect to \(H\)
+- \(\Delta f/\Delta I\): finite-difference slope approximation with respect to \(I\)
+- \(\Delta f/\Delta S\): finite-difference slope approximation with respect to \(S\)
+- \(\max(0,\cdot)\): hinge penalty enforcing one-sided monotonic trend
+
 Total objective:
 
 $$
@@ -117,6 +165,11 @@ C_{\mathrm{FN}}\,\mathrm{FN}(\tau)+C_{\mathrm{FP}}\,\mathrm{FP}(\tau)
 \right],
 \qquad C_{\mathrm{FN}}\gg C_{\mathrm{FP}}.
 $$
+
+where:
+- \(C_{\mathrm{FN}}\): cost of false negative (missed unstable case)
+- \(C_{\mathrm{FP}}\): cost of false positive (nuisance alarm)
+- \(\mathrm{FN}(\tau)\), \(\mathrm{FP}(\tau)\): false-negative and false-positive counts at threshold \(\tau\)
 
 Also reported:
 
