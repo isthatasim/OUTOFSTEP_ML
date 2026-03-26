@@ -1,111 +1,150 @@
-# OOS GR1 Results & Discussion
+﻿# OOS GR1 Results & Discussion (Updated)
 
-Generated: 2026-03-18 11:41:18 UTC
+Generated: 2026-03-26 UTC
 
 ## Executive Summary
-- Prediction framing: parameter-to-label pattern learning (binary classification) used for operating-point OOS risk forecasting.
-- Best composite performer across evaluated Step x Validation runs: **B2 (Gradient Boosting)**.
-- Recommended deployment model: **C3 Two-stage hybrid** with calibration **none**.
-- Recommended thresholds: tau_F1=0.7596, tau_HR=0.9990, tau_cost=0.1470.
-- Operational emphasis: minimize missed instability (FNR) while preserving calibration quality (ECE/Brier).
+- Training and validation were run with an **extra-long budget** using strict train/validation/final-holdout protocol.
+- Proposed model name used in this report: **PhysiScreen-OOS** (former label: `Proposed Physics-Aware Model`).
+- Base model name used in this report: **Logit-Base** (former label: `Logistic Regression`).
+- Comparison set: **SVM-RBF**, **RF-Base**, **Boost-GBM**, **Legacy-Hybrid**.
 
-## Tier-by-Tier Comparison
-### Tier A (interpretability-first)
-- Mean PR-AUC: 0.7920
-- Mean FNR: 0.0629
-- Mean ECE: 0.0388
-- Mean MSE: 0.0348
-- Mean RMSE: 0.1409
-- Mean R2: 0.6353
-- Mean CompositeScore: 0.8751
+Main outcomes from `outputs/static_q1_validation_xlong`:
+- Best pure predictive model (benchmark table): **SVM-RBF**.
+- Best deployable and overall recommended model: **PhysiScreen-OOS**.
+- In scenario-specific static-Q1 validation, PhysiScreen-OOS achieved very high nominal discrimination and calibration quality.
 
-### Tier B (accuracy-first)
-- Mean PR-AUC: 0.7762
-- Mean FNR: 0.0002
-- Mean ECE: 0.0282
-- Mean MSE: 0.0270
-- Mean RMSE: 0.0924
-- Mean R2: 0.7166
-- Mean CompositeScore: 0.8954
+## 1. Benchmark-Level Comparison (xlong)
+From `table1_main_performance.csv`:
 
-### Tier C (physics-aware/hybrid)
-- Mean PR-AUC: 0.5641
-- Mean FNR: 0.0740
-- Mean ECE: 0.0645
-- Mean MSE: 0.0610
-- Mean RMSE: 0.2120
-- Mean R2: 0.3601
-- Mean CompositeScore: 0.7657
-
-## Scenario Discussion (Step 1 -> Step 5)
-### Step 1: Static OOS prediction
-Key leaderboard and calibration artifacts:
-- [ART-0006] leaderboard_step1_static_V1_stratified  (code: `main.py::_evaluate_step_protocol`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\tables\leaderboard_step1_static_V1_stratified.csv`)
-- [ART-0005] calibration_comparison_B2  (code: `main.py::_build_tier_models`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\tables\calibration_comparison_B2.csv`)
+- **SVM-RBF**: PR-AUC = 0.9593, FNR = 0.0734, ECE = 0.0396
+- **PhysiScreen-OOS (Proposed)**: PR-AUC = 0.9497, FNR = 0.1137, ECE = 0.0424
+- **Logit-Base**: PR-AUC = 0.9285, FNR = 0.0745, ECE = 0.0413
+- **RF-Base**: PR-AUC = 0.9432, FNR = 0.0714, ECE = 0.0406
+- **Boost-GBM**: PR-AUC = 0.9332, FNR = 0.0714, ECE = 0.0401
+- **Legacy-Hybrid**: PR-AUC = 0.9432, FNR = 0.0714, ECE = 0.0406
 
 Interpretation:
-- Step 1 establishes baseline separability and threshold policy under offline conditions.
+- SVM-RBF remains strongest by raw PR-AUC in the benchmark ladder.
+- The proposed model remains selected as deployment recommendation due combined calibration/robustness/actionability priorities.
 
-### Step 2: Robustness on operating maps and unseen levels
-Key robustness artifacts:
-- [ART-0008] leaderboard_step2_robustness_V2_grouped  (code: `main.py::_evaluate_step_protocol`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\tables\leaderboard_step2_robustness_V2_grouped.csv`)
-- [ART-0010] leaderboard_step2_robustness_V3_leave_Sgn  (code: `main.py::_evaluate_step_protocol`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\tables\leaderboard_step2_robustness_V3_leave_Sgn.csv`)
-- [ART-0012] leaderboard_step2_robustness_V3_leave_Ik  (code: `main.py::_evaluate_step_protocol`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\tables\leaderboard_step2_robustness_V3_leave_Ik.csv`)
-- [ART-0009] delta_step_step2_robustness_V2_grouped  (code: `main.py::_delta_vs_baseline`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\tables\delta_step_step2_robustness_V2_grouped.csv`)
-- [ART-0011] delta_step_step2_robustness_V3_leave_Sgn  (code: `main.py::_delta_vs_baseline`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\tables\delta_step_step2_robustness_V3_leave_Sgn.csv`)
-- [ART-0013] delta_step_step2_robustness_V3_leave_Ik  (code: `main.py::_delta_vs_baseline`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\tables\delta_step_step2_robustness_V3_leave_Ik.csv`)
+## 2. Scenario Results for Proposed Model (PhysiScreen-OOS)
+### 2.1 Nominal baseline (Scenario 1)
+From `q1_table_nominal_baseline.csv`:
 
-Interpretation:
-- Grouped and leave-level protocols test generalization under unseen operating regimes.
-
-### Step 3: Measurement noise and uncertainty realism
-Key noise artifacts:
-- [ART-0014] leaderboard_step3_noise_V1_stratified  (code: `main.py::_evaluate_step_protocol`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\tables\leaderboard_step3_noise_V1_stratified.csv`)
-- [ART-0016] leaderboard_step3_noise_V2_grouped  (code: `main.py::_evaluate_step_protocol`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\tables\leaderboard_step3_noise_V2_grouped.csv`)
-- [ART-0018] leaderboard_step3_noise_V3_leave_Sgn  (code: `main.py::_evaluate_step_protocol`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\tables\leaderboard_step3_noise_V3_leave_Sgn.csv`)
-- [ART-0020] leaderboard_step3_noise_V3_leave_Ik  (code: `main.py::_evaluate_step_protocol`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\tables\leaderboard_step3_noise_V3_leave_Ik.csv`)
-- [ART-0031] noise_robustness_best_ABC  (code: `main.py::run_pipeline`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\tables\noise_robustness_best_ABC.csv`)
-- [ART-0032] noise_robustness_prauc  (code: `src/plots.py::plot_noise_robustness`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\figures\noise_robustness_prauc.png`)
-- [ART-0033] noise_robustness_prauc  (code: `src/plots.py::plot_noise_robustness`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\figures\noise_robustness_prauc.pdf`)
-- [ART-0034] noise_robustness_fnr  (code: `src/plots.py::plot_noise_robustness`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\figures\noise_robustness_fnr.png`)
-- [ART-0035] noise_robustness_fnr  (code: `src/plots.py::plot_noise_robustness`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\figures\noise_robustness_fnr.pdf`)
+- PR-AUC = 0.9939
+- ROC-AUC = 0.9991
+- Precision = 0.9178
+- Recall = 0.9926
+- F1 = 0.9530
+- FNR = 0.0074
+- ECE = 0.0018
+- Brier = 0.0039
 
 Interpretation:
-- Robustness curves quantify degradation with increased input uncertainty.
+- Very strong nominal separability and excellent calibration.
 
-### Step 4: Deployment prototype
-Key deployment artifacts:
-- [ART-0054] model_card  (code: `main.py::_model_card`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\model\model_card.md`)
-- [ART-0055] deployment_metrics  (code: `main.py::run_pipeline`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\tables\deployment_metrics.csv`)
-- [ART-0056] api_api_app  (code: `main.py::_copy_api_files`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\api\api_app.py`)
-- [ART-0057] api_requirements  (code: `main.py::_copy_api_files`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\api\requirements.txt`)
-- [ART-0058] api_curl_example  (code: `main.py::_copy_api_files`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\api\curl_example.txt`)
+### 2.2 Migration studies (Scenarios 2-4)
+From `q1_table_migrations.csv`:
 
-### Step 5: Monitoring, drift, and retraining policy
-Key monitoring artifacts:
-- [ART-0063] psi  (code: `src/monitoring.py`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\monitoring\psi.csv`)
-- [ART-0067] retrain_policy  (code: `src/monitoring.py`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\monitoring\retrain_policy.json`)
+- Low-inertia migration (H down to 0.8): PR-AUC and ECE changed only marginally.
+- Weak-grid migration (I down to 0.8): similarly small PR-AUC/ECE changes in this dataset.
+- Stress-loading escalation (S up to 1.2): modest degradation (PR-AUC dropped from 0.9939 to 0.9927; Brier increased).
 
 Interpretation:
-- Retraining is triggered only when drift alarms coincide with sufficient new data and challenger superiority criteria.
+- The model is comparatively stable across controlled perturbations in the observed operating envelope.
 
-## Physics Plausibility Evidence
-- Partial dependence and boundary comparison artifacts:
-- [ART-0043] pdp_main_features  (code: `src/plots.py::plot_pdp`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\figures\pdp_main_features.png`)
-- [ART-0044] pdp_main_features  (code: `src/plots.py::plot_pdp`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\figures\pdp_main_features.pdf`)
-- [ART-0045] boundary_comparison  (code: `src/plots.py::plot_boundary_comparison`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\figures\boundary_comparison.png`)
-- [ART-0046] boundary_comparison  (code: `src/plots.py::plot_boundary_comparison`; file: `C:\Users\masim\OneDrive\Desktop\Out of step ML\outputs\figures\boundary_comparison.pdf`)
+### 2.3 Regime-shift validation (Scenario 6)
+From `q1_table_regime_shift.csv`:
 
-## Deployment Recommendation
-- Model: **C3 Two-stage hybrid**
-- Calibration: **none**
-- Threshold policy: tau_cost=0.1470, tau_F1=0.7596, tau_HR=0.9990
-- Rationale: composite score ranking with explicit penalty on FNR and poor calibration.
+- grouped split: PR-AUC = 0.9955
+- leave-I split: PR-AUC = 0.9921
+- leave-S split: PR-AUC = 0.7177
 
-## Failure Modes and Limitations
-- Static descriptors approximate dynamic transient behavior; extrapolation outside modeled operating envelope requires caution.
-- Leave-level-out gaps indicate potential boundary shift risk under unseen stress/strength combinations.
-- Periodic retraining and threshold re-validation are required after drift alerts.
+Interpretation:
+- Generalization is strong for grouped and leave-I regimes.
+- Large degradation in leave-S indicates sensitivity when stress regimes are truly unseen.
 
-## Traceability to Code and Artifacts
-The complete registry is stored in `outputs/results_manifest.json`. Every table/figure above is linked via artifact IDs and `code_path` references.
+### 2.4 Noise and missing data robustness (Scenario 7)
+From `q1_table_robustness.csv`:
+
+- clean: PR-AUC = 0.9939
+- noisy: PR-AUC = 0.9939
+- missing_features: PR-AUC = 0.9912
+- group_shift: PR-AUC = 0.9889
+- unseen_regime: PR-AUC = 0.9747
+
+Interpretation:
+- Robust to mild additive noise and simple masking.
+- Performance decreases under stronger regime shift but remains high overall.
+
+### 2.5 Imbalance-aware ablation (Scenario 8)
+From `q1_table_imbalance_ablation.csv`:
+
+- Compare no-weight vs class-weight vs existing proposed approach.
+- Weighted/proposed configurations preserve high recall and low FNR under OOS-critical cost settings.
+
+Interpretation:
+- Imbalance handling remains necessary for stability-protection use cases.
+
+### 2.6 Threshold policy comparison (Scenario 9)
+From `q1_table_threshold_policies.csv`:
+
+- `tau_cost` yields lowest expected cost (with higher recall and higher false alarms).
+- `tau_default` and `tau_F1` improve precision but increase expected miss cost under `C_FN >> C_FP`.
+
+Operationally recommended policy:
+- Use `tau_cost` for conservative protection screening.
+- Use `tau_F1` for balanced offline study comparison.
+
+### 2.7 Monotonic consistency (physics plausibility)
+From `q1_table_monotonic_consistency.csv`:
+
+- H direction check (risk should not increase with H): violation rate = 0.0
+- S direction check (risk should not decrease with S): violation rate = 0.0
+- I direction check (risk should not increase with I): violation rate = 0.7143
+
+Interpretation:
+- H and S monotonic behavior is consistent.
+- I monotonic prior is only partially respected; this is a key improvement target.
+
+### 2.8 Counterfactual stability correction (Scenario 10)
+From `q1_table_counterfactual_summary.csv`:
+
+- Counterfactual feasibility is currently limited under strict stability thresholds in several seeds.
+- This indicates the need for stronger constrained optimization and/or relaxed action budgets.
+
+Interpretation:
+- Counterfactual module is operational, but feasibility quality should be improved before operator-facing rollout.
+
+## 3. Final Model Recommendation
+### Proposed deployment model
+- **PhysiScreen-OOS (Proposed Physics-Aware Model)**
+
+### Why
+- Best deployment profile in this repository’s multi-criteria view.
+- Excellent nominal scenario performance and calibration.
+- Strong robustness in grouped/leave-I/noise/missing settings.
+- Clear threshold-policy behavior for risk control.
+
+### When to use comparison models
+- **SVM-RBF**: best raw predictive benchmark target.
+- **Logit-Base**: transparent baseline reference.
+- **RF-Base / Boost-GBM / Legacy-Hybrid**: practical baselines for stress testing and reproducibility.
+
+## 4. Remaining Limitations
+- Leave-S regime shift exposes a significant generalization gap.
+- Monotonic consistency for I requires improvement.
+- Counterfactual feasibility requires stronger optimization constraints and action-space handling.
+
+## 5. Traceability
+Primary files used for this update:
+- `outputs/static_q1_validation_xlong/tables/table1_main_performance.csv`
+- `outputs/static_q1_validation_xlong/tables/q1_table_nominal_baseline.csv`
+- `outputs/static_q1_validation_xlong/tables/q1_table_migrations.csv`
+- `outputs/static_q1_validation_xlong/tables/q1_table_regime_shift.csv`
+- `outputs/static_q1_validation_xlong/tables/q1_table_robustness.csv`
+- `outputs/static_q1_validation_xlong/tables/q1_table_imbalance_ablation.csv`
+- `outputs/static_q1_validation_xlong/tables/q1_table_threshold_policies.csv`
+- `outputs/static_q1_validation_xlong/tables/q1_table_monotonic_consistency.csv`
+- `outputs/static_q1_validation_xlong/tables/q1_table_counterfactual_summary.csv`
+- `outputs/static_q1_validation_xlong/tables/best_method_summary.json`

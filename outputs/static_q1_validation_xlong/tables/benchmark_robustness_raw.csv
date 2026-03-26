@@ -1,0 +1,841 @@
+seed,strategy,model_id,model_name,family,available,shift,PR_AUC,Performance_Drop
+42,stratified,logreg,Logistic Regression,classical,True,clean,1.0,0.0
+42,stratified,logreg,Logistic Regression,classical,True,noisy,1.0,0.0
+42,stratified,logreg,Logistic Regression,classical,True,missing_features,0.6673320241250338,0.3326679758749662
+42,stratified,logreg,Logistic Regression,classical,True,unseen_regime,1.0,0.0
+42,stratified,logreg,Logistic Regression,classical,True,group_shift,1.0,0.0
+42,stratified,svm_rbf,SVM (RBF),classical,True,clean,1.0,0.0
+42,stratified,svm_rbf,SVM (RBF),classical,True,noisy,1.0,0.0
+42,stratified,svm_rbf,SVM (RBF),classical,True,missing_features,0.6546108530644613,0.3453891469355387
+42,stratified,svm_rbf,SVM (RBF),classical,True,unseen_regime,1.0,0.0
+42,stratified,svm_rbf,SVM (RBF),classical,True,group_shift,1.0,0.0
+42,stratified,random_forest,Random Forest,classical,True,clean,1.0,0.0
+42,stratified,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+42,stratified,random_forest,Random Forest,classical,True,missing_features,0.9999999999999999,1.1102230246251565e-16
+42,stratified,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+42,stratified,random_forest,Random Forest,classical,True,group_shift,1.0,0.0
+42,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+42,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,1.0,0.0
+42,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.14343491559986404,0.856565084400136
+42,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+42,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+42,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+42,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+42,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,0.9999999999999999,1.1102230246251565e-16
+42,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+42,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,1.0,0.0
+42,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.9874989886129827,0.0
+42,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.9875045169431655,-5.528330182857921e-06
+42,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.9942664653821913,-0.006767476769208636
+42,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,0.8508407833120477,0.13665820530093498
+42,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.9623980075353074,0.025100981077675333
+42,grouped,logreg,Logistic Regression,classical,True,clean,1.0,0.0
+42,grouped,logreg,Logistic Regression,classical,True,noisy,1.0,0.0
+42,grouped,logreg,Logistic Regression,classical,True,missing_features,0.6755076686896283,0.3244923313103717
+42,grouped,logreg,Logistic Regression,classical,True,unseen_regime,1.0,0.0
+42,grouped,logreg,Logistic Regression,classical,True,group_shift,1.0,0.0
+42,grouped,svm_rbf,SVM (RBF),classical,True,clean,0.9984882349289129,0.0
+42,grouped,svm_rbf,SVM (RBF),classical,True,noisy,0.9984824845761612,5.750352751743293e-06
+42,grouped,svm_rbf,SVM (RBF),classical,True,missing_features,0.5706587198112623,0.42782951511765066
+42,grouped,svm_rbf,SVM (RBF),classical,True,unseen_regime,1.0,-0.001511765071087079
+42,grouped,svm_rbf,SVM (RBF),classical,True,group_shift,0.9931398074186901,0.005348427510222797
+42,grouped,random_forest,Random Forest,classical,True,clean,1.0,0.0
+42,grouped,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+42,grouped,random_forest,Random Forest,classical,True,missing_features,1.0,0.0
+42,grouped,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+42,grouped,random_forest,Random Forest,classical,True,group_shift,1.0,0.0
+42,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+42,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,1.0,0.0
+42,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.13980567455143728,0.8601943254485627
+42,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+42,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+42,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+42,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+42,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,0.9999999999999999,1.1102230246251565e-16
+42,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+42,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,1.0,0.0
+42,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.9926880950454035,0.0
+42,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.9926780492971213,1.0045748282117017e-05
+42,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.9907965566023745,0.0018915384430289173
+42,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,0.9897186147186148,0.002969480326788676
+42,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.9880351900556511,0.004652904989752349
+42,leave_S,logreg,Logistic Regression,classical,True,clean,0.54,0.0
+42,leave_S,logreg,Logistic Regression,classical,True,noisy,0.54,0.0
+42,leave_S,logreg,Logistic Regression,classical,True,missing_features,0.54,0.0
+42,leave_S,logreg,Logistic Regression,classical,True,unseen_regime,0.04,0.5
+42,leave_S,logreg,Logistic Regression,classical,True,group_shift,0.54,0.0
+42,leave_S,svm_rbf,SVM (RBF),classical,True,clean,0.54,0.0
+42,leave_S,svm_rbf,SVM (RBF),classical,True,noisy,0.54,0.0
+42,leave_S,svm_rbf,SVM (RBF),classical,True,missing_features,0.54,0.0
+42,leave_S,svm_rbf,SVM (RBF),classical,True,unseen_regime,0.04,0.5
+42,leave_S,svm_rbf,SVM (RBF),classical,True,group_shift,0.54,0.0
+42,leave_S,random_forest,Random Forest,classical,True,clean,0.54,0.0
+42,leave_S,random_forest,Random Forest,classical,True,noisy,0.54,0.0
+42,leave_S,random_forest,Random Forest,classical,True,missing_features,0.54,0.0
+42,leave_S,random_forest,Random Forest,classical,True,unseen_regime,0.04,0.5
+42,leave_S,random_forest,Random Forest,classical,True,group_shift,0.54,0.0
+42,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,0.54,0.0
+42,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,0.54,0.0
+42,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.54,0.0
+42,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,0.04,0.5
+42,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,0.54,0.0
+42,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,0.54,0.0
+42,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,0.54,0.0
+42,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,0.54,0.0
+42,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,0.04,0.5
+42,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,0.54,0.0
+42,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.54,0.0
+42,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.54,0.0
+42,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.54,0.0
+42,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,0.04,0.5
+42,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.54,0.0
+42,leave_I,logreg,Logistic Regression,classical,True,clean,0.8270545062815602,0.0
+42,leave_I,logreg,Logistic Regression,classical,True,noisy,0.8241477535827592,0.0029067526988010295
+42,leave_I,logreg,Logistic Regression,classical,True,missing_features,0.6735385086510489,0.15351599763051127
+42,leave_I,logreg,Logistic Regression,classical,True,unseen_regime,0.11126077693575832,0.7157937293458019
+42,leave_I,logreg,Logistic Regression,classical,True,group_shift,0.6254267031807549,0.2016278031008053
+42,leave_I,svm_rbf,SVM (RBF),classical,True,clean,0.9734126984126984,0.0
+42,leave_I,svm_rbf,SVM (RBF),classical,True,noisy,0.9734126984126984,0.0
+42,leave_I,svm_rbf,SVM (RBF),classical,True,missing_features,0.58125,0.39216269841269835
+42,leave_I,svm_rbf,SVM (RBF),classical,True,unseen_regime,0.631,0.3424126984126984
+42,leave_I,svm_rbf,SVM (RBF),classical,True,group_shift,0.9401785714285714,0.03323412698412698
+42,leave_I,random_forest,Random Forest,classical,True,clean,1.0,0.0
+42,leave_I,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+42,leave_I,random_forest,Random Forest,classical,True,missing_features,0.9999999999999999,1.1102230246251565e-16
+42,leave_I,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+42,leave_I,random_forest,Random Forest,classical,True,group_shift,1.0,0.0
+42,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+42,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,1.0,0.0
+42,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.13857142857142857,0.8614285714285714
+42,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+42,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+42,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+42,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+42,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,1.0,0.0
+42,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+42,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,0.9999999999999999,1.1102230246251565e-16
+42,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.9875990728701454,0.0
+42,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.9876879588779799,-8.888600783452105e-05
+42,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.9905222462248047,-0.002923173354659303
+42,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,0.8423589743589744,0.14524009851117092
+42,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.9817897469502974,0.005809325919847952
+43,stratified,logreg,Logistic Regression,classical,True,clean,1.0,0.0
+43,stratified,logreg,Logistic Regression,classical,True,noisy,0.998464937124731,0.0015350628752690554
+43,stratified,logreg,Logistic Regression,classical,True,missing_features,0.6658764219407033,0.3341235780592967
+43,stratified,logreg,Logistic Regression,classical,True,unseen_regime,1.0,0.0
+43,stratified,logreg,Logistic Regression,classical,True,group_shift,1.0,0.0
+43,stratified,svm_rbf,SVM (RBF),classical,True,clean,1.0,0.0
+43,stratified,svm_rbf,SVM (RBF),classical,True,noisy,1.0,0.0
+43,stratified,svm_rbf,SVM (RBF),classical,True,missing_features,0.6024187153053133,0.3975812846946867
+43,stratified,svm_rbf,SVM (RBF),classical,True,unseen_regime,1.0,0.0
+43,stratified,svm_rbf,SVM (RBF),classical,True,group_shift,1.0,0.0
+43,stratified,random_forest,Random Forest,classical,True,clean,1.0,0.0
+43,stratified,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+43,stratified,random_forest,Random Forest,classical,True,missing_features,1.0,0.0
+43,stratified,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+43,stratified,random_forest,Random Forest,classical,True,group_shift,1.0,0.0
+43,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+43,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,0.998464937124731,0.0015350628752690554
+43,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.1219440353460972,0.8780559646539028
+43,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+43,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+43,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+43,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+43,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,1.0,0.0
+43,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+43,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,1.0,0.0
+43,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.9966115845324812,0.0
+43,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.9966591443774866,-4.75598450053738e-05
+43,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.9901573602480609,0.006454224284420329
+43,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,1.0,-0.0033884154675187794
+43,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.9985548933824796,-0.001943308849998382
+43,grouped,logreg,Logistic Regression,classical,True,clean,1.0,0.0
+43,grouped,logreg,Logistic Regression,classical,True,noisy,1.0,0.0
+43,grouped,logreg,Logistic Regression,classical,True,missing_features,0.6683127380071352,0.3316872619928648
+43,grouped,logreg,Logistic Regression,classical,True,unseen_regime,1.0,0.0
+43,grouped,logreg,Logistic Regression,classical,True,group_shift,1.0,0.0
+43,grouped,svm_rbf,SVM (RBF),classical,True,clean,0.9984853573138802,0.0
+43,grouped,svm_rbf,SVM (RBF),classical,True,noisy,0.9967904469452372,0.001694910368642999
+43,grouped,svm_rbf,SVM (RBF),classical,True,missing_features,0.5880171893754237,0.41046816793845653
+43,grouped,svm_rbf,SVM (RBF),classical,True,unseen_regime,1.0,-0.0015146426861197826
+43,grouped,svm_rbf,SVM (RBF),classical,True,group_shift,1.0,-0.0015146426861197826
+43,grouped,random_forest,Random Forest,classical,True,clean,1.0,0.0
+43,grouped,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+43,grouped,random_forest,Random Forest,classical,True,missing_features,1.0,0.0
+43,grouped,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+43,grouped,random_forest,Random Forest,classical,True,group_shift,1.0,0.0
+43,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+43,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,1.0,0.0
+43,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.1427122396562125,0.8572877603437875
+43,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+43,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+43,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+43,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+43,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,0.9999999999999999,1.1102230246251565e-16
+43,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+43,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,1.0,0.0
+43,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.9977000951867768,0.0
+43,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.9977000951867768,0.0
+43,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.9921596352530941,0.005540459933682684
+43,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,1.0,-0.0022999048132231747
+43,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.9975323382226801,0.00016775696409676577
+43,leave_S,logreg,Logistic Regression,classical,True,clean,,
+43,leave_S,logreg,Logistic Regression,classical,True,noisy,,
+43,leave_S,logreg,Logistic Regression,classical,True,missing_features,,
+43,leave_S,logreg,Logistic Regression,classical,True,unseen_regime,,
+43,leave_S,logreg,Logistic Regression,classical,True,group_shift,,
+43,leave_S,svm_rbf,SVM (RBF),classical,True,clean,,
+43,leave_S,svm_rbf,SVM (RBF),classical,True,noisy,,
+43,leave_S,svm_rbf,SVM (RBF),classical,True,missing_features,,
+43,leave_S,svm_rbf,SVM (RBF),classical,True,unseen_regime,,
+43,leave_S,svm_rbf,SVM (RBF),classical,True,group_shift,,
+43,leave_S,random_forest,Random Forest,classical,True,clean,,
+43,leave_S,random_forest,Random Forest,classical,True,noisy,,
+43,leave_S,random_forest,Random Forest,classical,True,missing_features,,
+43,leave_S,random_forest,Random Forest,classical,True,unseen_regime,,
+43,leave_S,random_forest,Random Forest,classical,True,group_shift,,
+43,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,,
+43,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,,
+43,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,,
+43,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,,
+43,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,,
+43,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,,
+43,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,,
+43,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,,
+43,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,,
+43,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,,
+43,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,,
+43,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,,
+43,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,,
+43,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,,
+43,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,,
+43,leave_I,logreg,Logistic Regression,classical,True,clean,1.0,0.0
+43,leave_I,logreg,Logistic Regression,classical,True,noisy,0.9977728285077951,0.00222717149220486
+43,leave_I,logreg,Logistic Regression,classical,True,missing_features,0.6650340136054422,0.33496598639455777
+43,leave_I,logreg,Logistic Regression,classical,True,unseen_regime,1.0,0.0
+43,leave_I,logreg,Logistic Regression,classical,True,group_shift,1.0,0.0
+43,leave_I,svm_rbf,SVM (RBF),classical,True,clean,0.9933481152993349,0.0
+43,leave_I,svm_rbf,SVM (RBF),classical,True,noisy,0.9911504424778761,0.0021976728214587737
+43,leave_I,svm_rbf,SVM (RBF),classical,True,missing_features,0.6171428571428571,0.37620525815647776
+43,leave_I,svm_rbf,SVM (RBF),classical,True,unseen_regime,1.0,-0.006651884700665134
+43,leave_I,svm_rbf,SVM (RBF),classical,True,group_shift,0.9911504424778761,0.0021976728214587737
+43,leave_I,random_forest,Random Forest,classical,True,clean,1.0,0.0
+43,leave_I,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+43,leave_I,random_forest,Random Forest,classical,True,missing_features,1.0,0.0
+43,leave_I,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+43,leave_I,random_forest,Random Forest,classical,True,group_shift,1.0,0.0
+43,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+43,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,1.0,0.0
+43,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.13857142857142857,0.8614285714285714
+43,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+43,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+43,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+43,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+43,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,1.0,0.0
+43,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+43,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,1.0,0.0
+43,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.98561549647,0.0
+43,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.983467168542032,0.002148327927968041
+43,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.9868603903151815,-0.0012448938451814495
+43,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,0.9411764705882353,0.04443902588176474
+43,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.9878014346764347,-0.0021859382064346455
+44,stratified,logreg,Logistic Regression,classical,True,clean,1.0,0.0
+44,stratified,logreg,Logistic Regression,classical,True,noisy,1.0,0.0
+44,stratified,logreg,Logistic Regression,classical,True,missing_features,0.6646170479491132,0.33538295205088675
+44,stratified,logreg,Logistic Regression,classical,True,unseen_regime,1.0,0.0
+44,stratified,logreg,Logistic Regression,classical,True,group_shift,1.0,0.0
+44,stratified,svm_rbf,SVM (RBF),classical,True,clean,0.999973485242106,0.0
+44,stratified,svm_rbf,SVM (RBF),classical,True,noisy,0.9982670763177526,0.0017064089243534752
+44,stratified,svm_rbf,SVM (RBF),classical,True,missing_features,0.5671122691741248,0.4328612160679812
+44,stratified,svm_rbf,SVM (RBF),classical,True,unseen_regime,1.0,-2.6514757893947305e-05
+44,stratified,svm_rbf,SVM (RBF),classical,True,group_shift,0.9999195624195624,5.392282254368386e-05
+44,stratified,random_forest,Random Forest,classical,True,clean,1.0,0.0
+44,stratified,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+44,stratified,random_forest,Random Forest,classical,True,missing_features,1.0,0.0
+44,stratified,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+44,stratified,random_forest,Random Forest,classical,True,group_shift,1.0,0.0
+44,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+44,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,1.0,0.0
+44,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.141899852724595,0.8581001472754051
+44,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+44,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+44,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+44,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+44,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,1.0,0.0
+44,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+44,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,1.0,0.0
+44,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.9923366604690772,0.0
+44,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.9922999447582256,3.671571085162029e-05
+44,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.9876142557295503,0.0047224047395268975
+44,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,0.9949832775919732,-0.0026466171228960444
+44,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.9758484980610291,0.016488162408048068
+44,grouped,logreg,Logistic Regression,classical,True,clean,1.0,0.0
+44,grouped,logreg,Logistic Regression,classical,True,noisy,1.0,0.0
+44,grouped,logreg,Logistic Regression,classical,True,missing_features,0.6809171920975199,0.3190828079024801
+44,grouped,logreg,Logistic Regression,classical,True,unseen_regime,1.0,0.0
+44,grouped,logreg,Logistic Regression,classical,True,group_shift,1.0,0.0
+44,grouped,svm_rbf,SVM (RBF),classical,True,clean,0.9945520959293952,0.0
+44,grouped,svm_rbf,SVM (RBF),classical,True,noisy,0.9945520959293952,0.0
+44,grouped,svm_rbf,SVM (RBF),classical,True,missing_features,0.6035208871274444,0.39103120880195075
+44,grouped,svm_rbf,SVM (RBF),classical,True,unseen_regime,1.0,-0.005447904070604803
+44,grouped,svm_rbf,SVM (RBF),classical,True,group_shift,1.0,-0.005447904070604803
+44,grouped,random_forest,Random Forest,classical,True,clean,1.0,0.0
+44,grouped,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+44,grouped,random_forest,Random Forest,classical,True,missing_features,1.0,0.0
+44,grouped,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+44,grouped,random_forest,Random Forest,classical,True,group_shift,1.0,0.0
+44,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+44,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,1.0,0.0
+44,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.1349546628235153,0.8650453371764847
+44,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+44,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+44,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+44,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+44,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,1.0,0.0
+44,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+44,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,1.0,0.0
+44,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.9958602982939407,0.0
+44,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.9945686394837021,0.0012916588102386273
+44,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.9879050523734348,0.007955245920505893
+44,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,0.9958592132505176,1.0850434231102213e-06
+44,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.9941467556525181,0.0017135426414226496
+44,leave_S,logreg,Logistic Regression,classical,True,clean,,
+44,leave_S,logreg,Logistic Regression,classical,True,noisy,,
+44,leave_S,logreg,Logistic Regression,classical,True,missing_features,,
+44,leave_S,logreg,Logistic Regression,classical,True,unseen_regime,,
+44,leave_S,logreg,Logistic Regression,classical,True,group_shift,,
+44,leave_S,svm_rbf,SVM (RBF),classical,True,clean,,
+44,leave_S,svm_rbf,SVM (RBF),classical,True,noisy,,
+44,leave_S,svm_rbf,SVM (RBF),classical,True,missing_features,,
+44,leave_S,svm_rbf,SVM (RBF),classical,True,unseen_regime,,
+44,leave_S,svm_rbf,SVM (RBF),classical,True,group_shift,,
+44,leave_S,random_forest,Random Forest,classical,True,clean,,
+44,leave_S,random_forest,Random Forest,classical,True,noisy,,
+44,leave_S,random_forest,Random Forest,classical,True,missing_features,,
+44,leave_S,random_forest,Random Forest,classical,True,unseen_regime,,
+44,leave_S,random_forest,Random Forest,classical,True,group_shift,,
+44,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,,
+44,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,,
+44,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,,
+44,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,,
+44,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,,
+44,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,,
+44,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,,
+44,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,,
+44,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,,
+44,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,,
+44,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,,
+44,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,,
+44,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,,
+44,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,,
+44,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,,
+44,leave_I,logreg,Logistic Regression,classical,True,clean,1.0,0.0
+44,leave_I,logreg,Logistic Regression,classical,True,noisy,1.0,0.0
+44,leave_I,logreg,Logistic Regression,classical,True,missing_features,0.6650340136054422,0.33496598639455777
+44,leave_I,logreg,Logistic Regression,classical,True,unseen_regime,1.0,0.0
+44,leave_I,logreg,Logistic Regression,classical,True,group_shift,1.0,0.0
+44,leave_I,svm_rbf,SVM (RBF),classical,True,clean,1.0,0.0
+44,leave_I,svm_rbf,SVM (RBF),classical,True,noisy,1.0,0.0
+44,leave_I,svm_rbf,SVM (RBF),classical,True,missing_features,0.5872321428571429,0.41276785714285713
+44,leave_I,svm_rbf,SVM (RBF),classical,True,unseen_regime,1.0,0.0
+44,leave_I,svm_rbf,SVM (RBF),classical,True,group_shift,1.0,0.0
+44,leave_I,random_forest,Random Forest,classical,True,clean,1.0,0.0
+44,leave_I,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+44,leave_I,random_forest,Random Forest,classical,True,missing_features,1.0,0.0
+44,leave_I,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+44,leave_I,random_forest,Random Forest,classical,True,group_shift,1.0,0.0
+44,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+44,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,1.0,0.0
+44,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.13857142857142857,0.8614285714285714
+44,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+44,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+44,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+44,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+44,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,0.9999999999999999,1.1102230246251565e-16
+44,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+44,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,1.0,0.0
+44,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.99662952807057,0.0
+44,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.99662952807057,0.0
+44,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.9930813318986044,0.0035481961719656674
+44,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,1.0,-0.0033704719294299634
+44,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.9965569861684377,7.254190213235034e-05
+45,stratified,logreg,Logistic Regression,classical,True,clean,1.0,0.0
+45,stratified,logreg,Logistic Regression,classical,True,noisy,1.0,0.0
+45,stratified,logreg,Logistic Regression,classical,True,missing_features,0.6637225548427143,0.33627744515728575
+45,stratified,logreg,Logistic Regression,classical,True,unseen_regime,1.0,0.0
+45,stratified,logreg,Logistic Regression,classical,True,group_shift,1.0,0.0
+45,stratified,svm_rbf,SVM (RBF),classical,True,clean,0.9969298742494619,0.0
+45,stratified,svm_rbf,SVM (RBF),classical,True,noisy,0.9953948113741928,0.0015350628752690554
+45,stratified,svm_rbf,SVM (RBF),classical,True,missing_features,0.6008836524300443,0.3960462218194176
+45,stratified,svm_rbf,SVM (RBF),classical,True,unseen_regime,1.0,-0.0030701257505381108
+45,stratified,svm_rbf,SVM (RBF),classical,True,group_shift,0.9870600414078675,0.009869832841594373
+45,stratified,random_forest,Random Forest,classical,True,clean,1.0,0.0
+45,stratified,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+45,stratified,random_forest,Random Forest,classical,True,missing_features,0.9999999999999999,1.1102230246251565e-16
+45,stratified,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+45,stratified,random_forest,Random Forest,classical,True,group_shift,1.0,0.0
+45,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+45,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,1.0,0.0
+45,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.12501416109663532,0.8749858389033647
+45,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+45,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+45,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+45,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+45,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,0.9999999999999998,2.220446049250313e-16
+45,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+45,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,1.0,0.0
+45,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.9918605364317143,0.0
+45,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.9920033811430896,-0.00014284471137526733
+45,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.9919576267512688,-9.709031955440484e-05
+45,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,0.9875,0.004360536431714301
+45,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.9937244311132787,-0.0018638946815643376
+45,grouped,logreg,Logistic Regression,classical,True,clean,1.0,0.0
+45,grouped,logreg,Logistic Regression,classical,True,noisy,1.0,0.0
+45,grouped,logreg,Logistic Regression,classical,True,missing_features,0.6823726720278445,0.31762732797215554
+45,grouped,logreg,Logistic Regression,classical,True,unseen_regime,1.0,0.0
+45,grouped,logreg,Logistic Regression,classical,True,group_shift,1.0,0.0
+45,grouped,svm_rbf,SVM (RBF),classical,True,clean,0.9999297369915066,0.0
+45,grouped,svm_rbf,SVM (RBF),classical,True,noisy,0.9999436955958695,-1.3958604362929172e-05
+45,grouped,svm_rbf,SVM (RBF),classical,True,missing_features,0.6189107189107188,0.38101901808078775
+45,grouped,svm_rbf,SVM (RBF),classical,True,unseen_regime,1.0,-7.026300849344302e-05
+45,grouped,svm_rbf,SVM (RBF),classical,True,group_shift,1.0,-7.026300849344302e-05
+45,grouped,random_forest,Random Forest,classical,True,clean,1.0,0.0
+45,grouped,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+45,grouped,random_forest,Random Forest,classical,True,missing_features,1.0,0.0
+45,grouped,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+45,grouped,random_forest,Random Forest,classical,True,group_shift,1.0,0.0
+45,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+45,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,1.0,0.0
+45,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.1357975357975358,0.8642024642024642
+45,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+45,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+45,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+45,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+45,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,1.0,0.0
+45,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+45,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,1.0,0.0
+45,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.9953727255212046,0.0
+45,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.9953727255212046,0.0
+45,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.9929775647951831,0.002395160726021528
+45,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,0.9663299663299664,0.02904275919123822
+45,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.9980548187444739,-0.0026820932232692885
+45,leave_S,logreg,Logistic Regression,classical,True,clean,,
+45,leave_S,logreg,Logistic Regression,classical,True,noisy,,
+45,leave_S,logreg,Logistic Regression,classical,True,missing_features,,
+45,leave_S,logreg,Logistic Regression,classical,True,unseen_regime,,
+45,leave_S,logreg,Logistic Regression,classical,True,group_shift,,
+45,leave_S,svm_rbf,SVM (RBF),classical,True,clean,,
+45,leave_S,svm_rbf,SVM (RBF),classical,True,noisy,,
+45,leave_S,svm_rbf,SVM (RBF),classical,True,missing_features,,
+45,leave_S,svm_rbf,SVM (RBF),classical,True,unseen_regime,,
+45,leave_S,svm_rbf,SVM (RBF),classical,True,group_shift,,
+45,leave_S,random_forest,Random Forest,classical,True,clean,,
+45,leave_S,random_forest,Random Forest,classical,True,noisy,,
+45,leave_S,random_forest,Random Forest,classical,True,missing_features,,
+45,leave_S,random_forest,Random Forest,classical,True,unseen_regime,,
+45,leave_S,random_forest,Random Forest,classical,True,group_shift,,
+45,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,,
+45,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,,
+45,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,,
+45,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,,
+45,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,,
+45,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,,
+45,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,,
+45,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,,
+45,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,,
+45,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,,
+45,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,,
+45,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,,
+45,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,,
+45,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,,
+45,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,,
+45,leave_I,logreg,Logistic Regression,classical,True,clean,1.0,0.0
+45,leave_I,logreg,Logistic Regression,classical,True,noisy,1.0,0.0
+45,leave_I,logreg,Logistic Regression,classical,True,missing_features,0.6619002482509592,0.33809975174904083
+45,leave_I,logreg,Logistic Regression,classical,True,unseen_regime,1.0,0.0
+45,leave_I,logreg,Logistic Regression,classical,True,group_shift,1.0,0.0
+45,leave_I,svm_rbf,SVM (RBF),classical,True,clean,1.0,0.0
+45,leave_I,svm_rbf,SVM (RBF),classical,True,noisy,0.9977728285077951,0.00222717149220486
+45,leave_I,svm_rbf,SVM (RBF),classical,True,missing_features,0.6091666666666666,0.39083333333333337
+45,leave_I,svm_rbf,SVM (RBF),classical,True,unseen_regime,1.0,0.0
+45,leave_I,svm_rbf,SVM (RBF),classical,True,group_shift,1.0,0.0
+45,leave_I,random_forest,Random Forest,classical,True,clean,1.0,0.0
+45,leave_I,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+45,leave_I,random_forest,Random Forest,classical,True,missing_features,1.0,0.0
+45,leave_I,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+45,leave_I,random_forest,Random Forest,classical,True,group_shift,1.0,0.0
+45,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+45,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,0.9977728285077951,0.00222717149220486
+45,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.13142857142857145,0.8685714285714285
+45,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+45,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+45,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+45,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+45,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,1.0,0.0
+45,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+45,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,1.0,0.0
+45,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.9969790889692517,0.0
+45,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.9969530742807804,2.601468847129862e-05
+45,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.9966924399839465,0.00028664898530517124
+45,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,1.0,-0.003020911030748308
+45,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.9972198050624447,-0.00024071609319298304
+46,stratified,logreg,Logistic Regression,classical,True,clean,1.0,0.0
+46,stratified,logreg,Logistic Regression,classical,True,noisy,1.0,0.0
+46,stratified,logreg,Logistic Regression,classical,True,missing_features,0.6619433640052197,0.3380566359947803
+46,stratified,logreg,Logistic Regression,classical,True,unseen_regime,1.0,0.0
+46,stratified,logreg,Logistic Regression,classical,True,group_shift,1.0,0.0
+46,stratified,svm_rbf,SVM (RBF),classical,True,clean,0.9892456418122597,0.0
+46,stratified,svm_rbf,SVM (RBF),classical,True,noisy,0.9875304169504638,0.001715224861795872
+46,stratified,svm_rbf,SVM (RBF),classical,True,missing_features,0.5732525206752012,0.41599312113705855
+46,stratified,svm_rbf,SVM (RBF),classical,True,unseen_regime,1.0,-0.010754358187740287
+46,stratified,svm_rbf,SVM (RBF),classical,True,group_shift,0.9808172661870503,0.008428375625209372
+46,stratified,random_forest,Random Forest,classical,True,clean,1.0,0.0
+46,stratified,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+46,stratified,random_forest,Random Forest,classical,True,missing_features,0.9999999999999998,2.220446049250313e-16
+46,stratified,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+46,stratified,random_forest,Random Forest,classical,True,group_shift,1.0,0.0
+46,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+46,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,1.0,0.0
+46,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.14036478984932593,0.8596352101506741
+46,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+46,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+46,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+46,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+46,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,0.9999999999999999,1.1102230246251565e-16
+46,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+46,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,1.0,0.0
+46,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.9965655796935898,0.0
+46,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.9965907488133792,-2.516911978933667e-05
+46,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.991641416146311,0.00492416354727887
+46,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,0.9962121212121212,0.0003534584814686159
+46,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.9965015582571958,6.402143639405722e-05
+46,grouped,logreg,Logistic Regression,classical,True,clean,1.0,0.0
+46,grouped,logreg,Logistic Regression,classical,True,noisy,0.9982425361744804,0.0017574638255195563
+46,grouped,logreg,Logistic Regression,classical,True,missing_features,0.6403252484919885,0.35967475150801154
+46,grouped,logreg,Logistic Regression,classical,True,unseen_regime,1.0,0.0
+46,grouped,logreg,Logistic Regression,classical,True,group_shift,1.0,0.0
+46,grouped,svm_rbf,SVM (RBF),classical,True,clean,1.0,0.0
+46,grouped,svm_rbf,SVM (RBF),classical,True,noisy,0.9964881771328908,0.00351182286710916
+46,grouped,svm_rbf,SVM (RBF),classical,True,missing_features,0.6190147872045939,0.3809852127954061
+46,grouped,svm_rbf,SVM (RBF),classical,True,unseen_regime,1.0,0.0
+46,grouped,svm_rbf,SVM (RBF),classical,True,group_shift,1.0,0.0
+46,grouped,random_forest,Random Forest,classical,True,clean,1.0,0.0
+46,grouped,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+46,grouped,random_forest,Random Forest,classical,True,missing_features,0.9999999999999999,1.1102230246251565e-16
+46,grouped,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+46,grouped,random_forest,Random Forest,classical,True,group_shift,1.0,0.0
+46,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+46,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,1.0,0.0
+46,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.13569883543521505,0.8643011645647849
+46,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+46,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+46,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+46,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+46,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,0.9999999999999999,1.1102230246251565e-16
+46,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+46,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,1.0,0.0
+46,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.9929673937222239,0.0
+46,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.9930249640341358,-5.757031191189199e-05
+46,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.98584990796033,0.00711748576189386
+46,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,0.9543478260869565,0.038619567635267416
+46,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.9919903183042929,0.000977075417931017
+46,leave_S,logreg,Logistic Regression,classical,True,clean,0.9234615384615386,0.0
+46,leave_S,logreg,Logistic Regression,classical,True,noisy,0.8086538461538462,0.11480769230769239
+46,leave_S,logreg,Logistic Regression,classical,True,missing_features,0.005,0.9184615384615386
+46,leave_S,logreg,Logistic Regression,classical,True,unseen_regime,0.9246153846153846,-0.001153846153846061
+46,leave_S,logreg,Logistic Regression,classical,True,group_shift,0.6683333333333333,0.2551282051282052
+46,leave_S,svm_rbf,SVM (RBF),classical,True,clean,1.0,0.0
+46,leave_S,svm_rbf,SVM (RBF),classical,True,noisy,1.0,0.0
+46,leave_S,svm_rbf,SVM (RBF),classical,True,missing_features,0.005,0.995
+46,leave_S,svm_rbf,SVM (RBF),classical,True,unseen_regime,1.0,0.0
+46,leave_S,svm_rbf,SVM (RBF),classical,True,group_shift,1.0,0.0
+46,leave_S,random_forest,Random Forest,classical,True,clean,0.5,0.0
+46,leave_S,random_forest,Random Forest,classical,True,noisy,0.5,0.0
+46,leave_S,random_forest,Random Forest,classical,True,missing_features,0.6015835869787924,-0.10158358697879244
+46,leave_S,random_forest,Random Forest,classical,True,unseen_regime,1.0,-0.5
+46,leave_S,random_forest,Random Forest,classical,True,group_shift,0.5,0.0
+46,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,0.25,0.0
+46,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,0.25,0.0
+46,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.25,0.0
+46,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,-0.75
+46,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,0.25,0.0
+46,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,0.5,0.0
+46,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,0.5,0.0
+46,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,0.5302128427128427,-0.030212842712842747
+46,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,-0.5
+46,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,0.5,0.0
+46,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.8662680802103879,0.0
+46,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.8668754331254331,-0.0006073529150452117
+46,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.8537861210252905,0.012481959185097424
+46,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,1.0,-0.13373191978961207
+46,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.6231060606060606,0.24316201960432737
+46,leave_I,logreg,Logistic Regression,classical,True,clean,1.0,0.0
+46,leave_I,logreg,Logistic Regression,classical,True,noisy,1.0,0.0
+46,leave_I,logreg,Logistic Regression,classical,True,missing_features,0.6619002482509592,0.33809975174904083
+46,leave_I,logreg,Logistic Regression,classical,True,unseen_regime,1.0,0.0
+46,leave_I,logreg,Logistic Regression,classical,True,group_shift,1.0,0.0
+46,leave_I,svm_rbf,SVM (RBF),classical,True,clean,1.0,0.0
+46,leave_I,svm_rbf,SVM (RBF),classical,True,noisy,0.9955456791105454,0.004454320889454633
+46,leave_I,svm_rbf,SVM (RBF),classical,True,missing_features,0.6031845238095238,0.3968154761904762
+46,leave_I,svm_rbf,SVM (RBF),classical,True,unseen_regime,1.0,0.0
+46,leave_I,svm_rbf,SVM (RBF),classical,True,group_shift,1.0,0.0
+46,leave_I,random_forest,Random Forest,classical,True,clean,1.0,0.0
+46,leave_I,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+46,leave_I,random_forest,Random Forest,classical,True,missing_features,1.0,0.0
+46,leave_I,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+46,leave_I,random_forest,Random Forest,classical,True,group_shift,1.0,0.0
+46,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+46,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,1.0,0.0
+46,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.13857142857142857,0.8614285714285714
+46,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+46,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+46,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+46,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+46,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,1.0,0.0
+46,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+46,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,1.0,0.0
+46,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.9966922307910427,0.0
+46,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.9967118408557996,-1.961006475681426e-05
+46,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.9892734557526406,0.007418775038402159
+46,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,1.0,-0.0033077692089572563
+46,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.9966629833282601,2.9247462782655553e-05
+47,stratified,logreg,Logistic Regression,classical,True,clean,1.0,0.0
+47,stratified,logreg,Logistic Regression,classical,True,noisy,1.0,0.0
+47,stratified,logreg,Logistic Regression,classical,True,missing_features,0.6613837329246988,0.33861626707530124
+47,stratified,logreg,Logistic Regression,classical,True,unseen_regime,1.0,0.0
+47,stratified,logreg,Logistic Regression,classical,True,group_shift,1.0,0.0
+47,stratified,svm_rbf,SVM (RBF),classical,True,clean,1.0,0.0
+47,stratified,svm_rbf,SVM (RBF),classical,True,noisy,0.999994115708704,5.884291295998878e-06
+47,stratified,svm_rbf,SVM (RBF),classical,True,missing_features,0.6008836524300443,0.39911634756995573
+47,stratified,svm_rbf,SVM (RBF),classical,True,unseen_regime,1.0,0.0
+47,stratified,svm_rbf,SVM (RBF),classical,True,group_shift,1.0,0.0
+47,stratified,random_forest,Random Forest,classical,True,clean,1.0,0.0
+47,stratified,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+47,stratified,random_forest,Random Forest,classical,True,missing_features,0.9999999999999999,1.1102230246251565e-16
+47,stratified,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+47,stratified,random_forest,Random Forest,classical,True,group_shift,1.0,0.0
+47,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+47,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,1.0,0.0
+47,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.141899852724595,0.8581001472754051
+47,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+47,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+47,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+47,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+47,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,0.9999999999999999,1.1102230246251565e-16
+47,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+47,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,1.0,0.0
+47,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.9958956062653089,0.0
+47,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.9958879871623233,7.619102985634285e-06
+47,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.988091314789962,0.007804291475346892
+47,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,1.0,-0.00410439373469107
+47,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.9969427903659567,-0.0010471841006477467
+47,grouped,logreg,Logistic Regression,classical,True,clean,1.0,0.0
+47,grouped,logreg,Logistic Regression,classical,True,noisy,1.0,0.0
+47,grouped,logreg,Logistic Regression,classical,True,missing_features,0.6905907528945362,0.3094092471054638
+47,grouped,logreg,Logistic Regression,classical,True,unseen_regime,1.0,0.0
+47,grouped,logreg,Logistic Regression,classical,True,group_shift,1.0,0.0
+47,grouped,svm_rbf,SVM (RBF),classical,True,clean,0.9967408144990455,0.0
+47,grouped,svm_rbf,SVM (RBF),classical,True,noisy,0.9952057567138581,0.001535057785187366
+47,grouped,svm_rbf,SVM (RBF),classical,True,missing_features,0.604728805331215,0.3920120091678305
+47,grouped,svm_rbf,SVM (RBF),classical,True,unseen_regime,1.0,-0.003259185500954498
+47,grouped,svm_rbf,SVM (RBF),classical,True,group_shift,0.9865095653272004,0.010231249171845147
+47,grouped,random_forest,Random Forest,classical,True,clean,1.0,0.0
+47,grouped,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+47,grouped,random_forest,Random Forest,classical,True,missing_features,1.0,0.0
+47,grouped,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+47,grouped,random_forest,Random Forest,classical,True,group_shift,1.0,0.0
+47,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+47,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,0.9982758824643962,0.001724117535603753
+47,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.1217904585374465,0.8782095414625535
+47,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+47,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+47,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+47,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+47,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,1.0,0.0
+47,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+47,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,1.0,0.0
+47,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.9960323446530253,0.0
+47,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.9960354854749155,-3.1408218902351237e-06
+47,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.9946062219590144,0.0014261226940108784
+47,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,0.9659090909090909,0.03012325374393432
+47,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.9968246622770792,-0.000792317624053962
+47,leave_S,logreg,Logistic Regression,classical,True,clean,0.527027027027027,0.0
+47,leave_S,logreg,Logistic Regression,classical,True,noisy,0.52,0.007027027027026955
+47,leave_S,logreg,Logistic Regression,classical,True,missing_features,0.02,0.507027027027027
+47,leave_S,logreg,Logistic Regression,classical,True,unseen_regime,0.4,0.12702702702702695
+47,leave_S,logreg,Logistic Regression,classical,True,group_shift,0.4090909090909091,0.11793611793611786
+47,leave_S,svm_rbf,SVM (RBF),classical,True,clean,1.0,0.0
+47,leave_S,svm_rbf,SVM (RBF),classical,True,noisy,1.0,0.0
+47,leave_S,svm_rbf,SVM (RBF),classical,True,missing_features,1.0,0.0
+47,leave_S,svm_rbf,SVM (RBF),classical,True,unseen_regime,1.0,0.0
+47,leave_S,svm_rbf,SVM (RBF),classical,True,group_shift,1.0,0.0
+47,leave_S,random_forest,Random Forest,classical,True,clean,1.0,0.0
+47,leave_S,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+47,leave_S,random_forest,Random Forest,classical,True,missing_features,1.0,0.0
+47,leave_S,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+47,leave_S,random_forest,Random Forest,classical,True,group_shift,1.0,0.0
+47,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+47,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,1.0,0.0
+47,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.02,0.98
+47,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+47,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+47,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+47,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+47,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,0.9999999999999999,1.1102230246251565e-16
+47,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+47,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,1.0,0.0
+47,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.9246153846153846,0.0
+47,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.9246153846153846,0.0
+47,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.9246153846153846,0.0
+47,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,0.9246153846153846,0.0
+47,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.6733333333333333,0.2512820512820513
+47,leave_I,logreg,Logistic Regression,classical,True,clean,1.0,0.0
+47,leave_I,logreg,Logistic Regression,classical,True,noisy,1.0,0.0
+47,leave_I,logreg,Logistic Regression,classical,True,missing_features,0.658796046720575,0.341203953279425
+47,leave_I,logreg,Logistic Regression,classical,True,unseen_regime,1.0,0.0
+47,leave_I,logreg,Logistic Regression,classical,True,group_shift,1.0,0.0
+47,leave_I,svm_rbf,SVM (RBF),classical,True,clean,0.9739130434782609,0.0
+47,leave_I,svm_rbf,SVM (RBF),classical,True,noisy,0.9739130434782609,0.0
+47,leave_I,svm_rbf,SVM (RBF),classical,True,missing_features,0.6251190476190477,0.3487939958592132
+47,leave_I,svm_rbf,SVM (RBF),classical,True,unseen_regime,0.8,0.17391304347826086
+47,leave_I,svm_rbf,SVM (RBF),classical,True,group_shift,0.9739130434782609,0.0
+47,leave_I,random_forest,Random Forest,classical,True,clean,1.0,0.0
+47,leave_I,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+47,leave_I,random_forest,Random Forest,classical,True,missing_features,0.9999999999999999,1.1102230246251565e-16
+47,leave_I,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+47,leave_I,random_forest,Random Forest,classical,True,group_shift,1.0,0.0
+47,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+47,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,1.0,0.0
+47,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.13857142857142857,0.8614285714285714
+47,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+47,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+47,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+47,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+47,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,1.0,0.0
+47,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+47,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,1.0,0.0
+47,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.9872829004815529,0.0
+47,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.9872927596220955,-9.859140542634037e-06
+47,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.9877599065815126,-0.0004770060999597092
+47,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,1.0,-0.012717099518447128
+47,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.9873005378770885,-1.763739553561905e-05
+48,stratified,logreg,Logistic Regression,classical,True,clean,1.0,0.0
+48,stratified,logreg,Logistic Regression,classical,True,noisy,1.0,0.0
+48,stratified,logreg,Logistic Regression,classical,True,missing_features,0.6892643961261078,0.3107356038738922
+48,stratified,logreg,Logistic Regression,classical,True,unseen_regime,1.0,0.0
+48,stratified,logreg,Logistic Regression,classical,True,group_shift,1.0,0.0
+48,stratified,svm_rbf,SVM (RBF),classical,True,clean,1.0,0.0
+48,stratified,svm_rbf,SVM (RBF),classical,True,noisy,1.0,0.0
+48,stratified,svm_rbf,SVM (RBF),classical,True,missing_features,0.6407952871870397,0.3592047128129603
+48,stratified,svm_rbf,SVM (RBF),classical,True,unseen_regime,1.0,0.0
+48,stratified,svm_rbf,SVM (RBF),classical,True,group_shift,1.0,0.0
+48,stratified,random_forest,Random Forest,classical,True,clean,1.0,0.0
+48,stratified,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+48,stratified,random_forest,Random Forest,classical,True,missing_features,0.9999999999999999,1.1102230246251565e-16
+48,stratified,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+48,stratified,random_forest,Random Forest,classical,True,group_shift,1.0,0.0
+48,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+48,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,1.0,0.0
+48,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.11887390959555907,0.8811260904044409
+48,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+48,stratified,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+48,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+48,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+48,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,1.0,0.0
+48,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+48,stratified,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,1.0,0.0
+48,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.9962758537706091,0.0
+48,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.9962347773938266,4.107637678252285e-05
+48,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.9944973656558589,0.0017784881147502318
+48,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,0.9930555555555556,0.003220298215053541
+48,stratified,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.9986699171995513,-0.002394063428942217
+48,grouped,logreg,Logistic Regression,classical,True,clean,1.0,0.0
+48,grouped,logreg,Logistic Regression,classical,True,noisy,1.0,0.0
+48,grouped,logreg,Logistic Regression,classical,True,missing_features,0.655644555194165,0.344355444805835
+48,grouped,logreg,Logistic Regression,classical,True,unseen_regime,1.0,0.0
+48,grouped,logreg,Logistic Regression,classical,True,group_shift,1.0,0.0
+48,grouped,svm_rbf,SVM (RBF),classical,True,clean,1.0,0.0
+48,grouped,svm_rbf,SVM (RBF),classical,True,noisy,1.0,0.0
+48,grouped,svm_rbf,SVM (RBF),classical,True,missing_features,0.5937218519185733,0.4062781480814267
+48,grouped,svm_rbf,SVM (RBF),classical,True,unseen_regime,1.0,0.0
+48,grouped,svm_rbf,SVM (RBF),classical,True,group_shift,1.0,0.0
+48,grouped,random_forest,Random Forest,classical,True,clean,1.0,0.0
+48,grouped,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+48,grouped,random_forest,Random Forest,classical,True,missing_features,0.9999999999999998,2.220446049250313e-16
+48,grouped,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+48,grouped,random_forest,Random Forest,classical,True,group_shift,1.0,0.0
+48,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+48,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,1.0,0.0
+48,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.1495826577793791,0.8504173422206209
+48,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+48,grouped,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+48,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+48,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+48,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,1.0,0.0
+48,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+48,grouped,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,1.0,0.0
+48,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.9980228415596933,0.0
+48,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.9979502874568856,7.255410280770924e-05
+48,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.9882523851234052,0.009770456436288155
+48,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,0.9960212201591512,0.002001621400542164
+48,grouped,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.9989017443483552,-0.0008789027886618728
+48,leave_S,logreg,Logistic Regression,classical,True,clean,0.54,0.0
+48,leave_S,logreg,Logistic Regression,classical,True,noisy,0.54,0.0
+48,leave_S,logreg,Logistic Regression,classical,True,missing_features,0.54,0.0
+48,leave_S,logreg,Logistic Regression,classical,True,unseen_regime,0.04,0.5
+48,leave_S,logreg,Logistic Regression,classical,True,group_shift,0.54,0.0
+48,leave_S,svm_rbf,SVM (RBF),classical,True,clean,0.54,0.0
+48,leave_S,svm_rbf,SVM (RBF),classical,True,noisy,0.54,0.0
+48,leave_S,svm_rbf,SVM (RBF),classical,True,missing_features,0.54,0.0
+48,leave_S,svm_rbf,SVM (RBF),classical,True,unseen_regime,0.04,0.5
+48,leave_S,svm_rbf,SVM (RBF),classical,True,group_shift,0.54,0.0
+48,leave_S,random_forest,Random Forest,classical,True,clean,0.54,0.0
+48,leave_S,random_forest,Random Forest,classical,True,noisy,0.54,0.0
+48,leave_S,random_forest,Random Forest,classical,True,missing_features,0.54,0.0
+48,leave_S,random_forest,Random Forest,classical,True,unseen_regime,0.04,0.5
+48,leave_S,random_forest,Random Forest,classical,True,group_shift,0.54,0.0
+48,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,0.54,0.0
+48,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,0.54,0.0
+48,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.54,0.0
+48,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,0.04,0.5
+48,leave_S,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,0.54,0.0
+48,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,0.54,0.0
+48,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,0.54,0.0
+48,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,0.54,0.0
+48,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,0.04,0.5
+48,leave_S,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,0.54,0.0
+48,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.54,0.0
+48,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.54,0.0
+48,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.54,0.0
+48,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,0.04,0.5
+48,leave_S,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.54,0.0
+48,leave_I,logreg,Logistic Regression,classical,True,clean,0.854928411230645,0.0
+48,leave_I,logreg,Logistic Regression,classical,True,noisy,0.8505449170832855,0.004383494147359501
+48,leave_I,logreg,Logistic Regression,classical,True,missing_features,0.6742571019824238,0.18067130924822117
+48,leave_I,logreg,Logistic Regression,classical,True,unseen_regime,0.16764898989898994,0.6872794213316551
+48,leave_I,logreg,Logistic Regression,classical,True,group_shift,0.6598490909327149,0.19507932029793007
+48,leave_I,svm_rbf,SVM (RBF),classical,True,clean,0.9886266249823372,0.0
+48,leave_I,svm_rbf,SVM (RBF),classical,True,noisy,0.9871626984126985,0.0014639265696386738
+48,leave_I,svm_rbf,SVM (RBF),classical,True,missing_features,0.6221580417881439,0.3664685831941933
+48,leave_I,svm_rbf,SVM (RBF),classical,True,unseen_regime,0.8571428571428571,0.13148376783948013
+48,leave_I,svm_rbf,SVM (RBF),classical,True,group_shift,0.9827968289085546,0.005829796073782645
+48,leave_I,random_forest,Random Forest,classical,True,clean,1.0,0.0
+48,leave_I,random_forest,Random Forest,classical,True,noisy,1.0,0.0
+48,leave_I,random_forest,Random Forest,classical,True,missing_features,1.0,0.0
+48,leave_I,random_forest,Random Forest,classical,True,unseen_regime,1.0,0.0
+48,leave_I,random_forest,Random Forest,classical,True,group_shift,0.9999999999999999,1.1102230246251565e-16
+48,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,clean,1.0,0.0
+48,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,noisy,1.0,0.0
+48,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,missing_features,0.13857142857142857,0.8614285714285714
+48,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,unseen_regime,1.0,0.0
+48,leave_I,boosting_strong,XGBoost/LightGBM/HistGB,strong_tabular,True,group_shift,1.0,0.0
+48,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,clean,1.0,0.0
+48,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,noisy,1.0,0.0
+48,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,missing_features,1.0,0.0
+48,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,unseen_regime,1.0,0.0
+48,leave_I,existing_repo_model,Existing Repo Model (Hybrid),repo_specific,True,group_shift,1.0,0.0
+48,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,clean,0.9939012700666352,0.0
+48,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,noisy,0.9939057483300565,-4.478263421314743e-06
+48,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,missing_features,0.9921396078610115,0.001761662205623682
+48,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,unseen_regime,0.9417887765256185,0.05211249354101666
+48,leave_I,proposed_physics_model,Proposed Physics-Aware Model,proposed,True,group_shift,0.9899031912205554,0.003998078846079833

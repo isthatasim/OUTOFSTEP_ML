@@ -21,6 +21,48 @@ Core features:
 - deployment-ready inference + drift monitoring
 - optional dynamic-refinement scaffold for future transient windows
 
+## Model Naming (Clear Comparison)
+
+To make interpretation explicit, model names are standardized as:
+
+- Proposed model: **PhysiScreen-OOS**
+  - repository id: `Proposed Physics-Aware Model`
+- Base model: **Logit-Base**
+  - repository id: `Logistic Regression`
+- Comparison models:
+  - **SVM-RBF** (`SVM (RBF)`)
+  - **RF-Base** (`Random Forest`)
+  - **Boost-GBM** (`XGBoost/LightGBM/HistGB`)
+  - **Legacy-Hybrid** (`Existing Repo Model (Hybrid)`)
+
+## Algorithm Interpretation
+
+- **PhysiScreen-OOS (Proposed):** physics-aware static classifier with engineered ratios, validation-set calibration, and cost-sensitive thresholding.
+- **Logit-Base:** transparent linear baseline for reproducible reference.
+- **SVM-RBF:** high-capacity nonlinear benchmark for raw predictive performance.
+- **RF-Base / Boost-GBM:** robust tabular nonlinear baselines.
+- **Legacy-Hybrid:** existing repository hybrid baseline retained for backward comparison.
+
+## Latest Long-Run Results Snapshot
+
+From `outputs/static_q1_validation_xlong/tables/`:
+
+- Benchmark best pure predictive: **SVM-RBF**
+- Best deployable/overall recommended: **PhysiScreen-OOS**
+- PhysiScreen-OOS nominal scenario metrics:
+  - PR-AUC: `0.9939`
+  - ROC-AUC: `0.9991`
+  - FNR: `0.0074`
+  - ECE: `0.0018`
+
+Recommended files for quick review:
+- `outputs/static_q1_validation_xlong/tables/table1_main_performance.csv`
+- `outputs/static_q1_validation_xlong/tables/q1_table_nominal_baseline.csv`
+- `outputs/static_q1_validation_xlong/tables/q1_table_regime_shift.csv`
+- `outputs/static_q1_validation_xlong/tables/q1_table_robustness.csv`
+- `outputs/static_q1_validation_xlong/tables/q1_table_threshold_policies.csv`
+- `outputs/static_q1_validation_xlong/tables/q1_table_monotonic_consistency.csv`
+
 ## Dataset Expectations
 
 Expected columns (extra columns allowed):
@@ -106,6 +148,28 @@ python scripts/run_full_benchmark.py --config configs/full_benchmark.yaml
 python scripts/generate_figures.py --mode benchmark --config configs/full_benchmark.yaml
 ```
 
+Run integrated static-Q1 validation (train + all 10 static scenarios):
+
+```bash
+python scripts/run_static_q1_validation.py --config configs/static_q1_validation.yaml
+python scripts/generate_static_q1_tables.py --config configs/static_q1_validation.yaml
+python scripts/generate_static_q1_figures.py --config configs/static_q1_validation.yaml
+```
+
+Long-budget integrated run:
+
+```bash
+python scripts/run_static_q1_validation.py --config configs/static_q1_validation_long.yaml
+```
+
+Extra-long integrated run:
+
+```bash
+python scripts/run_static_q1_validation.py --config configs/static_q1_validation_xlong.yaml
+python scripts/generate_static_q1_tables.py --config configs/static_q1_validation_xlong.yaml
+python scripts/generate_static_q1_figures.py --config configs/static_q1_validation_xlong.yaml
+```
+
 Generate publication-ready figures/tables:
 
 ```bash
@@ -133,6 +197,13 @@ New benchmark outputs are written to:
 - `results/figures/`
 - `results/model/`
 - `results/splits/`
+
+Integrated static-Q1 scenario outputs are written to:
+- `outputs/static_q1_validation/tables/`
+- `outputs/static_q1_validation/figures/`
+- `outputs/static_q1_validation/splits/`
+- long run: `outputs/static_q1_validation_long/`
+- extra-long run: `outputs/static_q1_validation_xlong/`
 
 Legacy outputs remain in:
 - `outputs/`

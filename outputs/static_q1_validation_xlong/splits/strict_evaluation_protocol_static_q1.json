@@ -1,0 +1,27 @@
+{
+  "strict_evaluation_protocol": {
+    "1_train_val_test_split": true,
+    "2_fit_on_train_only": true,
+    "3_tune_calibrate_threshold_on_validation_only": true,
+    "4_final_test_used_once_for_unbiased_comparison": true,
+    "5_shifted_tests_not_used_for_tuning": true,
+    "6_split_indices_and_seeds_saved": true,
+    "notes": "Scenario runner uses strict split and does not tune on final holdout."
+  },
+  "seed0": 42,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48
+  ],
+  "base_strategy": "stratified",
+  "regime_strategies": [
+    "grouped",
+    "leave_S",
+    "leave_I"
+  ]
+}

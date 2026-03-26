@@ -1,8 +1,0 @@
-|   Rank | Model                        | Main Strength                     | Main Weakness                     | Best Use Case                                 |
-|-------:|:-----------------------------|:----------------------------------|:----------------------------------|:----------------------------------------------|
-|      1 | Proposed Physics-Aware Model | Strong balanced benchmark profile | Requires scenario-specific tuning | Static OOS screening and operational planning |
-|      2 | Logistic Regression          | Strong balanced benchmark profile | Requires scenario-specific tuning | Static OOS screening and operational planning |
-|      3 | Existing Repo Model (Hybrid) | Strong balanced benchmark profile | Requires scenario-specific tuning | Static OOS screening and operational planning |
-|      4 | XGBoost/LightGBM/HistGB      | Strong balanced benchmark profile | Requires scenario-specific tuning | Static OOS screening and operational planning |
-|      5 | Random Forest                | Strong balanced benchmark profile | Requires scenario-specific tuning | Static OOS screening and operational planning |
-|      6 | SVM (RBF)                    | Strong balanced benchmark profile | Requires scenario-specific tuning | Static OOS screening and operational planning |
