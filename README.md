@@ -1,33 +1,183 @@
-﻿# GR1 Out-of-Step (OOS) Pipeline
+﻿# OUTOFSTEP_ML
 
-Publication-grade ML + physics-aware + deployable pipeline scaffold for OOS prediction.
+Physics-aware, imbalance-aware, deployable machine-learning framework for out-of-step (OOS) risk prediction in power systems.
 
-## Problem Framing
+This repository now supports two layers:
 
-- Goal: predict `Out_of_step` in `{0,1}` from associated static operating parameters.
-- This is a **binary classification** problem used for **risk forecasting** at operating points.
-- It is not a time-series forecaster because no temporal sequence column is provided.
-- Evaluation includes both classification metrics and probability-forecast metrics:
-  `PR-AUC`, `ROC-AUC`, `Precision`, `Recall`, `F1`, `FNR`, `Brier`, `ECE`, `MSE`, `RMSE`, `MAE`, `R2`.
+1. **Legacy compatible pipeline** via `main.py` (kept working for backward compatibility).
+2. **Config-driven research benchmark pipeline** via `scripts/*.py` and `src/outofstep_ml/*`.
 
-## Run
+## Research Purpose
 
-```powershell
+Target use case: static operating-point OOS risk screening for generator stability studies (e.g., GR1).
+
+Core features:
+- physics-aware engineered ratios (`invH`, `S_over_H`, `S_over_I`, `I_over_H`)
+- monotonic physical priors (`df/dH <= 0`, `df/dI <= 0`, `df/dS >= 0`)
+- imbalance-aware learning and cost-sensitive thresholding
+- probability calibration and reliability assessment
+- robustness under noise, missing features, and unseen regimes
+- counterfactual decision support
+- deployment-ready inference + drift monitoring
+- optional dynamic-refinement scaffold for future transient windows
+
+## Dataset Expectations
+
+Expected columns (extra columns allowed):
+- `Tag_rate`
+- `Ikssmin_kA`
+- `Sgn_eff_MVA`
+- `H_s`
+- `GenName` (optional; defaults to `GR1`)
+- `Out_of_step` (binary target)
+
+A tiny demo is included at:
+- `data/sample/gr1_sample.csv`
+
+## Repository Layout
+
+```text
+OUTOFSTEP_ML/
+  configs/
+  data/
+    sample/
+  docs/
+  scripts/
+  src/
+    outofstep_ml/
+      data/
+      features/
+      models/
+      evaluation/
+      explainability/
+      deployment/
+      utils/
+  tests/
+  results/
+  outputs/
+  main.py
+```
+
+## Installation
+
+### Option A: pip
+
+```bash
+pip install -r requirements.txt
+```
+
+### Option B: conda
+
+```bash
+conda env create -f environment.yml
+conda activate outofstep-ml
+```
+
+## Quickstart (New Benchmark Pipeline)
+
+Train static models and export reproducible artifacts:
+
+```bash
+python scripts/train_static.py --config configs/model_static_physics.yaml
+```
+
+Evaluate trained static model:
+
+```bash
+python scripts/evaluate_static.py --config configs/model_static_physics.yaml
+```
+
+Run ablations:
+
+```bash
+python scripts/run_ablation.py --config configs/base.yaml
+```
+
+Run robustness suite:
+
+```bash
+python scripts/run_robustness.py --config configs/base.yaml
+```
+
+Generate publication-ready figures/tables:
+
+```bash
+python scripts/generate_figures.py --config configs/base.yaml
+```
+
+Export model bundle to deployment folder:
+
+```bash
+python scripts/export_model.py --source-model results/model/static_model_bundle.joblib --source-config results/model/inference_config.yaml --target-dir outputs/model
+```
+
+## Backward-Compatible Legacy Pipeline
+
+The original end-to-end script remains available:
+
+```bash
 python main.py --data "C:/Users/masim/Downloads/outofstep_tag_ikss_H_Sgn.csv" --output-dir outputs --seed 42
 ```
 
-If `--data` path does not exist, scaffold/template artifacts are generated only.
+## Outputs
 
-## Structure
+New benchmark outputs are written to:
+- `results/tables/`
+- `results/figures/`
+- `results/model/`
+- `results/splits/`
 
-- `src/data.py` - loading, audit, cleaning, leakage checks
-- `src/features.py` - engineering + monotonic priors
-- `src/models.py` - tiers A/B/C + calibration
-- `src/eval.py` - metrics, splits, thresholding, counterfactuals
-- `src/plots.py` - paper figures + flowchart
-- `src/report.py` - technical markdown document generation
-- `src/api_app.py` - FastAPI prototype
-- `src/monitoring.py` - PSI/KS, concept drift, policy
-- `src/retrain.py` - champion/challenger retraining gate
-- `tests/` - pytest suite
-- `outputs/` - exported artifacts
+Legacy outputs remain in:
+- `outputs/`
+
+## Reproducibility Notes
+
+- deterministic seeds exposed in config (`seed`)
+- split manifests saved to `results/splits/`
+- config-driven runs for training/evaluation/robustness
+- explicit threshold policy (`tau_cost`, `tau_f1`, `tau_hr`)
+
+## Physics-Aware Model Notes
+
+Main static model concept:
+- Stage-1 static risk model from operating features `T, I, S, H`
+- engineered physics features improve boundary smoothness and extrapolation
+- monotonic priors enforce physically plausible trends where possible
+
+Loss concept:
+- data loss + monotonic penalty regularization
+- calibration (isotonic/sigmoid) compared post hoc
+
+## Monitoring and Deployment
+
+Deployment modules:
+- `src/outofstep_ml/deployment/predict.py`
+- `src/outofstep_ml/deployment/api_schema.py`
+- `src/outofstep_ml/deployment/monitor.py`
+
+Monitoring includes feature drift reports (PSI/KS) and score distribution summaries.
+
+## Tests
+
+Run tests:
+
+```bash
+pytest -q
+```
+
+Key tests include:
+- feature generation
+- split reproducibility
+- metric correctness
+- inference smoke checks
+
+## Dynamic Refinement Roadmap
+
+`src/outofstep_ml/models/dynamic_refinement.py` is scaffold-only unless transient-window data is provided.
+Expected future input shape: `[n_samples, sequence_length, n_features]` with aligned disturbance windows.
+
+## Citation-Ready Case Study Support
+
+See:
+- `docs/CASE_STUDY_PLAN.md`
+- `docs/PR_SUMMARY.md`

@@ -1,0 +1,21 @@
+﻿name: outofstep-ml
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - pandas
+  - scikit-learn
+  - matplotlib
+  - scipy
+  - pyyaml
+  - joblib
+  - fastapi
+  - uvicorn
+  - pydantic
+  - pip
+  - pip:
+      - pytest>=8.0
+      - shap>=0.46
+      - xgboost>=2.0
+      - lightgbm>=4.3

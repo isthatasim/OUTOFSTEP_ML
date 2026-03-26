@@ -1,0 +1,9 @@
+﻿seed: 42
+extends: base
+features:
+  include_logs: false
+  use_engineered: false
+model:
+  key: tierA_logistic
+  calibrate: false
+notes: Ablation with raw features only.

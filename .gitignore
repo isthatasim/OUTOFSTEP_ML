@@ -2,3 +2,15 @@ __pycache__/
 *.pyc
 .venv/
 .env
+data/raw/
+data/processed/
+.mypy_cache/
+.ruff_cache/
+results/**
+!results/
+!results/figures/
+!results/tables/
+!results/logs/
+!results/figures/.gitkeep
+!results/tables/.gitkeep
+!results/logs/.gitkeep
