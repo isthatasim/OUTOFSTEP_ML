@@ -29,6 +29,7 @@ def add_physics_features(df: pd.DataFrame, cfg: PhysicsFeatureConfig = PhysicsFe
     # Backward-compatible aliases used by legacy scripts.
     out["Sgn_over_H"] = out["S_over_H"]
     out["Sgn_over_Ik"] = out["S_over_I"]
+    out["Ik_over_H"] = out["I_over_H"]
     return out
 
 

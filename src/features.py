@@ -15,7 +15,7 @@ ENGINEERED_FEATURES = [
     "invH",
     "S_over_H",
     "S_over_I",
-    "Ik_over_H",
+    "I_over_H",
     "log_Sgn_eff_MVA",
     "log_Ikssmin_kA",
 ]
@@ -40,11 +40,12 @@ def build_feature_frame(df: pd.DataFrame, include_logs: bool = True) -> pd.DataF
     out["invH"] = 1.0 / np.clip(out["H_s"].astype(float), eps, None)
     out["S_over_H"] = out["Sgn_eff_MVA"].astype(float) / np.clip(out["H_s"].astype(float), eps, None)
     out["S_over_I"] = out["Sgn_eff_MVA"].astype(float) / np.clip(out["Ikssmin_kA"].astype(float), eps, None)
-    out["Ik_over_H"] = out["Ikssmin_kA"].astype(float) / np.clip(out["H_s"].astype(float), eps, None)
+    out["I_over_H"] = out["Ikssmin_kA"].astype(float) / np.clip(out["H_s"].astype(float), eps, None)
 
     # Backward-compatible aliases for legacy scripts/configs.
     out["Sgn_over_H"] = out["S_over_H"]
     out["Sgn_over_Ik"] = out["S_over_I"]
+    out["Ik_over_H"] = out["I_over_H"]
 
     if include_logs:
         out["log_Sgn_eff_MVA"] = np.log(np.clip(out["Sgn_eff_MVA"].astype(float), eps, None))
@@ -68,7 +69,7 @@ def resolve_engineered_feature_columns(df: pd.DataFrame) -> List[str]:
         ["invH"],
         ["S_over_H", "Sgn_over_H"],
         ["S_over_I", "Sgn_over_Ik"],
-        ["Ik_over_H"],
+        ["I_over_H", "Ik_over_H"],
         ["log_Sgn_eff_MVA"],
         ["log_Ikssmin_kA"],
     ]
@@ -129,6 +130,7 @@ def get_monotonic_constraints(feature_names: List[str], stress_monotonic_positiv
         "S_over_I": 1,
         "Sgn_over_H": 1,
         "Sgn_over_Ik": 1,
+        "I_over_H": 0,
         "Ik_over_H": 0,
         "log_Sgn_eff_MVA": 1 if stress_monotonic_positive else 0,
         "log_Ikssmin_kA": -1,

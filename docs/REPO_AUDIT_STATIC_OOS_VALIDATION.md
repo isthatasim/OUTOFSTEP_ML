@@ -39,7 +39,7 @@
 - Canonicalization and robust schema handling are in `src/data.py` (legacy).
 - Modular loader (`src/outofstep_ml/data/loaders.py`) wraps legacy loader and feature construction.
 - Engineered features currently used:
-  - `invH`, `Sgn_over_H`, `Sgn_over_Ik`, `Ik_over_H` (+ optional logs)
+  - `invH`, `S_over_H`, `S_over_I`, `I_over_H` (+ optional logs; legacy aliases still supported)
 - Missing handling and constant/duplicate checks are already implemented.
 
 ### Current model stack
