@@ -207,7 +207,7 @@ python scripts/export_model.py --source-model results/model/static_model_bundle.
 The original end-to-end script remains available:
 
 ```bash
-python main.py --data "C:/Users/masim/Downloads/outofstep_tag_ikss_H_Sgn.csv" --output-dir outputs --seed 42
+python main.py --data "data/raw/outofstep_tag_ikss_H_Sgn.csv" --output-dir outputs --seed 42
 ```
 
 ## Outputs

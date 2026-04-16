@@ -28,6 +28,7 @@ CANONICAL_COLUMNS = {
     "h": "H_s",
     "genname": "GenName",
     "generator": "GenName",
+    "generatore": "GenName",
     "out_of_step": "Out_of_step",
     "outofstep": "Out_of_step",
     "oos": "Out_of_step",

@@ -2,7 +2,7 @@ seed: 42
 experiment_name: static_q1_validation_xlong
 
 data:
-  path: C:/Users/masim/Downloads/outofstep_tag_ikss_H_Sgn.csv
+  path: data/raw/outofstep_tag_ikss_H_Sgn.csv
   target_column: Out_of_step
 
 outputs:

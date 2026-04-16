@@ -3,6 +3,8 @@ __pycache__/
 .venv/
 .env
 data/raw/
+!data/raw/
+!data/raw/outofstep_tag_ikss_H_Sgn.csv
 data/processed/
 .mypy_cache/
 .ruff_cache/
