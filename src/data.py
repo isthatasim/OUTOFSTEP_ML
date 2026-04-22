@@ -178,6 +178,11 @@ def load_dataset(csv_path: str | Path) -> Tuple[pd.DataFrame, DataAudit]:
 
     missing_required = validate_required_columns(df)
     notes: List[str] = []
+    extra_columns = [c for c in df.columns if c not in set(CORE_FEATURES + [TARGET_COLUMN])]
+    if extra_columns:
+        notes.append(
+            f"Detected non-core columns (kept in dataframe, ignored by core feature pipelines unless explicitly selected): {extra_columns}"
+        )
     if missing_required:
         notes.append(f"Missing expected columns after standardization: {missing_required}")
 

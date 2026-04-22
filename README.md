@@ -1,4 +1,4 @@
-﻿# OUTOFSTEP_ML
+# OUTOFSTEP_ML
 
 Physics-aware, imbalance-aware, deployable machine-learning framework for out-of-step (OOS) risk prediction in power systems.
 
@@ -155,6 +155,12 @@ Run ablations:
 python scripts/run_ablation.py --config configs/base.yaml
 ```
 
+Run progressive "one-logic-after-another" comparison (raw -> engineered -> monotonic -> imbalance+cost -> calibrated full stack):
+
+```bash
+python scripts/run_logic_ladder.py --config configs/logic_ladder.yaml
+```
+
 Run robustness suite:
 
 ```bash
@@ -207,7 +213,7 @@ python scripts/export_model.py --source-model results/model/static_model_bundle.
 The original end-to-end script remains available:
 
 ```bash
-python main.py --data "data/raw/outofstep_tag_ikss_H_Sgn.csv" --output-dir outputs --seed 42
+python main.py --data "data/raw/Dataset_output.csv" --output-dir outputs --seed 42
 ```
 
 ## Outputs
@@ -289,3 +295,4 @@ Expected future input shape: `[n_samples, sequence_length, n_features]` with ali
 See:
 - `docs/CASE_STUDY_PLAN.md`
 - `docs/PR_SUMMARY.md`
+

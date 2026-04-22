@@ -2,7 +2,7 @@ seed: 42
 experiment_name: static_q1_validation_xlong
 
 data:
-  path: data/raw/outofstep_tag_ikss_H_Sgn.csv
+  path: data/raw/Dataset_output.csv
   target_column: Out_of_step
 
 outputs:
@@ -57,4 +57,5 @@ robustness:
     Sgn_eff_MVA: 0.02
     H_s: 0.01
   missing_feature: Sgn_eff_MVA
+
 

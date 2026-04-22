@@ -1,0 +1,39 @@
+extends: base
+seed: 42
+experiment_name: logic_ladder_progressive
+
+data:
+  path: data/raw/Dataset_output.csv
+  target_column: Out_of_step
+
+outputs:
+  root: results/logic_ladder
+  table_dir: results/logic_ladder/tables
+  split_dir: results/logic_ladder/splits
+
+features:
+  include_logs: true
+  use_engineered: true
+
+strict_eval:
+  strategy: stratified
+  test_size: 0.2
+  val_size: 0.2
+  enforce_no_test_tuning: true
+
+thresholds:
+  c_fn: 10.0
+  c_fp: 1.0
+  min_recall: 0.95
+
+robustness:
+  noise:
+    Tag_rate: 0.01
+    Ikssmin_kA: 0.02
+    Sgn_eff_MVA: 0.02
+    H_s: 0.01
+  missing_feature: Sgn_eff_MVA
+
+counterfactual:
+  max_examples: 100
+

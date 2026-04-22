@@ -4,7 +4,7 @@ __pycache__/
 .env
 data/raw/
 !data/raw/
-!data/raw/outofstep_tag_ikss_H_Sgn.csv
+!data/raw/Dataset_output.csv
 data/processed/
 .mypy_cache/
 .ruff_cache/
@@ -16,3 +16,4 @@ results/**
 !results/figures/.gitkeep
 !results/tables/.gitkeep
 !results/logs/.gitkeep
+
