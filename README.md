@@ -161,6 +161,17 @@ Run progressive "one-logic-after-another" comparison (raw -> engineered -> monot
 python scripts/run_logic_ladder.py --config configs/logic_ladder.yaml
 ```
 
+This runner exports explicit scenario rows `S1`..`S9`, where `S9` is the compact cumulative final view:
+- `S1`: raw baseline
+- `S2`: + engineered physics ratios
+- `S3`: + monotonic priors
+- `S4`: + imbalance-aware learning + cost threshold
+- `S5`: + calibration (full predictive stack)
+- `S6`: robustness scenario summary
+- `S7`: counterfactual scenario summary
+- `S8`: deployment/drift scenario summary
+- `S9`: compact final (includes S1..S8)
+
 Run robustness suite:
 
 ```bash

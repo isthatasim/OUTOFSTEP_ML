@@ -177,7 +177,7 @@ def main() -> None:
 
     stage_defs = [
         {
-            "stage_id": "L1",
+            "stage_id": "S1",
             "stage_name": "Raw Baseline",
             "stage_logic": "Raw features only (T, I, S, H).",
             "estimator": raw_ladder["A1_logistic"],
@@ -188,7 +188,7 @@ def main() -> None:
             "use_cost_threshold": False,
         },
         {
-            "stage_id": "L2",
+            "stage_id": "S2",
             "stage_name": "Add Physics Ratios",
             "stage_logic": "Add invH, S_over_H, S_over_I, I_over_H.",
             "estimator": full_ladder["A1_logistic"],
@@ -199,7 +199,7 @@ def main() -> None:
             "use_cost_threshold": False,
         },
         {
-            "stage_id": "L3",
+            "stage_id": "S3",
             "stage_name": "Add Monotonic Priors",
             "stage_logic": "Monotonic constraints: df/dH<=0, df/dI<=0, df/dS>=0.",
             "estimator": full_ladder["C1_monotonic"],
@@ -210,7 +210,7 @@ def main() -> None:
             "use_cost_threshold": False,
         },
         {
-            "stage_id": "L4",
+            "stage_id": "S4",
             "stage_name": "Add Imbalance + Cost Threshold",
             "stage_logic": "Physics-aware imbalance handling + tau_cost policy.",
             "estimator": full_ladder["C2_physics_logit"],
@@ -221,7 +221,7 @@ def main() -> None:
             "use_cost_threshold": True,
         },
         {
-            "stage_id": "L5",
+            "stage_id": "S5",
             "stage_name": "Full Stack (Calibrated)",
             "stage_logic": "Calibration + reliability + cost thresholding.",
             "estimator": full_ladder["C2_physics_logit"],
@@ -261,7 +261,7 @@ def main() -> None:
     _write_md(stage_df, out_tables / "logic_ladder_comparison.md")
 
     # Advanced scenario outputs from final full-stack stage.
-    final_art = stage_artifacts["L5"]
+    final_art = stage_artifacts["S5"]
     final_model = final_art["model"]
     final_calib_name = final_art["calib_name"]
     final_calib_obj = final_art["calib_obj"]
@@ -274,7 +274,7 @@ def main() -> None:
     missing_feature = str(cfg.get("robustness", {}).get("missing_feature", "Sgn_eff_MVA"))
     shifted = _shifted_tests(Xf_test, y_test, noise_cfg=noise_cfg, missing_feature=missing_feature)
 
-    clean_pr_auc = float(stage_df.loc[stage_df["stage_id"] == "L5", "PR_AUC"].iloc[0])
+    clean_pr_auc = float(stage_df.loc[stage_df["stage_id"] == "S5", "PR_AUC"].iloc[0])
     robust_rows: List[Dict[str, Any]] = []
     for shift_name, (Xs, ys) in shifted.items():
         p_shift = np.clip(_apply_calibrator(final_calib_obj, final_calib_name, final_model.predict_proba(Xs)[:, 1]), 1e-6, 1 - 1e-6)
@@ -324,9 +324,139 @@ def main() -> None:
     drift_reports["psi"].to_csv(out_tables / "logic_ladder_drift_psi.csv", index=False)
     drift_reports["ks"].to_csv(out_tables / "logic_ladder_drift_ks.csv", index=False)
 
+    # S1..S9 compact cumulative scenario comparison:
+    # S1-S5 are model-building stages; S6-S8 are operational scenarios;
+    # S9 is compact all-in-one summary including previous scenario signals.
+    scenario_rows: List[Dict[str, Any]] = []
+    for _, r in stage_df.iterrows():
+        scenario_rows.append(
+            {
+                "scenario_id": r["stage_id"],
+                "scenario_name": r["stage_name"],
+                "cumulative_logic": r["stage_logic"],
+                "PR_AUC": r["PR_AUC"],
+                "ROC_AUC": r["ROC_AUC"],
+                "Recall": r["Recall"],
+                "FNR": r["FNR"],
+                "ECE": r["ECE"],
+                "Brier": r["Brier"],
+                "calibration": r["calibration"],
+                "threshold_policy": r["threshold_policy"],
+                "tau_used": r["tau_used"],
+                "robustness_worst_pr_auc_drop": np.nan,
+                "robustness_mean_pr_auc_drop": np.nan,
+                "counterfactual_success_rate": np.nan,
+                "drift_max_psi": np.nan,
+                "drift_max_ks": np.nan,
+            }
+        )
+
+    robust_drops = robust_df["PR_AUC_drop_vs_clean"].dropna() if "PR_AUC_drop_vs_clean" in robust_df.columns else pd.Series(dtype=float)
+    robust_worst_drop = float(robust_drops.max()) if len(robust_drops) else np.nan
+    robust_mean_drop = float(robust_drops.mean()) if len(robust_drops) else np.nan
+
+    cf_success = float(cf_summary["success_rate"].iloc[0]) if ("success_rate" in cf_summary.columns and len(cf_summary) > 0) else np.nan
+
+    psi_col = "PSI" if "PSI" in drift_reports["psi"].columns else ("psi" if "psi" in drift_reports["psi"].columns else None)
+    ks_col = "KS" if "KS" in drift_reports["ks"].columns else ("ks" if "ks" in drift_reports["ks"].columns else None)
+    drift_max_psi = float(drift_reports["psi"][psi_col].max()) if psi_col else np.nan
+    drift_max_ks = float(drift_reports["ks"][ks_col].max()) if ks_col else np.nan
+
+    scenario_rows.append(
+        {
+            "scenario_id": "S6",
+            "scenario_name": "Robustness Scenario",
+            "cumulative_logic": "Evaluate noisy, missing-feature, unseen-regime, and group-shift stress tests on S5.",
+            "PR_AUC": np.nan,
+            "ROC_AUC": np.nan,
+            "Recall": np.nan,
+            "FNR": np.nan,
+            "ECE": np.nan,
+            "Brier": np.nan,
+            "calibration": final_calib_name,
+            "threshold_policy": "tau_cost",
+            "tau_used": final_tau,
+            "robustness_worst_pr_auc_drop": robust_worst_drop,
+            "robustness_mean_pr_auc_drop": robust_mean_drop,
+            "counterfactual_success_rate": np.nan,
+            "drift_max_psi": np.nan,
+            "drift_max_ks": np.nan,
+        }
+    )
+    scenario_rows.append(
+        {
+            "scenario_id": "S7",
+            "scenario_name": "Counterfactual Scenario",
+            "cumulative_logic": "Evaluate minimal feature changes needed to push predicted risk below stable threshold.",
+            "PR_AUC": np.nan,
+            "ROC_AUC": np.nan,
+            "Recall": np.nan,
+            "FNR": np.nan,
+            "ECE": np.nan,
+            "Brier": np.nan,
+            "calibration": final_calib_name,
+            "threshold_policy": "tau_cost",
+            "tau_used": final_tau,
+            "robustness_worst_pr_auc_drop": np.nan,
+            "robustness_mean_pr_auc_drop": np.nan,
+            "counterfactual_success_rate": cf_success,
+            "drift_max_psi": np.nan,
+            "drift_max_ks": np.nan,
+        }
+    )
+    scenario_rows.append(
+        {
+            "scenario_id": "S8",
+            "scenario_name": "Deployment + Drift Scenario",
+            "cumulative_logic": "Evaluate feature drift monitoring (PSI, KS) on shifted current data relative to train reference.",
+            "PR_AUC": np.nan,
+            "ROC_AUC": np.nan,
+            "Recall": np.nan,
+            "FNR": np.nan,
+            "ECE": np.nan,
+            "Brier": np.nan,
+            "calibration": final_calib_name,
+            "threshold_policy": "tau_cost",
+            "tau_used": final_tau,
+            "robustness_worst_pr_auc_drop": np.nan,
+            "robustness_mean_pr_auc_drop": np.nan,
+            "counterfactual_success_rate": np.nan,
+            "drift_max_psi": drift_max_psi,
+            "drift_max_ks": drift_max_ks,
+        }
+    )
+
+    s5_row = next((row for row in scenario_rows if row["scenario_id"] == "S5"), None)
+    scenario_rows.append(
+        {
+            "scenario_id": "S9",
+            "scenario_name": "Compact Final (All Previous Included)",
+            "cumulative_logic": "S1+S2+S3+S4+S5 plus robustness (S6), counterfactual support (S7), and drift monitoring (S8).",
+            "PR_AUC": s5_row["PR_AUC"] if s5_row else np.nan,
+            "ROC_AUC": s5_row["ROC_AUC"] if s5_row else np.nan,
+            "Recall": s5_row["Recall"] if s5_row else np.nan,
+            "FNR": s5_row["FNR"] if s5_row else np.nan,
+            "ECE": s5_row["ECE"] if s5_row else np.nan,
+            "Brier": s5_row["Brier"] if s5_row else np.nan,
+            "calibration": s5_row["calibration"] if s5_row else final_calib_name,
+            "threshold_policy": s5_row["threshold_policy"] if s5_row else "tau_cost",
+            "tau_used": s5_row["tau_used"] if s5_row else final_tau,
+            "robustness_worst_pr_auc_drop": robust_worst_drop,
+            "robustness_mean_pr_auc_drop": robust_mean_drop,
+            "counterfactual_success_rate": cf_success,
+            "drift_max_psi": drift_max_psi,
+            "drift_max_ks": drift_max_ks,
+        }
+    )
+
+    scenario_df = pd.DataFrame(scenario_rows)
+    scenario_df.to_csv(out_tables / "logic_ladder_scenario_comparison.csv", index=False)
+    _write_md(scenario_df, out_tables / "logic_ladder_scenario_comparison.md")
+
     summary = {
         "data_path": cfg.get("data", {}).get("path"),
         "stages_table": str(out_tables / "logic_ladder_comparison.csv"),
+        "scenario_comparison_table": str(out_tables / "logic_ladder_scenario_comparison.csv"),
         "robustness_table": str(out_tables / "logic_ladder_robustness.csv"),
         "threshold_table": str(out_tables / "logic_ladder_threshold_policies.csv"),
         "counterfactual_summary": str(out_tables / "logic_ladder_counterfactual_summary.csv"),
@@ -343,4 +473,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
