@@ -3,6 +3,8 @@
 from dataclasses import dataclass
 from typing import Dict, List, Optional
 
+import numpy as np
+from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.pipeline import Pipeline
 from sklearn.svm import SVC
 
@@ -67,6 +69,104 @@ def _optional_catboost(preprocessor, random_state: int) -> BenchmarkModelSpec:
             probabilistic=True,
             available=False,
             skip_reason=f"catboost unavailable: {exc}",
+        )
+
+
+def _optional_ebm(preprocessor, random_state: int) -> BenchmarkModelSpec:
+    try:
+        from interpret.glassbox import ExplainableBoostingClassifier
+
+        est = Pipeline(
+            [
+                ("prep", preprocessor),
+                (
+                    "clf",
+                    ExplainableBoostingClassifier(
+                        random_state=random_state,
+                        interactions=10,
+                    ),
+                ),
+            ]
+        )
+        return BenchmarkModelSpec(
+            model_id="ebm_oos",
+            model_name="EBM-OOS",
+            family="explainable_tabular",
+            estimator=est,
+            param_distributions={
+                "clf__interactions": [0, 5, 10],
+                "clf__learning_rate": [0.01, 0.02, 0.05],
+            },
+            probabilistic=True,
+            available=True,
+        )
+    except Exception as exc:
+        return BenchmarkModelSpec(
+            model_id="ebm_oos",
+            model_name="EBM-OOS",
+            family="explainable_tabular",
+            estimator=None,
+            param_distributions={},
+            probabilistic=True,
+            available=False,
+            skip_reason=f"interpret unavailable: {exc}",
+        )
+
+
+class _TabPFNWrapper(BaseEstimator, ClassifierMixin):
+    def __init__(self, random_state: int = 42):
+        self.random_state = random_state
+
+    def fit(self, X, y):
+        try:
+            from tabpfn import TabPFNClassifier
+        except Exception as exc:  # pragma: no cover
+            raise RuntimeError("TabPFNClassifier is unavailable.") from exc
+
+        try:
+            self.model_ = TabPFNClassifier(random_state=self.random_state)
+        except TypeError:
+            self.model_ = TabPFNClassifier()
+        self.model_.fit(np.asarray(X), np.asarray(y))
+        self.classes_ = np.array([0, 1])
+        return self
+
+    def predict_proba(self, X):
+        return self.model_.predict_proba(np.asarray(X))
+
+    def predict(self, X):
+        return np.argmax(self.predict_proba(X), axis=1)
+
+
+def _optional_tabpfn(preprocessor, random_state: int) -> BenchmarkModelSpec:
+    try:
+        import tabpfn  # noqa: F401
+
+        est = Pipeline(
+            [
+                ("prep", preprocessor),
+                ("clf", _TabPFNWrapper(random_state=random_state)),
+            ]
+        )
+        return BenchmarkModelSpec(
+            model_id="tabpfn_oos",
+            model_name="TabPFN-OOS",
+            family="foundation_tabular",
+            estimator=est,
+            param_distributions={},
+            probabilistic=True,
+            available=True,
+        )
+    except Exception as exc:
+        return BenchmarkModelSpec(
+            model_id="tabpfn_oos",
+            model_name="TabPFN-OOS",
+            family="foundation_tabular",
+            estimator=None,
+            param_distributions={},
+            probabilistic=True,
+            available=False,
+            skip_reason=f"tabpfn unavailable: {exc}",
         )
 
 
@@ -173,6 +273,18 @@ def build_benchmark_model_specs(numeric_features: List[str], categorical_feature
             param_distributions={},
         ),
         BenchmarkModelSpec(
+            model_id="monogbm_oos",
+            model_name="MonoGBM-OOS",
+            family="physics_constrained_tabular",
+            estimator=ladder["C1_monotonic"],
+            param_distributions={
+                "clf__max_iter": [120, 180, 240],
+                "clf__learning_rate": [0.03, 0.05, 0.08],
+                "clf__max_depth": [4, 6, 8],
+                "clf__l2_regularization": [1e-4, 1e-3, 1e-2],
+            },
+        ),
+        BenchmarkModelSpec(
             model_id="existing_repo_model",
             model_name="Existing Repo Model (Hybrid)",
             family="repo_specific",
@@ -195,6 +307,8 @@ def build_benchmark_model_specs(numeric_features: List[str], categorical_feature
     ]
 
     specs.append(_optional_catboost(prep, random_state=random_state))
+    specs.append(_optional_ebm(prep, random_state=random_state))
+    specs.append(_optional_tabpfn(prep, random_state=random_state))
     specs.append(_optional_ft_transformer())
     specs.append(_optional_tabnet())
 

@@ -33,6 +33,9 @@ To make interpretation explicit, model names are standardized as:
   - **SVM-RBF** (`SVM (RBF)`)
   - **RF-Base** (`Random Forest`)
   - **Boost-GBM** (`XGBoost/LightGBM/HistGB`)
+  - **MonoGBM-OOS** (`monogbm_oos`)
+  - **EBM-OOS** (`ebm_oos`, optional `interpret` dependency)
+  - **TabPFN-OOS** (`tabpfn_oos`, optional `tabpfn` dependency)
   - **Legacy-Hybrid** (`Existing Repo Model (Hybrid)`)
 
 ## Algorithm Interpretation
@@ -41,7 +44,11 @@ To make interpretation explicit, model names are standardized as:
 - **Logit-Base:** transparent linear baseline for reproducible reference.
 - **SVM-RBF:** high-capacity nonlinear benchmark for raw predictive performance.
 - **RF-Base / Boost-GBM:** robust tabular nonlinear baselines.
+- **MonoGBM-OOS:** monotonic gradient-boosting benchmark using physical signs where supported.
+- **EBM-OOS:** optional glass-box nonlinear model for operator-readable feature response curves.
+- **TabPFN-OOS:** optional tabular foundation-model challenger for small-to-medium tabular classification.
 - **Legacy-Hybrid:** existing repository hybrid baseline retained for backward comparison.
+- **Conformal-OOS:** uncertainty wrapper that produces stable/OOS prediction sets for safety decisions.
 
 ## Latest Long-Run Results Snapshot
 
@@ -270,6 +277,36 @@ The project uses a multi-axis performance matrix instead of a single metric.
 
 ### Deployment interpretation
 - For operator deployment, prioritize low `FNR`, low `ECE`, acceptable robustness drop, and actionable counterfactual behavior over PR-AUC alone.
+
+### Deployment-Oriented Composite Score
+
+A deployment-oriented ranking can use:
+
+```text
+Composite =
+0.25 * PR-AUC
++ 0.25 * Recall
+- 0.20 * FNR
+- 0.15 * ECE
+- 0.10 * Robustness_Drop
+- 0.05 * Monotonic_Violation
+```
+
+Interpretation:
+- best predictive model is not always the best deployable model
+- OOS screening should prioritize low missed-instability risk (`FNR`) and calibrated probabilities
+- uncertainty-aware outputs should route ambiguous cases to review or future dynamic refinement
+
+## SOTA Research Extension
+
+The next benchmark layer adds:
+- `MonoGBM-OOS`: practical monotonic gradient boosting for static OOS screening
+- `EBM-OOS`: optional glass-box model for nonlinear feature response curves
+- `TabPFN-OOS`: optional tabular foundation-model challenger
+- `Conformal-OOS`: uncertainty-aware prediction sets for safety-critical decisions
+
+Detailed design note:
+- `docs/SOTA_RESEARCH_EXTENSION_AND_EVALUATION_MATRIX.md`
 
 Run robustness suite:
 

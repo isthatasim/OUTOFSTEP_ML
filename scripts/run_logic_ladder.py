@@ -25,6 +25,7 @@ from src.outofstep_ml.benchmark.runner import (
 )
 from src.outofstep_ml.data.loaders import load_validated_dataset
 from src.outofstep_ml.deployment.monitor import feature_drift_report
+from src.outofstep_ml.evaluation.conformal import binary_conformal_prediction_sets, summarize_conformal_sets
 from src.outofstep_ml.evaluation.counterfactual_eval import evaluate_counterfactual_stability_correction
 from src.outofstep_ml.evaluation.threshold_policy_compare import compare_threshold_policies
 from src.outofstep_ml.models.baselines import build_baseline_ladder
@@ -111,6 +112,7 @@ def _fit_stage(
         "calib_name": calib_name,
         "calib_obj": calib_obj,
         "thresholds": th,
+        "p_val": p_val,
         "p_test": p_test,
     }
     return row, artifacts
@@ -392,6 +394,17 @@ def main() -> None:
     th_df.to_csv(out_tables / "logic_ladder_threshold_policies.csv", index=False)
     _write_md(th_df, out_tables / "logic_ladder_threshold_policies.md")
 
+    conformal = binary_conformal_prediction_sets(
+        y_calib=y_val,
+        p_calib=np.asarray(final_art["p_val"]),
+        p_test=np.asarray(final_art["p_test"]),
+        alpha=float(cfg.get("conformal", {}).get("alpha", 0.10)),
+        class_conditional=bool(cfg.get("conformal", {}).get("class_conditional", True)),
+    )
+    conformal_df = summarize_conformal_sets(y_test, conformal)
+    conformal_df.to_csv(out_tables / "logic_ladder_conformal_summary.csv", index=False)
+    _write_md(conformal_df, out_tables / "logic_ladder_conformal_summary.md")
+
     feature_bounds = derive_feature_bounds(df, full_numeric)
     cf_summary, cf_detail = evaluate_counterfactual_stability_correction(
         model=final_model,
@@ -516,6 +529,7 @@ def main() -> None:
     )
 
     s5_row = next((row for row in scenario_rows if row["scenario_id"] == "S5"), None)
+    conformal_row = conformal_df.iloc[0].to_dict() if len(conformal_df) else {}
     scenario_rows.append(
         {
             "scenario_id": "S9",
@@ -535,6 +549,9 @@ def main() -> None:
             "counterfactual_success_rate": cf_success,
             "drift_max_psi": drift_max_psi,
             "drift_max_ks": drift_max_ks,
+            "conformal_coverage": conformal_row.get("coverage", np.nan),
+            "conformal_oos_coverage": conformal_row.get("oos_coverage", np.nan),
+            "conformal_ambiguous_rate": conformal_row.get("ambiguous_rate", np.nan),
         }
     )
 
@@ -634,6 +651,7 @@ def main() -> None:
         "best_combination": str(out_tables / "logic_ladder_best_combination.json"),
         "robustness_table": str(out_tables / "logic_ladder_robustness.csv"),
         "threshold_table": str(out_tables / "logic_ladder_threshold_policies.csv"),
+        "conformal_summary": str(out_tables / "logic_ladder_conformal_summary.csv"),
         "counterfactual_summary": str(out_tables / "logic_ladder_counterfactual_summary.csv"),
         "drift_psi": str(out_tables / "logic_ladder_drift_psi.csv"),
         "drift_ks": str(out_tables / "logic_ladder_drift_ks.csv"),

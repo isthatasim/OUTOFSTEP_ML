@@ -37,3 +37,6 @@ robustness:
 counterfactual:
   max_examples: 100
 
+conformal:
+  alpha: 0.10
+  class_conditional: true
