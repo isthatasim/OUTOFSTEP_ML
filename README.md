@@ -172,6 +172,10 @@ This runner exports explicit scenario rows `S1`..`S9`, where `S9` is the compact
 - `S8`: deployment/drift scenario summary
 - `S9`: compact final (includes S1..S8)
 
+It also exports a non-sequential combination ranking (e.g., `1+2+4`, `1+2+4+5`) so you can select the best capability mix:
+- `results/logic_ladder/tables/logic_ladder_combination_comparison.csv`
+- `results/logic_ladder/tables/logic_ladder_best_combination.json`
+
 Run robustness suite:
 
 ```bash

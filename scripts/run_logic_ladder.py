@@ -115,6 +115,16 @@ def _fit_stage(
     return row, artifacts
 
 
+def _combo_score(row: pd.Series) -> float:
+    pr = float(row.get("PR_AUC", np.nan))
+    fnr = float(row.get("FNR", np.nan))
+    ece = float(row.get("ECE", np.nan))
+    if not np.isfinite(pr):
+        return float("nan")
+    # Higher is better: reward discrimination, penalize missed-instability and miscalibration.
+    return float(pr - 0.35 * (fnr if np.isfinite(fnr) else 0.0) - 0.10 * (ece if np.isfinite(ece) else 0.0))
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", required=True, help="Path to logic-ladder YAML config.")
@@ -453,10 +463,158 @@ def main() -> None:
     scenario_df.to_csv(out_tables / "logic_ladder_scenario_comparison.csv", index=False)
     _write_md(scenario_df, out_tables / "logic_ladder_scenario_comparison.md")
 
+    # Combination grid (non-sequential) for "best approach" selection.
+    # Capability keys:
+    # 1=raw baseline, 2=engineered features, 3=monotonic priors,
+    # 4=imbalance-aware + cost-thresholding, 5=calibration.
+    combo_defs = [
+        {
+            "combo_id": "C1",
+            "combo_logic": "1",
+            "combo_name": "Raw baseline only",
+            "estimator": raw_ladder["A1_logistic"],
+            "X_train": Xr_train,
+            "X_val": Xr_val,
+            "X_test": Xr_test,
+            "use_calibration": False,
+            "use_cost_threshold": False,
+        },
+        {
+            "combo_id": "C12",
+            "combo_logic": "1+2",
+            "combo_name": "Raw + engineered ratios",
+            "estimator": full_ladder["A1_logistic"],
+            "X_train": Xf_train,
+            "X_val": Xf_val,
+            "X_test": Xf_test,
+            "use_calibration": False,
+            "use_cost_threshold": False,
+        },
+        {
+            "combo_id": "C123",
+            "combo_logic": "1+2+3",
+            "combo_name": "Raw + engineered + monotonic priors",
+            "estimator": full_ladder["C1_monotonic"],
+            "X_train": Xf_train,
+            "X_val": Xf_val,
+            "X_test": Xf_test,
+            "use_calibration": False,
+            "use_cost_threshold": False,
+        },
+        {
+            "combo_id": "C124",
+            "combo_logic": "1+2+4",
+            "combo_name": "Raw + engineered + imbalance/cost",
+            "estimator": full_ladder["C2_physics_logit"],
+            "X_train": Xf_train,
+            "X_val": Xf_val,
+            "X_test": Xf_test,
+            "use_calibration": False,
+            "use_cost_threshold": True,
+        },
+        {
+            "combo_id": "C125",
+            "combo_logic": "1+2+5",
+            "combo_name": "Raw + engineered + calibration",
+            "estimator": full_ladder["A1_logistic"],
+            "X_train": Xf_train,
+            "X_val": Xf_val,
+            "X_test": Xf_test,
+            "use_calibration": True,
+            "use_cost_threshold": False,
+        },
+        {
+            "combo_id": "C1234",
+            "combo_logic": "1+2+3+4",
+            "combo_name": "Raw + engineered + monotonic + cost-threshold",
+            "estimator": full_ladder["C1_monotonic"],
+            "X_train": Xf_train,
+            "X_val": Xf_val,
+            "X_test": Xf_test,
+            "use_calibration": False,
+            "use_cost_threshold": True,
+        },
+        {
+            "combo_id": "C1245",
+            "combo_logic": "1+2+4+5",
+            "combo_name": "Raw + engineered + imbalance/cost + calibration",
+            "estimator": full_ladder["C2_physics_logit"],
+            "X_train": Xf_train,
+            "X_val": Xf_val,
+            "X_test": Xf_test,
+            "use_calibration": True,
+            "use_cost_threshold": True,
+        },
+        {
+            "combo_id": "C12345",
+            "combo_logic": "1+2+3+4+5",
+            "combo_name": "All capabilities (monotonic+calibrated+cost)",
+            "estimator": full_ladder["C1_monotonic"],
+            "X_train": Xf_train,
+            "X_val": Xf_val,
+            "X_test": Xf_test,
+            "use_calibration": True,
+            "use_cost_threshold": True,
+        },
+    ]
+
+    combo_rows: List[Dict[str, Any]] = []
+    for combo in combo_defs:
+        row, _ = _fit_stage(
+            stage_id=combo["combo_id"],
+            stage_name=combo["combo_name"],
+            stage_logic=combo["combo_logic"],
+            estimator=combo["estimator"],
+            X_train=combo["X_train"],
+            y_train=y_train,
+            X_val=combo["X_val"],
+            y_val=y_val,
+            X_test=combo["X_test"],
+            y_test=y_test,
+            c_fn=c_fn,
+            c_fp=c_fp,
+            min_recall=min_recall,
+            use_calibration=bool(combo["use_calibration"]),
+            use_cost_threshold=bool(combo["use_cost_threshold"]),
+        )
+        row["combo_logic"] = combo["combo_logic"]
+        row["combo_name"] = combo["combo_name"]
+        combo_rows.append(row)
+
+    combo_df = pd.DataFrame(combo_rows)
+    combo_df["composite_score"] = combo_df.apply(_combo_score, axis=1)
+    combo_df = combo_df.sort_values("composite_score", ascending=False).reset_index(drop=True)
+    combo_df["rank"] = np.arange(1, len(combo_df) + 1)
+    cols = [
+        "rank",
+        "stage_id",
+        "combo_logic",
+        "combo_name",
+        "PR_AUC",
+        "ROC_AUC",
+        "Precision",
+        "Recall",
+        "F1",
+        "FNR",
+        "ECE",
+        "Brier",
+        "threshold_policy",
+        "calibration",
+        "tau_used",
+        "composite_score",
+    ]
+    combo_df = combo_df[cols]
+    combo_df.to_csv(out_tables / "logic_ladder_combination_comparison.csv", index=False)
+    _write_md(combo_df, out_tables / "logic_ladder_combination_comparison.md")
+    best_combo = combo_df.iloc[0].to_dict() if len(combo_df) else {}
+    save_json(out_tables / "logic_ladder_best_combination.json", best_combo)
+
     summary = {
         "data_path": cfg.get("data", {}).get("path"),
         "stages_table": str(out_tables / "logic_ladder_comparison.csv"),
         "scenario_comparison_table": str(out_tables / "logic_ladder_scenario_comparison.csv"),
+        "combination_table": str(out_tables / "logic_ladder_combination_comparison.csv"),
+        "best_combination": str(out_tables / "logic_ladder_best_combination.json"),
         "robustness_table": str(out_tables / "logic_ladder_robustness.csv"),
         "threshold_table": str(out_tables / "logic_ladder_threshold_policies.csv"),
         "counterfactual_summary": str(out_tables / "logic_ladder_counterfactual_summary.csv"),
