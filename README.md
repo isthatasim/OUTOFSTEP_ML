@@ -182,6 +182,95 @@ Ranking is reported in multiple ways:
 - calibrated rank (`PR-AUC - 0.1*ECE`)
 - composite rank (default deployment-oriented blend)
 
+### Scenario Combination Details (`S1`..`S9`)
+
+Capability keys used in scenario/combination analysis:
+- `1`: raw baseline (`T, I, S, H`)
+- `2`: engineered physics ratios (`invH, S_over_H, S_over_I, I_over_H`)
+- `3`: monotonic priors (`df/dH<=0`, `df/dI<=0`, `df/dS>=0`)
+- `4`: imbalance-aware learning + cost-sensitive threshold (`tau_cost`)
+- `5`: calibration (isotonic/Platt chosen on validation)
+
+Scenario logic:
+- `S1 = 1`
+- `S2 = 1+2`
+- `S3 = 1+2+3`
+- `S4 = 1+2+4`
+- `S5 = 1+2+4+5` (full predictive stack)
+- `S6`: robustness evaluation over `S5` (noise/missing/unseen/group shift)
+- `S7`: counterfactual evaluation over `S5`
+- `S8`: deployment + drift evaluation over `S5`
+- `S9`: compact final summary = `S1..S8` combined
+
+Important interpretation:
+- `S1..S5` are cumulative model-building stages.
+- `S6..S8` are operational evaluation overlays (not additional model layers).
+- `S9` is the compact “all previous included” scenario row.
+
+### Latest Scenario Results (Dataset_output.csv)
+
+Source: `results/logic_ladder/tables/logic_ladder_scenario_comparison.csv`
+
+| Scenario | PR-AUC | ROC-AUC | Recall | FNR | ECE | Notes |
+|---|---:|---:|---:|---:|---:|---|
+| S1 | 0.9895 | 0.9984 | 1.0000 | 0.0000 | 0.0534 | Raw baseline |
+| S2 | 0.9996 | 1.0000 | 1.0000 | 0.0000 | 0.0075 | Best pure discrimination |
+| S3 | 0.1477 | 0.4867 | 0.0260 | 0.9740 | 0.0193 | Monotonic-only path underperforms on this dataset |
+| S4 | 0.9520 | 0.9986 | 0.9983 | 0.0017 | 0.0905 | Cost-thresholding boosts safety |
+| S5 | 0.9877 | 0.9992 | 0.9983 | 0.0017 | 0.0033 | Best calibrated full-stack stage |
+| S9 | 0.9877 | 0.9992 | 0.9983 | 0.0017 | 0.0033 | Compact final row incl. robustness/counterfactual/drift summaries |
+
+Operational summaries from S6/S7/S8:
+- Robustness worst PR-AUC drop: `0.0138`
+- Robustness mean PR-AUC drop: `0.0048`
+- Counterfactual success rate: `0.0` (needs improvement)
+- Max PSI drift signal: `3.2349` (strong drift alert in synthetic shifted view)
+
+### Latest Combination Search Results
+
+Source: `results/logic_ladder/tables/logic_ladder_combination_comparison.csv`
+
+Top-ranked combinations by composite score:
+
+| Rank | Combo | Meaning | PR-AUC | Recall | FNR | ECE |
+|---:|---|---|---:|---:|---:|---:|
+| 1 | `1+2` | raw + engineered | 0.9996 | 1.0000 | 0.0000 | 0.0075 |
+| 2 | `1+2+5` | raw + engineered + calibration | 0.9929 | 0.9983 | 0.0017 | 0.0014 |
+| 3 | `1+2+4+5` | raw + engineered + imbalance/cost + calibration | 0.9877 | 0.9983 | 0.0017 | 0.0033 |
+| 4 | `1` | raw only | 0.9895 | 1.0000 | 0.0000 | 0.0534 |
+| 5 | `1+5` | raw + calibration | 0.9878 | 0.9619 | 0.0381 | 0.0030 |
+
+Best-combination JSON summary:
+- `results/logic_ladder/tables/logic_ladder_best_combination.json`
+
+## Performance Matrix (How To Read It)
+
+The project uses a multi-axis performance matrix instead of a single metric.
+
+### Discrimination metrics
+- `PR-AUC` (primary for imbalance): higher is better.
+- `ROC-AUC`: higher is better.
+
+### Classification-at-threshold metrics
+- `Precision`: alarm quality.
+- `Recall`: instability capture rate.
+- `F1`: precision/recall balance.
+- `FNR`: missed-instability rate (critical safety metric), lower is better.
+
+### Calibration metrics
+- `ECE` (Expected Calibration Error): probability reliability gap, lower is better.
+- `Brier`: mean squared probability error, lower is better.
+
+### Robustness metrics
+- `PR_AUC_drop_vs_clean`: degradation under shifts (noise, missing, unseen regime); lower drop is better.
+- Drift indicators: `PSI`, `KS` (higher values indicate stronger shift and retraining risk).
+
+### Actionability metrics
+- Counterfactual success rate: fraction of risky points where feasible minimal changes reach stable threshold; higher is better.
+
+### Deployment interpretation
+- For operator deployment, prioritize low `FNR`, low `ECE`, acceptable robustness drop, and actionable counterfactual behavior over PR-AUC alone.
+
 Run robustness suite:
 
 ```bash
