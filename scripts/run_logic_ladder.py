@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+from itertools import combinations
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 import sys
@@ -123,6 +124,84 @@ def _combo_score(row: pd.Series) -> float:
         return float("nan")
     # Higher is better: reward discrimination, penalize missed-instability and miscalibration.
     return float(pr - 0.35 * (fnr if np.isfinite(fnr) else 0.0) - 0.10 * (ece if np.isfinite(ece) else 0.0))
+
+
+def _build_combo_defs(
+    *,
+    raw_ladder: Dict[str, object],
+    full_ladder: Dict[str, object],
+    Xr_train: pd.DataFrame,
+    Xr_val: pd.DataFrame,
+    Xr_test: pd.DataFrame,
+    Xf_train: pd.DataFrame,
+    Xf_val: pd.DataFrame,
+    Xf_test: pd.DataFrame,
+) -> List[Dict[str, Any]]:
+    """
+    Build non-sequential capability combinations automatically.
+    Capability keys:
+    1 = raw baseline (always present)
+    2 = engineered physics ratios
+    3 = monotonic priors
+    4 = imbalance-aware + cost-sensitive thresholding
+    5 = calibration
+    """
+    defs: List[Dict[str, Any]] = []
+    optional_caps = [2, 3, 4, 5]
+
+    for r in range(0, len(optional_caps) + 1):
+        for subset in combinations(optional_caps, r):
+            caps = set(subset)
+            # Dependency constraints:
+            # monotonic/imbalance implementations are defined on engineered feature space.
+            if 3 in caps and 2 not in caps:
+                continue
+            if 4 in caps and 2 not in caps:
+                continue
+
+            logic_digits = [1] + sorted(list(caps))
+            combo_logic = "+".join(str(d) for d in logic_digits)
+            combo_id = "C" + "".join(str(d) for d in logic_digits)
+
+            uses_full_space = bool({2, 3, 4} & caps)
+            X_train, X_val, X_test = (Xf_train, Xf_val, Xf_test) if uses_full_space else (Xr_train, Xr_val, Xr_test)
+
+            if 3 in caps:
+                estimator = full_ladder["C1_monotonic"]
+            elif 4 in caps:
+                estimator = full_ladder["C2_physics_logit"]
+            elif 2 in caps:
+                estimator = full_ladder["A1_logistic"]
+            else:
+                estimator = raw_ladder["A1_logistic"]
+
+            parts = ["raw"]
+            if 2 in caps:
+                parts.append("engineered")
+            if 3 in caps:
+                parts.append("monotonic")
+            if 4 in caps:
+                parts.append("imbalance+cost")
+            if 5 in caps:
+                parts.append("calibrated")
+
+            defs.append(
+                {
+                    "combo_id": combo_id,
+                    "combo_logic": combo_logic,
+                    "combo_name": " + ".join(parts),
+                    "estimator": estimator,
+                    "X_train": X_train,
+                    "X_val": X_val,
+                    "X_test": X_test,
+                    "use_calibration": bool(5 in caps),
+                    "use_cost_threshold": bool(4 in caps),
+                }
+            )
+
+    # Stable ordering by number of capabilities then lexical.
+    defs = sorted(defs, key=lambda d: (len(d["combo_logic"].split("+")), d["combo_logic"]))
+    return defs
 
 
 def main() -> None:
@@ -464,99 +543,16 @@ def main() -> None:
     _write_md(scenario_df, out_tables / "logic_ladder_scenario_comparison.md")
 
     # Combination grid (non-sequential) for "best approach" selection.
-    # Capability keys:
-    # 1=raw baseline, 2=engineered features, 3=monotonic priors,
-    # 4=imbalance-aware + cost-thresholding, 5=calibration.
-    combo_defs = [
-        {
-            "combo_id": "C1",
-            "combo_logic": "1",
-            "combo_name": "Raw baseline only",
-            "estimator": raw_ladder["A1_logistic"],
-            "X_train": Xr_train,
-            "X_val": Xr_val,
-            "X_test": Xr_test,
-            "use_calibration": False,
-            "use_cost_threshold": False,
-        },
-        {
-            "combo_id": "C12",
-            "combo_logic": "1+2",
-            "combo_name": "Raw + engineered ratios",
-            "estimator": full_ladder["A1_logistic"],
-            "X_train": Xf_train,
-            "X_val": Xf_val,
-            "X_test": Xf_test,
-            "use_calibration": False,
-            "use_cost_threshold": False,
-        },
-        {
-            "combo_id": "C123",
-            "combo_logic": "1+2+3",
-            "combo_name": "Raw + engineered + monotonic priors",
-            "estimator": full_ladder["C1_monotonic"],
-            "X_train": Xf_train,
-            "X_val": Xf_val,
-            "X_test": Xf_test,
-            "use_calibration": False,
-            "use_cost_threshold": False,
-        },
-        {
-            "combo_id": "C124",
-            "combo_logic": "1+2+4",
-            "combo_name": "Raw + engineered + imbalance/cost",
-            "estimator": full_ladder["C2_physics_logit"],
-            "X_train": Xf_train,
-            "X_val": Xf_val,
-            "X_test": Xf_test,
-            "use_calibration": False,
-            "use_cost_threshold": True,
-        },
-        {
-            "combo_id": "C125",
-            "combo_logic": "1+2+5",
-            "combo_name": "Raw + engineered + calibration",
-            "estimator": full_ladder["A1_logistic"],
-            "X_train": Xf_train,
-            "X_val": Xf_val,
-            "X_test": Xf_test,
-            "use_calibration": True,
-            "use_cost_threshold": False,
-        },
-        {
-            "combo_id": "C1234",
-            "combo_logic": "1+2+3+4",
-            "combo_name": "Raw + engineered + monotonic + cost-threshold",
-            "estimator": full_ladder["C1_monotonic"],
-            "X_train": Xf_train,
-            "X_val": Xf_val,
-            "X_test": Xf_test,
-            "use_calibration": False,
-            "use_cost_threshold": True,
-        },
-        {
-            "combo_id": "C1245",
-            "combo_logic": "1+2+4+5",
-            "combo_name": "Raw + engineered + imbalance/cost + calibration",
-            "estimator": full_ladder["C2_physics_logit"],
-            "X_train": Xf_train,
-            "X_val": Xf_val,
-            "X_test": Xf_test,
-            "use_calibration": True,
-            "use_cost_threshold": True,
-        },
-        {
-            "combo_id": "C12345",
-            "combo_logic": "1+2+3+4+5",
-            "combo_name": "All capabilities (monotonic+calibrated+cost)",
-            "estimator": full_ladder["C1_monotonic"],
-            "X_train": Xf_train,
-            "X_val": Xf_val,
-            "X_test": Xf_test,
-            "use_calibration": True,
-            "use_cost_threshold": True,
-        },
-    ]
+    combo_defs = _build_combo_defs(
+        raw_ladder=raw_ladder,
+        full_ladder=full_ladder,
+        Xr_train=Xr_train,
+        Xr_val=Xr_val,
+        Xr_test=Xr_test,
+        Xf_train=Xf_train,
+        Xf_val=Xf_val,
+        Xf_test=Xf_test,
+    )
 
     combo_rows: List[Dict[str, Any]] = []
     for combo in combo_defs:
@@ -582,8 +578,15 @@ def main() -> None:
         combo_rows.append(row)
 
     combo_df = pd.DataFrame(combo_rows)
+    combo_df["score_predictive"] = combo_df["PR_AUC"]
+    combo_df["score_safety"] = combo_df["Recall"] - combo_df["FNR"]
+    combo_df["score_calibrated"] = combo_df["PR_AUC"] - 0.10 * combo_df["ECE"]
     combo_df["composite_score"] = combo_df.apply(_combo_score, axis=1)
-    combo_df = combo_df.sort_values("composite_score", ascending=False).reset_index(drop=True)
+    combo_df["rank_predictive"] = combo_df["score_predictive"].rank(method="min", ascending=False).astype(int)
+    combo_df["rank_safety"] = combo_df["score_safety"].rank(method="min", ascending=False).astype(int)
+    combo_df["rank_calibrated"] = combo_df["score_calibrated"].rank(method="min", ascending=False).astype(int)
+    combo_df["rank_composite"] = combo_df["composite_score"].rank(method="min", ascending=False).astype(int)
+    combo_df = combo_df.sort_values(["rank_composite", "rank_predictive", "stage_id"], ascending=[True, True, True]).reset_index(drop=True)
     combo_df["rank"] = np.arange(1, len(combo_df) + 1)
     cols = [
         "rank",
@@ -601,12 +604,26 @@ def main() -> None:
         "threshold_policy",
         "calibration",
         "tau_used",
+        "score_predictive",
+        "score_safety",
+        "score_calibrated",
         "composite_score",
+        "rank_predictive",
+        "rank_safety",
+        "rank_calibrated",
+        "rank_composite",
     ]
     combo_df = combo_df[cols]
     combo_df.to_csv(out_tables / "logic_ladder_combination_comparison.csv", index=False)
     _write_md(combo_df, out_tables / "logic_ladder_combination_comparison.md")
-    best_combo = combo_df.iloc[0].to_dict() if len(combo_df) else {}
+    best_combo = {}
+    if len(combo_df):
+        best_combo = {
+            "best_composite": combo_df.sort_values("rank_composite").iloc[0].to_dict(),
+            "best_predictive": combo_df.sort_values("rank_predictive").iloc[0].to_dict(),
+            "best_safety": combo_df.sort_values("rank_safety").iloc[0].to_dict(),
+            "best_calibrated": combo_df.sort_values("rank_calibrated").iloc[0].to_dict(),
+        }
     save_json(out_tables / "logic_ladder_best_combination.json", best_combo)
 
     summary = {

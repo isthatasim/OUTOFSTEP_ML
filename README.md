@@ -172,9 +172,15 @@ This runner exports explicit scenario rows `S1`..`S9`, where `S9` is the compact
 - `S8`: deployment/drift scenario summary
 - `S9`: compact final (includes S1..S8)
 
-It also exports a non-sequential combination ranking (e.g., `1+2+4`, `1+2+4+5`) so you can select the best capability mix:
+It also exports an automatic non-sequential combination search (all valid mixes such as `1+2+4`, `1+2+5`, `1+2+4+5`, etc.) so you can select the best capability mix:
 - `results/logic_ladder/tables/logic_ladder_combination_comparison.csv`
 - `results/logic_ladder/tables/logic_ladder_best_combination.json`
+
+Ranking is reported in multiple ways:
+- predictive rank (`PR-AUC`)
+- safety rank (`Recall - FNR`)
+- calibrated rank (`PR-AUC - 0.1*ECE`)
+- composite rank (default deployment-oriented blend)
 
 Run robustness suite:
 
