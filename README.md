@@ -311,6 +311,15 @@ Detailed design note:
 Comprehensive interpretation guide:
 - `docs/OOS_COMPREHENSIVE_INTERPRETATION_GUIDE.md`
 
+Microsoft Word research report with embedded figures, tables, and rendered mathematical equations:
+- `outputs/word/OOS_GR1_research_report.docx`
+
+Regenerate the Word report:
+
+```bash
+python scripts/generate_word_report.py
+```
+
 Run robustness suite:
 
 ```bash
