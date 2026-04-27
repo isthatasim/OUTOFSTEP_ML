@@ -308,6 +308,9 @@ The next benchmark layer adds:
 Detailed design note:
 - `docs/SOTA_RESEARCH_EXTENSION_AND_EVALUATION_MATRIX.md`
 
+Comprehensive interpretation guide:
+- `docs/OOS_COMPREHENSIVE_INTERPRETATION_GUIDE.md`
+
 Run robustness suite:
 
 ```bash
