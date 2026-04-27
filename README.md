@@ -313,11 +313,13 @@ Comprehensive interpretation guide:
 
 Microsoft Word research report with embedded figures, tables, and rendered mathematical equations:
 - `outputs/word/OOS_GR1_research_report.docx`
+- `outputs/word/OOS_GR1_research_report_detailed.docx` (expanded paper-style version with abstract, introduction, detailed case study, statistical comparison, best-approach discussion, outcomes, and conclusion)
 
 Regenerate the Word report:
 
 ```bash
 python scripts/generate_word_report.py
+python scripts/generate_word_report.py --output outputs/word/OOS_GR1_research_report_detailed.docx
 ```
 
 Run robustness suite:
