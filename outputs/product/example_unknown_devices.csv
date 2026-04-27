@@ -1,0 +1,3 @@
+﻿DeviceId,Tag_rate,Ikssmin_kA,Sgn_eff_MVA,H_s,GenName
+in_domain_device_001,1000,9,5.1,2.6,GR1
+review_device_ood_001,0.1,20,100,4.5,GR1

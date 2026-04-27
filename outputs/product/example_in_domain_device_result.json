@@ -1,0 +1,16 @@
+[
+  {
+    "device_id":"in_domain_device_001",
+    "p_oos":0.000001,
+    "p_grid_sync_compatible":0.999999,
+    "threshold_used":0.072,
+    "ood_flag":false,
+    "risk_band":"low",
+    "compatible":true,
+    "verdict":"COMPATIBLE_FOR_GRID_SYNC",
+    "explanation":"Predicted calibrated OOS risk is 0.0000; threshold is 0.0720. The device is classified as COMPATIBLE_FOR_GRID_SYNC using raw features T\/I\/S\/H and physics ratios 1\/H, S\/H, S\/I, and I\/H.",
+    "recommendations":[
+      "Operating point is inside the learned domain and below the OOS risk threshold."
+    ]
+  }
+]

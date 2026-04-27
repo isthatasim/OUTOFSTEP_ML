@@ -168,6 +168,68 @@ Run progressive "one-logic-after-another" comparison (raw -> engineered -> monot
 python scripts/run_logic_ladder.py --config configs/logic_ladder.yaml
 ```
 
+## Product Mode: Grid Synchronization Compatibility
+
+The repository now includes a product-facing interface for unknown device/operating-point data. It answers the operational question:
+
+> Can this device operating point be synchronized with the grid without high predicted OOS risk?
+
+Build the product artifact:
+
+```bash
+python scripts/build_grid_sync_product.py --config configs/logic_ladder.yaml --model-policy deployment_safety --output-dir outputs/product
+```
+
+Score one unknown device from JSON:
+
+```bash
+python scripts/predict_grid_sync.py --input outputs/product/example_in_domain_device.json
+```
+
+Score a batch of unknown devices:
+
+```bash
+python scripts/predict_grid_sync.py --input unknown_devices.csv --output outputs/product/unknown_device_results.csv
+```
+
+Run the API product:
+
+```bash
+uvicorn src.outofstep_ml.product.api:app --host 0.0.0.0 --port 8000
+```
+
+API endpoint:
+
+```text
+POST /compatibility
+```
+
+Example request:
+
+```json
+{
+  "DeviceId": "D1",
+  "Tag_rate": 1000,
+  "Ikssmin_kA": 9,
+  "Sgn_eff_MVA": 5.1,
+  "H_s": 2.6,
+  "GenName": "GR1"
+}
+```
+
+Product verdicts:
+- `COMPATIBLE_FOR_GRID_SYNC`: predicted OOS risk is below the safety threshold and the point is in-domain.
+- `NOT_COMPATIBLE_HIGH_OOS_RISK`: predicted OOS risk is above the safety threshold.
+- `ENGINEERING_REVIEW_REQUIRED_OUT_OF_DOMAIN`: the point is outside the training envelope, so the model does not auto-approve it.
+
+Product outputs are stored in:
+- `outputs/product/grid_sync_bundle.joblib`
+- `outputs/product/grid_sync_model_card.json`
+- `outputs/product/grid_sync_holdout_metrics.csv`
+
+Detailed product guide:
+- `docs/GRID_SYNC_PRODUCT_GUIDE.md`
+
 This runner exports explicit scenario rows `S1`..`S9`, where `S9` is the compact cumulative final view:
 - `S1`: raw baseline
 - `S2`: + engineered physics ratios

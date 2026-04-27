@@ -1,0 +1,209 @@
+{
+  "calibration_method": "isotonic",
+  "feature_columns": [
+    "Tag_rate",
+    "Ikssmin_kA",
+    "Sgn_eff_MVA",
+    "H_s",
+    "invH",
+    "S_over_H",
+    "S_over_I",
+    "I_over_H",
+    "log_Sgn_eff_MVA",
+    "log_Ikssmin_kA",
+    "GenName"
+  ],
+  "raw_features": [
+    "Tag_rate",
+    "Ikssmin_kA",
+    "Sgn_eff_MVA",
+    "H_s"
+  ],
+  "engineered_features": [
+    "invH",
+    "S_over_H",
+    "S_over_I",
+    "I_over_H",
+    "log_Sgn_eff_MVA",
+    "log_Ikssmin_kA"
+  ],
+  "include_logs": true,
+  "threshold_used": 0.07200000000000001,
+  "threshold_policy": "tau_cost",
+  "thresholds": {
+    "tau_cost": 0.07200000000000001,
+    "tau_f1": 0.5,
+    "tau_hr": 0.611
+  },
+  "model_name": "PhysiScreen-OOS product safety stack (1+2+4+5 calibrated cost-sensitive)",
+  "model_policy": "deployment_safety",
+  "model_version": "grid-sync-oos-v1",
+  "feature_bounds": {
+    "Tag_rate": [
+      100.0,
+      1000.0
+    ],
+    "Ikssmin_kA": [
+      3.0,
+      15.0
+    ],
+    "Sgn_eff_MVA": [
+      0.1,
+      10.1000003814697
+    ],
+    "H_s": [
+      0.1,
+      5.0
+    ],
+    "invH": [
+      0.2,
+      10.0
+    ],
+    "S_over_H": [
+      0.0200000002980232,
+      101.000003814697
+    ],
+    "S_over_I": [
+      0.006666666666666667,
+      3.3666667938232333
+    ],
+    "I_over_H": [
+      0.6,
+      150.0
+    ],
+    "log_Sgn_eff_MVA": [
+      -2.3025850929940455,
+      2.3125354616164904
+    ],
+    "log_Ikssmin_kA": [
+      1.0986122886681098,
+      2.70805020110221
+    ]
+  },
+  "reference_stats": {
+    "Tag_rate": {
+      "min": 100.0,
+      "q25": 100.0,
+      "median": 1000.0,
+      "q75": 1000.0,
+      "max": 1000.0
+    },
+    "Ikssmin_kA": {
+      "min": 3.0,
+      "q25": 6.0,
+      "median": 9.0,
+      "q75": 12.0,
+      "max": 15.0
+    },
+    "Sgn_eff_MVA": {
+      "min": 0.1,
+      "q25": 2.59999990463257,
+      "median": 5.09999990463257,
+      "q75": 7.59999990463257,
+      "max": 10.1000003814697
+    },
+    "H_s": {
+      "min": 0.1,
+      "q25": 1.3,
+      "median": 2.6,
+      "q75": 3.8,
+      "max": 5.0
+    },
+    "invH": {
+      "min": 0.2,
+      "q25": 0.2631578947368421,
+      "median": 0.3846153846153846,
+      "q75": 0.7692307692307692,
+      "max": 10.0
+    },
+    "S_over_H": {
+      "min": 0.0200000002980232,
+      "q25": 0.9729729471979919,
+      "median": 1.999999974903308,
+      "q75": 3.9230768497173614,
+      "max": 101.000003814697
+    },
+    "S_over_I": {
+      "min": 0.006666666666666667,
+      "q25": 0.275000005960465,
+      "median": 0.5666666560702855,
+      "q75": 0.9333333174387617,
+      "max": 3.3666667938232333
+    },
+    "I_over_H": {
+      "min": 0.6,
+      "q25": 2.142857142857143,
+      "median": 3.5294117647058822,
+      "q75": 6.9230769230769225,
+      "max": 150.0
+    },
+    "log_Sgn_eff_MVA": {
+      "min": -2.3025850929940455,
+      "q25": 0.955511408347655,
+      "median": 1.6292405210307839,
+      "q75": 2.0281482347439392,
+      "max": 2.3125354616164904
+    },
+    "log_Ikssmin_kA": {
+      "min": 1.0986122886681098,
+      "q25": 1.791759469228055,
+      "median": 2.1972245773362196,
+      "q75": 2.4849066497880004,
+      "max": 2.70805020110221
+    }
+  },
+  "training_data_audit": {
+    "n_rows_raw": 27299,
+    "n_rows_clean": 27299,
+    "n_columns_raw": 9,
+    "n_columns_clean": 8,
+    "missing_per_column": {
+      "Tag_rate": 0,
+      "Ikssmin_kA": 0,
+      "Sgn_eff_MVA": 0,
+      "H_s": 0,
+      "Out_of_step": 0,
+      "_VRT": 0,
+      "min_diff": 0,
+      "Output": 0
+    },
+    "duplicate_rows_removed": 0,
+    "constant_columns": [
+      "GenName"
+    ],
+    "class_counts": {
+      "0": 24413,
+      "1": 2886
+    },
+    "class_ratio_positive": 0.1057181581742921,
+    "leakage_hint_tag_rate_auc": 0.4999897595543358,
+    "notes": [
+      "Detected non-core columns (kept in dataframe, ignored by core feature pipelines unless explicitly selected): ['_VRT', 'min_diff', 'Output']"
+    ]
+  },
+  "strict_split": {
+    "strategy": "stratified",
+    "seed": 42,
+    "n_train": 16379,
+    "n_val": 5460,
+    "n_test": 5460
+  },
+  "holdout_metrics": {
+    "ROC_AUC": 0.9992168564158679,
+    "PR_AUC": 0.9877476657501127,
+    "Brier": 0.004259449829988034,
+    "ECE": 0.0033076570137746328,
+    "MAE": 0.009180807304635153,
+    "RMSE": 0.06526446069637007,
+    "Precision": 0.9260450160771704,
+    "Recall": 0.9982668977469671,
+    "F1": 0.9608006672226855,
+    "Specificity": 0.990579561744829,
+    "Balanced_Accuracy": 0.994423229745898,
+    "FNR": 0.0017331022530329288,
+    "TP": 576,
+    "TN": 4837,
+    "FP": 46,
+    "FN": 1
+  }
+}

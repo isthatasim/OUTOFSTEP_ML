@@ -1,0 +1,17 @@
+[
+  {
+    "device_id":"unknown_device_001",
+    "p_oos":0.000001,
+    "p_grid_sync_compatible":0.999999,
+    "threshold_used":0.072,
+    "ood_flag":true,
+    "risk_band":"low",
+    "compatible":false,
+    "verdict":"ENGINEERING_REVIEW_REQUIRED_OUT_OF_DOMAIN",
+    "explanation":"Predicted calibrated OOS risk is 0.0000; threshold is 0.0720. The device is classified as ENGINEERING_REVIEW_REQUIRED_OUT_OF_DOMAIN using raw features T\/I\/S\/H and physics ratios 1\/H, S\/H, S\/I, and I\/H.",
+    "recommendations":[
+      "Input is outside the training operating envelope; require engineering review before grid synchronization.",
+      "Consider derating\/reducing loading S or redispatching before synchronization."
+    ]
+  }
+]
